@@ -1,4 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <rect width="32" height="32" fill="white"/>
   <text x="9" y="20" font-family="Arial Black, sans-serif" font-weight="900" font-size="23" fill="#2563eb" text-anchor="middle">J</text>
   <text x="23" y="20" font-family="Arial Black, sans-serif" font-weight="900" font-size="23" fill="#2563eb" text-anchor="middle">A</text>
   <rect x="2" y="22" width="28" height="2" fill="#be185d"/>
