@@ -128,14 +128,14 @@
         .grid-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
         .card { background: var(--bg); border: 2px solid var(--black); overflow: hidden; text-decoration: none; color: inherit; display: flex; flex-direction: column; transition: transform 0.2s, box-shadow 0.2s; }
         .card:hover { transform: translate(-2px, -2px); box-shadow: 4px 4px 0 var(--black); }
-        .card-img { background: var(--blue-lt); display: flex; align-items: center; justify-content: center; color: var(--blue); font-size: 0.7rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; overflow: hidden; flex: 1; min-height: 120px; }
+        .card-img { background: var(--blue-lt); display: flex; align-items: center; justify-content: center; color: var(--blue); font-size: 0.7rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; overflow: hidden; flex: none; aspect-ratio: 16/10; }
         .card-featured .card-img { flex: none; aspect-ratio: 4/3; }
         .card-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
-        .card-body { padding: 1rem 1.5rem; }
-        .card-date { font-size: 0.72rem; font-weight: 500; color: var(--blue); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.4rem; }
-        .card-title { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; font-size: 1.1rem; letter-spacing: -0.015em; margin-bottom: 0.6rem; }
+        .card-body { padding: 0.7rem 1.2rem; }
+        .card-date { font-size: 0.72rem; font-weight: 500; color: var(--blue); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.25rem; }
+        .card-title { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; font-size: 1.1rem; letter-spacing: -0.015em; margin-bottom: 0.35rem; }
         .card-featured .card-title { font-size: 1.1rem; }
-        .card-desc { font-size: 0.86rem; color: var(--muted); line-height: 1.65; }
+        .card-desc { font-size: 0.86rem; color: var(--muted); line-height: 1.5; }
         .card-award { display: inline-block; margin-top: 0.9rem; padding: 0.35rem 0.75rem; background: var(--yellow); border: 1.5px solid var(--black); box-shadow: 2px 2px 0 var(--black); font-size: 0.72rem; font-weight: 500; color: var(--black); }
         .card-arrow { display: inline-flex; align-items: center; gap: 0.4rem; margin-top: 1rem; font-size: 0.8rem; font-weight: 500; color: var(--blue); transition: gap 0.2s; }
         .card:hover .card-arrow { gap: 0.65rem; }
@@ -156,7 +156,7 @@
 
         /* internship cards */
         .intern-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
-        .intern-card { background: var(--bg); border: 2px solid var(--black); padding: 1.8rem; text-decoration: none; color: inherit; display: block; transition: transform 0.2s, box-shadow 0.2s; }
+        .intern-card { background: var(--bg); border: 2px solid var(--black); padding: 1.2rem; text-decoration: none; color: inherit; display: block; transition: transform 0.2s, box-shadow 0.2s; }
         .intern-card:hover { transform: translate(-2px,-2px); box-shadow: 4px 4px 0 var(--black); }
         .intern-card.current { background: var(--blue-lt); }
         .intern-badge { display: inline-block; padding: 0.25rem 0.6rem; background: var(--blue); color: white; font-size: 0.66rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 1rem; }
@@ -332,16 +332,16 @@
         ============================================================ -->
         <div class="grid-row">
             <a href="projects/drill-bike.html" class="card reveal">
-                <div class="card-img" style="flex:none;height:auto;overflow:hidden;"><img src="projects/Drill-Bike/drill-powered bike cover.png" alt="Drill-Powered Bike" style="width:calc(100% + 25px);height:auto;display:block;margin-left:-10px;"></div>
+                <div class="card-img" style="overflow:hidden;aspect-ratio:3/2;"><img src="projects/Drill-Bike/drill-powered bike cover.png" alt="Drill-Powered Bike" style="width:calc(100% + 25px);height:100%;object-fit:cover;display:block;margin-left:-10px;"></div>
                 <div class="card-body">
                     <p class="card-date">Sep – Dec 2025</p>
                     <h3 class="card-title">Drill-Powered Bike</h3>
-                    <p class="card-desc">Project Manager of creating a drill-powered vehicle with a focus on accurate stress calculations, CAD modeling/drawing/FEA, DFM, manufacturing, and quality.</p>
+                    <p class="card-desc">Project Manager for the creation of a drill-powered vehicle with a focus on accurate stress calculations, CAD modeling/drawing/FEA, DFM, manufacturing, and quality.</p>
                     <span class="card-award" style="background:#f9a8d4;">4th Place — 48.4s · Maneuverability Competition, Run Off 2025</span>
                 </div>
             </a>
             <a href="projects/wobbler-engine.html" class="card reveal d1">
-                <div class="card-img"><img src="projects/Wobbler Engine/wobbler engine cover.jpg" alt="Wobbler Engine" style="width:100%;height:calc(100% + 35px);object-fit:cover;display:block;margin-top:-10px;"></div>
+                <div class="card-img" style="aspect-ratio:3/2;"><img src="projects/Wobbler Engine/wobbler engine cover.jpg" alt="Wobbler Engine" style="width:100%;height:calc(100% + 35px);object-fit:cover;display:block;margin-top:-10px;"></div>
                 <div class="card-body">
                     <p class="card-date">Oct – Dec 2024</p>
                     <h3 class="card-title">Wobbler Engine</h3>
@@ -353,7 +353,7 @@
                 </div>
             </a>
             <a href="projects/cad-reverse.html" class="card reveal d2">
-                <div class="card-img" style="flex:none;height:auto;overflow:hidden;"><img src="projects/CAD Reverse Engineering/cad reverse engineering cover.jpg" alt="CAD Reverse Engineering" style="width:100%;height:auto;display:block;"></div>
+                <div class="card-img" style="overflow:hidden;aspect-ratio:3/2;"><img src="projects/CAD Reverse Engineering/cad reverse engineering cover.jpg" alt="CAD Reverse Engineering" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
                 <div class="card-body">
                     <p class="card-date">Sep – Dec 2024</p>
                     <h3 class="card-title">CAD Reverse Engineering</h3>
@@ -362,21 +362,21 @@
                 </div>
             </a>
             <a href="projects/coding-game.html" class="card reveal">
-                <div class="card-img" style="flex:none;height:auto;overflow:hidden;"><img src="projects/Coding Game/coding game cover.jpg" alt="Coding Game" style="width:100%;height:auto;display:block;"></div>
+                <div class="card-img" style="overflow:hidden;aspect-ratio:3/2;"><img src="projects/Coding Game/coding game cover.jpg" alt="Coding Game" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
                 <div class="card-body">
                     <p class="card-date">APR 2024</p>
                     <h3 class="card-title">Coding Game</h3>
-                    <p class="card-desc">A 2-player game created in C++ to practice coding topics like structs, classes, and loops, including a map, shop, and combat feature.</p>
+                    <p class="card-desc">A 2-player game created in C++ to practice coding topics like structs, classes, and loops. Includes a map, shop, and combat feature.</p>
                 </div>
             </a>
             <a href="projects/decantaminator.html" class="card reveal d1">
-                <div class="card-img"><img src="projects/De-CAN-Taminator/the de-can-taminator cover.jpg" alt="The De-CAN-Taminator"></div>
+                <div class="card-img" style="aspect-ratio:3/2;"><img src="projects/De-CAN-Taminator/the de-can-taminator cover.jpg" alt="The De-CAN-Taminator" style="width:100%;height:100%;object-fit:cover;object-position:top;display:block;"></div>
                 <div class="card-body">
                     <p class="card-date">Sep 2023 – Apr 2024</p>
                     <h3 class="card-title">The De-CAN-Taminator</h3>
-                    <p class="card-desc">Informative and entertaining aluminum can collection device to combat the gap in consumer recycling, for which I served as Project Lead and Head Manufacturer.</p>
+                    <p class="card-desc">Informative and entertaining aluminum can collection device to address the gap in consumer recycling, for which I served as Project Lead and Head Manufacturer.</p>
                     <span class="card-award" style="background:#d8b4fe;display:block;margin-top:0.5rem;margin-bottom:0.9rem;">Winner — Class Section Award &nbsp;·&nbsp; Engineering Design Exposition, 2023</span>
-                    <span class="card-award" style="display:block;margin-top:0.5rem;">Winner — Innovation, $1,000 &nbsp;·&nbsp; CU Sustainability Summit, 2024</span>
+                    <span class="card-award" style="display:block;margin-top:0.5rem;">Winner — Innovation, $1000 &nbsp;·&nbsp; CU Sustainability Summit, 2024</span>
                 </div>
             </a>
         </div>
@@ -393,26 +393,26 @@
         </div>
         <div class="intern-grid">
             <a href="internship/apple.html" class="intern-card current reveal" style="background:#ffffff;">
-                <div style="height:clamp(180px, 45vw, 300px);overflow:hidden;margin:-1.8rem -1.8rem 1.5rem -1.8rem;"><img src="internship/Apple /Apple cover.jpg" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
+                <div style="height:clamp(150px, 35vw, 220px);overflow:hidden;margin:-1.2rem -1.2rem 1.5rem -1.2rem;"><img src="internship/Apple /Apple cover.jpg" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
                 <p class="intern-date">Jan – Aug 2026</p>
                 <p class="intern-company">Apple</p>
                 <p class="intern-role">Product Design Intern &mdash; Apple Watch</p>
                 <p class="intern-desc">Coming soon!</p>
-                <span class="card-award" style="margin-top:0.9rem;">Check out my Comic</span>
+                <span class="card-award" style="margin-top:0.9rem;">Comic Strip :)</span>
             </a>
             <a href="internship/medtronic-2.html" class="intern-card reveal d1">
-                <div style="height:clamp(180px, 45vw, 300px);overflow:hidden;margin:-1.8rem -1.8rem 1.5rem -1.8rem;"><img src="internship/Medtronic II/Medtronic II cover.jpg" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
+                <div style="height:clamp(150px, 35vw, 220px);overflow:hidden;margin:-1.2rem -1.2rem 1.5rem -1.2rem;"><img src="internship/Medtronic II/Medtronic II cover.jpg" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
                 <p class="intern-date">Jun – Aug 2025</p>
                 <p class="intern-company">Medtronic II</p>
                 <p class="intern-role">Engineering R&D Intern &mdash; Oximetry & Wearables</p>
-                <p class="intern-desc">Discovering the best curvature-detection method for a wearable sensor through analysis, testing, and prototyping. Growing skills in design calculations, CAD, circuits, and technical documentation.</p>
+                <p class="intern-desc">Discovering the best curvature-detection method for a wearable sensor through analysis, testing, and prototyping. Grew skills in design calculations, CAD, circuits, and technical documentation.</p>
             </a>
             <a href="internship/medtronic-1.html" class="intern-card reveal d2">
-                <div style="height:clamp(180px, 45vw, 300px);overflow:hidden;margin:-1.8rem -1.8rem 1.5rem -1.8rem;"><img src="internship/Medtronic I/Medtronic I cover.jpg" style="width:100%;height:100%;object-fit:cover;object-position:center top;display:block;"></div>
+                <div style="height:clamp(150px, 35vw, 220px);overflow:hidden;margin:-1.2rem -1.2rem 1.5rem -1.2rem;"><img src="internship/Medtronic I/Medtronic I cover.jpg" style="width:100%;height:100%;object-fit:cover;object-position:center top;display:block;"></div>
                 <p class="intern-date">Jun – Aug 2024</p>
                 <p class="intern-company">Medtronic I</p>
                 <p class="intern-role">WISE R&D Intern &mdash; Oximetry & Wearables</p>
-                <p class="intern-desc">Summer working in MedTech on various assignments including creating an official product requirements document (Systems Engineering), developing and running a sensor ambient light test, and creating a procedure, protocol, and memo for the test.</p>
+                <p class="intern-desc">Spent the summer working in MedTech on various assignments including creating an official product requirements document (Systems Engineering), developing and running a sensor ambient light test, and creating a procedure, protocol, and memo for the test.</p>
             </a>
         </div>
     </div>
@@ -428,7 +428,7 @@
         </div>
         <div class="grid-row">
                 <a href="personal/digital-art.html" class="card reveal">
-                    <div class="card-img" style="flex:none;height:auto;overflow:hidden;"><img src="personal/Digital Art/digital_art_1.jpg" alt="Digital Art" style="width:100%;height:auto;display:block;"></div>
+                    <div class="card-img" style="overflow:hidden;"><img src="personal/Digital Art/digital_art_1.jpg" alt="Digital Art" style="width:100%;height:100%;object-fit:cover;object-position:top;display:block;"></div>
                     <div class="card-body">
                         <p class="card-date">2020 – Present</p>
                         <h3 class="card-title">Digital Art</h3>
@@ -436,7 +436,7 @@
                     </div>
                 </a>
                 <a href="personal/design.html" class="card reveal d1">
-                    <div class="card-img" style="flex:none;height:auto;overflow:hidden;"><img src="personal/Design/design_7.jpeg" alt="Design" style="width:100%;height:auto;display:block;"></div>
+                    <div class="card-img" style="overflow:hidden;"><img src="personal/Design/design_7.jpeg" alt="Design" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
                     <div class="card-body">
                         <p class="card-date">2020 – Present</p>
                         <h3 class="card-title">Design</h3>
@@ -444,7 +444,7 @@
                     </div>
                 </a>
                 <a href="personal/vail-map.html" class="card reveal d2">
-                    <div class="card-img" style="flex:none;height:auto;overflow:hidden;"><img src="personal/Vail Mountain Map/vail mountain map cover.jpg" alt="Vail Mountain Map" style="width:100%;height:auto;display:block;"></div>
+                    <div class="card-img" style="overflow:hidden;"><img src="personal/Vail Mountain Map/vail mountain map cover.jpg" alt="Vail Mountain Map" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
                     <div class="card-body">
                         <p class="card-date">Mar – Jul 2025</p>
                         <h3 class="card-title">Vail Mountain Map</h3>
@@ -452,7 +452,7 @@
                     </div>
                 </a>
                 <a href="personal/traditional-art.html" class="card reveal d3">
-                    <div class="card-img" style="flex:none;height:auto;overflow:hidden;"><img src="personal/Traditional Art/traditional_art_5.jpg" alt="Traditional Art" style="width:100%;height:auto;display:block;"></div>
+                    <div class="card-img" style="overflow:hidden;"><img src="personal/Traditional Art/traditional_art_5.jpg" alt="Traditional Art" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
                     <div class="card-body">
                         <p class="card-date">Varies</p>
                         <h3 class="card-title">Traditional Art</h3>
@@ -460,7 +460,7 @@
                     </div>
                 </a>
                 <a href="personal/additional.html" class="card reveal d4">
-                    <div class="card-img" style="flex:none;height:auto;overflow:hidden;"><img src="personal/Additional/additional cover.jpg" alt="Additional" style="width:100%;height:auto;display:block;"></div>
+                    <div class="card-img" style="overflow:hidden;"><img src="personal/Additional/additional cover.jpg" alt="Additional" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
                     <div class="card-body">
                         <p class="card-date">Varies</p>
                         <h3 class="card-title">Additional Projects</h3>
