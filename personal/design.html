@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Design — Julia Abboud</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        :root { --bg: #ffffff; --bg-2: #f8f9fc; --text: #0f172a; --muted: #64748b; --subtle: #e2e8f0; --blue: #2563eb; --blue-lt: #eff6ff; --blue-dk: #1d4ed8; --yellow: #fde047; --black: #0f172a; }
+        html { scroll-behavior: smooth; }
+        body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-weight: 400; line-height: 1.7; overflow-x: hidden; }
+        nav.site-nav { position: fixed; top: 0; width: 100%; z-index: 300; padding: 1.4rem 5rem; display: flex; justify-content: space-between; align-items: center; background: var(--blue); border-bottom: 2px solid var(--black); }
+        .logo { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 1rem; letter-spacing: 0.08em; text-transform: uppercase; color: white; text-decoration: none; }
+        nav.site-nav ul { list-style: none; display: flex; gap: 2.8rem; }
+        nav.site-nav ul a { font-family: 'DM Sans', sans-serif; font-weight: 500; font-size: 0.84rem; color: rgba(255,255,255,0.85); text-decoration: none; transition: color 0.2s; position: relative; }
+        nav.site-nav ul a::after { content: ''; position: absolute; bottom: -3px; left: 0; width: 100%; height: 2px; background: white; transform: scaleX(0); transform-origin: left; transition: transform 0.25s ease; }
+        nav.site-nav ul a:hover { color: white; }
+        nav.site-nav ul a:hover::after { transform: scaleX(1); }
+        nav.site-nav .nav-engineering::after { background: var(--yellow); }
+        nav.site-nav .nav-internship::after { background: #d8b4fe; }
+        nav.site-nav .nav-personal::after { background: #f9a8d4; }
+        .hamburger { display: none; flex-direction: column; justify-content: space-between; width: 24px; height: 18px; background: none; border: none; cursor: pointer; padding: 0; z-index: 400; outline: none; -webkit-tap-highlight-color: transparent; appearance: none; -webkit-appearance: none; box-shadow: none; overflow: hidden; clip-path: inset(0); -webkit-clip-path: inset(0); }
+        .hamburger span { display: block; width: 100%; height: 2px; background: white; transition: transform 0.3s ease, opacity 0.3s ease; border-radius: 0; border: none; box-shadow: none; backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+        .hamburger.open span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+        .hamburger.open span:nth-child(2) { opacity: 0; transform: scale(0); }
+        .hamburger.open span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+        h1 { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: clamp(1.6rem, 3vw, 2.4rem); letter-spacing: -0.03em; line-height: 1; color: var(--text); margin-bottom: 1.5rem; }
+        p { font-size: 0.97rem; color: var(--muted); line-height: 1.78; margin-bottom: 1rem; }
+        .cover-frame { position: relative; border: 2px solid var(--black); }
+        .cover-frame::before { display: none; }
+        .cover-frame::after { content: ''; position: absolute; bottom: -0.6rem; left: -0.6rem; width: 60px; height: 60px; background-color: transparent; background-image: radial-gradient(circle, #be185d 3px, transparent 3px); background-size: 12px 12px; z-index: 2; }
+        .page-header { max-width: 1400px; margin: 0 auto; padding: 6rem 4rem 0; }
+        .da-label { position: absolute; top: 0.4rem; left: 0.4rem; background: rgba(0,0,0,0.65); color: white; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; font-size: 0.75rem; padding: 0.2rem 0.5rem; letter-spacing: 0.05em; z-index: 1; }
+        .blue-callout { background: var(--blue); border: 2px solid var(--black); box-shadow: 4px 4px 0 var(--black); padding: 1rem 2.5rem; text-align: center; max-width: 1400px; margin: 0 auto 1rem; }
+        .blue-callout p { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 1rem; letter-spacing: 0.1em; color: white; margin: 0; }
+        .proj-nav-link:hover { opacity: 0.6; }
+        .project-nav { border-top: 2px solid rgba(255,255,255,0.08); padding: 1.5rem 5rem; display: flex; justify-content: space-between; align-items: center; background: var(--text); }
+        .proj-nav-link { display: flex; flex-direction: column; gap: 0.3rem; text-decoration: none; color: inherit; transition: opacity 0.2s; }
+        .proj-nav-label { font-size: 0.66rem; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.45); }
+        .proj-nav-title { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; font-size: 1.3rem; letter-spacing: -0.015em; color: white; }
+        .proj-nav-link.right { text-align: right; }
+        footer#page-footer { background: var(--text); border-top: 1px solid rgba(255,255,255,0.08); padding: 1.2rem 5rem; display: flex; justify-content: space-between; align-items: center; }
+        @keyframes sigColor {
+            0%   { filter: brightness(0) invert(1) sepia(1) saturate(2.5) hue-rotate(0deg) brightness(0.75); }
+            100% { filter: brightness(0) invert(1) sepia(1) saturate(2.5) hue-rotate(360deg) brightness(0.75); }
+        }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #ec4899; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #be185d; }
+        * { scrollbar-color: #ec4899 transparent; }
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+        .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+        @media (max-width: 640px) {
+            #design-intro-left { flex: none !important; width: 100% !important; max-width: 100% !important; }
+            #design-intro-right { flex: none !important; width: 100% !important; }
+            [id^="da-row-sticker"] {
+                flex-direction: column !important;
+                padding-left: 1.5rem !important;
+                padding-right: 1.5rem !important;
+            }
+            [id^="da-row-sticker"] > * {
+                flex: none !important;
+                width: 100% !important;
+                height: auto !important;
+            }
+            [id^="da-row-sticker"] img {
+                width: 100% !important;
+                height: auto !important;
+            }
+            .blue-callout { margin-left: 1.5rem; margin-right: 1.5rem; }
+            .da-tools-wrap { padding-left: 1.5rem !important; padding-right: 1.5rem !important; }
+            .da-tools-wrap > div { flex-direction: column !important; align-items: flex-start !important; }
+        }
+        @media (max-width: 900px) {
+            .page-header { padding: 5rem 1.5rem 0; }
+            .project-nav { padding-left: 1.5rem; padding-right: 1.5rem; flex-direction: column; gap: 2rem; align-items: center; }
+            .proj-nav-link, .proj-nav-link.right { text-align: center; }
+            footer#page-footer { padding-left: 1.5rem; padding-right: 1.5rem; flex-direction: column; gap: 1rem; align-items: center; text-align: center; }
+        }
+        @media (max-width: 768px) {
+            nav.site-nav { padding-left: 1.5rem; padding-right: 1.5rem; }
+            .hamburger { display: flex; }
+            nav.site-nav ul { display: none; flex-direction: column; position: absolute; top: 100%; left: 0; width: 100%; background: var(--blue); border-bottom: 2px solid var(--black); padding: 1.5rem 2rem; gap: 1.2rem; }
+            nav.site-nav ul.open { display: flex; }
+            nav.site-nav ul a { font-size: 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+<nav class="site-nav">
+    <a href="../index.html" class="logo">Julia Abboud</a>
+    <ul id="nav-ul">
+        <li><a href="../index.html#about">About</a></li>
+        <li><a href="../index.html#projects" class="nav-engineering">Engineering</a></li>
+        <li><a href="../index.html#internship" class="nav-internship">Internship</a></li>
+        <li><a href="../index.html#personal" class="nav-personal">Personal</a></li>
+        <li><a href="../index.html#resume">Contact</a></li>
+    </ul>
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+    </button>
+</nav>
+
+<div class="page-header">
+    <section id="section-header" style="margin-bottom:3.5rem;">
+        <p style="font-size:0.7rem; font-weight:400; letter-spacing:0.2em; text-transform:uppercase; color:var(--blue); margin-bottom:0.75rem;">2020 &ndash; Present</p>
+        <h1 style="margin-bottom:1.25rem;">Design</h1>
+        <p style="margin:0;">Alongside my digital art, I've taken on a variety of design projects including club stickers, school apparel, logos, and this portfolio website itself! It is fun to create something tangible for a specific audience as well as wear a shirt I made! I am looking forward creating more design products with my digital art skills.</p>
+    </section>
+</div>
+
+<div style="max-width:1400px; margin:1rem auto; padding:0 4rem;">
+    <div id="da-row-sticker1" style="display:flex; gap:1rem; align-items:flex-start; border:2px dashed #6d28d9;">
+        <div style="min-width:0; position:relative;">
+            <img src="Design/design_1.jpg" alt="ah" style="width:100%; height:auto; display:block; border:1px solid var(--subtle);">
+        </div>
+        <div style="min-width:0; position:relative;">
+            <img src="Design/design_2.jpg" alt="ax" style="width:100%; height:auto; display:block; border:1px solid var(--subtle);">
+        </div>
+        <div style="flex:1; min-width:0; font-size:0.82rem; color:var(--muted); line-height:1.6; padding:1rem;">
+            It was incredibly rewarding to see the sticker I created printed in bulk by the CU Boulder Taylor Swift Club and I hope to do more work with sticker art in the near future!
+        </div>
+    </div>
+</div>
+
+<div id="da-row-sticker5" style="max-width:1400px; margin:1rem auto; padding:0 4rem; display:flex; gap:1rem; align-items:flex-start;">
+    <div style="min-width:0; position:relative;">
+        <img src="Design/design_3.jpg" alt="ad" style="width:100%; height:auto; display:block; border:1px solid var(--subtle);">
+    </div>
+    <div style="min-width:0; position:relative;">
+        <img src="Design/design_4.jpg" alt="c" style="width:100%; height:auto; display:block; border:1px solid var(--subtle);">
+    </div>
+    <div style="min-width:0; position:relative;">
+        <img src="Design/design_5.jpg" alt="d" style="width:100%; height:auto; display:block; border:1px solid var(--subtle);">
+    </div>
+</div>
+
+<div id="da-row-sticker7" style="max-width:1400px; margin:1rem auto; padding:0 4rem; display:flex; gap:1rem; align-items:stretch;">
+    <div style="flex:2; min-width:0; display:flex; flex-direction:column; justify-content:center; gap:0.75rem; padding:1.5rem; background:var(--yellow); border:2px solid var(--black); box-shadow:4px 4px 0 var(--black);">
+        <p style="font-family:'Plus Jakarta Sans',sans-serif; font-weight:800; font-size:1rem; color:var(--text); letter-spacing:-0.01em; margin:0;">This Website Is Also a Design Project!</p>
+        <p style="font-size:0.9rem; color:var(--black); line-height:1.78; margin:0;">Every component on this portfolio was carefully selected and curated by me, from the typography and color palette to the layout of each section. I wanted the visual experience to reflect not only my accomplishments, but also my personality and energy! Designing and building this site from scratch involved learning more about HTML and CSS code, as well as getting more comfortable with how to vibe code and achieve my intended results. It was a time-intensive process, but so fun, educational, and one I am very proud of!</p>
+    </div>
+    <div style="flex:1; min-width:0; display:flex; flex-direction:column; gap:1rem;">
+        <img src="Design/design_6.jpg" alt="A" style="width:100%; height:100%; object-fit:cover; display:block; border:2px dashed #ec4899; flex:1;">
+    </div>
+</div>
+
+<div id="da-row-sticker8" style="max-width:1400px; margin:1rem auto; padding:0 4rem; display:flex; gap:1rem; align-items:flex-start;">
+    <div style="flex:1; min-width:0; position:relative;">
+        <img src="Design/design_7.jpeg" alt="IMG_5065" style="width:100%; height:auto; display:block; border:1px solid var(--subtle);">
+    </div>
+    <div style="flex:1; min-width:0; position:relative;">
+        <img src="Design/design_8.jpeg" alt="IMG_5070" style="width:100%; height:auto; display:block; border:1px solid var(--subtle);">
+    </div>
+    <div style="flex:1; min-width:0; position:relative;">
+        <img src="Design/design_9.png" alt="Energy Club Shirt" style="width:100%; height:auto; display:block; border:1px solid var(--subtle);">
+    </div>
+</div>
+
+<div id="da-row-sticker6" style="max-width:1400px; margin:1rem auto; padding:0 4rem; display:flex; gap:1rem; align-items:flex-start;">
+    <div style="min-width:0; position:relative;">
+        <img src="Design/design_10.jpg" alt="ab" style="width:100%; height:auto; display:block; border:1px solid var(--subtle);">
+    </div>
+    <div style="min-width:0; position:relative;">
+        <img src="Design/design_11.jpg" alt="aa" style="width:100%; height:auto; display:block; border:1px solid var(--subtle);">
+    </div>
+    <div style="min-width:0; position:relative;">
+        <img src="Design/design_12.png" alt="B" style="width:100%; height:auto; display:block; border:1px solid var(--subtle);">
+    </div>
+</div>
+
+<div id="da-row-sticker2" style="max-width:1400px; margin:1rem auto; padding:0 4rem; display:flex; gap:1rem; align-items:flex-start;">
+    <div style="min-width:0; position:relative;">
+        <img src="Design/design_13.png" alt="au" style="width:100%; height:auto; display:block; border:1px solid var(--subtle);">
+    </div>
+    <div style="min-width:0; position:relative;">
+        <img src="Design/design_14.png" alt="x" style="width:100%; height:auto; display:block; border:1px solid var(--subtle);">
+    </div>
+    <div style="min-width:0; position:relative;">
+        <img src="Design/design_15.png" alt="q" style="width:100%; height:auto; display:block; border:1px solid var(--subtle);">
+    </div>
+</div>
+
+<div id="da-row-sticker3" style="max-width:1400px; margin:1rem auto; padding:0 4rem; display:flex; gap:1rem; align-items:flex-start;">
+    <div style="min-width:0; position:relative;">
+        <img src="Design/design_16.jpg" alt="s" style="width:100%; height:auto; display:block; border:1px solid var(--subtle);">
+    </div>
+    <div style="min-width:0; position:relative;">
+        <img src="Design/design_17.png" alt="aj" style="width:100%; height:auto; display:block; border:1px solid var(--subtle);">
+    </div>
+    <div style="min-width:0; position:relative;">
+        <img src="Design/design_18.png" alt="af" style="width:100%; height:auto; display:block; border:1px solid var(--subtle);">
+    </div>
+</div>
+
+<div id="da-row-sticker4" style="max-width:1400px; margin:1rem auto; padding:0 4rem; display:flex; gap:1rem; align-items:flex-start;">
+    <div style="min-width:0; position:relative;">
+        <img src="Design/design_19.png" alt="a" style="width:100%; height:auto; display:block; border:1px solid var(--subtle);">
+    </div>
+    <div style="min-width:0; position:relative;">
+        <img src="Design/design_20.jpg" alt="ag" style="width:100%; height:auto; display:block; border:1px solid var(--subtle);">
+    </div>
+    <div style="min-width:0; position:relative;">
+        <img src="Design/design_21.png" alt="e" style="width:100%; height:auto; display:block; border:1px solid var(--subtle);">
+    </div>
+    <div style="min-width:0; position:relative;">
+        <img src="Design/design_22.jpg" alt="g" style="width:100%; height:auto; display:block; border:1px solid var(--subtle);">
+    </div>
+</div>
+
+<div class="da-tools-wrap" style="max-width:1400px; margin:1rem auto 2rem; padding:0 4rem;">
+    <div style="display:flex; gap:1.5rem; align-items:center; justify-content:center; background:#d8b4fe; border:2px solid var(--black); box-shadow:4px 4px 0 var(--black); padding:1.2rem 1.5rem;">
+        <div style="display:flex; gap:1.5rem; flex-shrink:0;">
+            <img src="Digital Art/digital_art_34.jpg" alt="Sketchbook" style="height:72px; width:72px; object-fit:cover; flex-shrink:0;">
+            <img src="Digital Art/digital_art_35.png" alt="Procreate" style="height:72px; width:72px; object-fit:cover; flex-shrink:0;">
+        </div>
+        <div style="display:flex; flex-direction:column; gap:0.5rem;">
+            <span style="font-size:0.88rem; color:var(--text); line-height:1.6;">2025 – Present digital works are created using Procreate: <a href="https://procreate.com" target="_blank" rel="noopener" style="color:var(--blue); text-decoration:none; font-weight:500;">procreate.com</a></span>
+            <span style="font-size:0.88rem; color:var(--text); line-height:1.6;">2020 – 2025 pieces used the free version of Sketchbook: <a href="https://www.sketchbook.com" target="_blank" rel="noopener" style="color:var(--blue); text-decoration:none; font-weight:500;">sketchbook.com</a></span>
+        </div>
+    </div>
+</div>
+
+<div class="project-nav">
+    <a href="vail-map.html" class="proj-nav-link">
+        <span class="proj-nav-label">&larr; Previous Project</span>
+        <span class="proj-nav-title">Vail Mountain Map</span>
+    </a>
+    <a href="digital-art.html" class="proj-nav-link right">
+        <span class="proj-nav-label">Next Project &rarr;</span>
+        <span class="proj-nav-title">Digital Art</span>
+    </a>
+</div>
+
+<footer id="page-footer">
+    <span style="font-size:0.8rem; color:rgba(255,255,255,0.4);">&copy; 2026 Julia Abboud</span>
+    <span style="font-size:0.8rem; color:rgba(255,255,255,0.4); display:inline-flex; align-items:center; gap:0.5rem;">Designed and Developed Independently <img src="../about/Signature.png" alt="Julia Abboud signature" style="height:3rem; width:auto; display:inline; animation:sigColor 4.5s ease-in-out infinite; border:none; background:none;"></span>
+</footer>
+
+<script>
+    const hamburger = document.getElementById('hamburger');
+    const navUl = document.getElementById('nav-ul');
+    hamburger.addEventListener('click', () => {
+        hamburger.classList.toggle('open');
+        navUl.classList.toggle('open');
+    });
+    navUl.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+        hamburger.classList.remove('open');
+        navUl.classList.remove('open');
+    }));
+    const obs = new IntersectionObserver(entries => entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } }), { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+    function sizeRowSticker1() {
+        const row = document.getElementById('da-row-sticker1');
+        if (!row || window.innerWidth <= 640) return;
+        const [ahDiv, axDiv, textDiv] = Array.from(row.children);
+        const ahImg = ahDiv.querySelector('img'), axImg = axDiv.querySelector('img');
+        if (!ahImg.naturalWidth || !axImg.naturalWidth) return;
+        const gap = parseFloat(getComputedStyle(row).gap) || 16;
+        const totalW = row.offsetWidth - parseFloat(getComputedStyle(row).paddingLeft) - parseFloat(getComputedStyle(row).paddingRight);
+        const arAh = ahImg.naturalWidth / ahImg.naturalHeight;
+        const arAx = axImg.naturalWidth / axImg.naturalHeight;
+        const imgAreaW = (totalW * 3 / 4) - gap;
+        const H = imgAreaW / (arAh + arAx);
+        ahDiv.style.flex = 'none'; ahDiv.style.width = (H * arAh) + 'px';
+        axDiv.style.flex = 'none'; axDiv.style.width = (H * arAx) + 'px';
+        textDiv.style.flex = '1';
+    }
+
+    function sizeRowSticker2() {
+        const row = document.getElementById('da-row-sticker2');
+        if (!row || window.innerWidth <= 640) return;
+        const items = Array.from(row.children);
+        const imgs = items.map(d => d.querySelector('img'));
+        if (!imgs.every(img => img.naturalWidth)) return;
+        const gap = parseFloat(getComputedStyle(row).gap) || 16;
+        const totalW = row.offsetWidth - parseFloat(getComputedStyle(row).paddingLeft) - parseFloat(getComputedStyle(row).paddingRight);
+        const ars = imgs.map(img => img.naturalWidth / img.naturalHeight);
+        const H = (totalW - (imgs.length - 1) * gap) / ars.reduce((a, b) => a + b, 0);
+        items.forEach((div, i) => { div.style.flex = 'none'; div.style.width = (H * ars[i]) + 'px'; });
+    }
+
+    function loadStickerRows() {
+        const imgs1 = document.querySelectorAll('#da-row-sticker1 img');
+        let loaded1 = 0;
+        imgs1.forEach(img => {
+            if (img.complete && img.naturalWidth) { loaded1++; if (loaded1 === imgs1.length) sizeRowSticker1(); }
+            else img.addEventListener('load', () => { loaded1++; if (loaded1 === imgs1.length) sizeRowSticker1(); });
+        });
+        const imgs2 = document.querySelectorAll('#da-row-sticker2 img');
+        let loaded2 = 0;
+        imgs2.forEach(img => {
+            if (img.complete && img.naturalWidth) { loaded2++; if (loaded2 === imgs2.length) sizeRowSticker2(); }
+            else img.addEventListener('load', () => { loaded2++; if (loaded2 === imgs2.length) sizeRowSticker2(); });
+        });
+    }
+    loadStickerRows();
+    window.addEventListener('resize', () => { sizeRowSticker1(); sizeRowSticker2(); sizeRowSticker3(); sizeRowSticker4(); sizeRowSticker5(); sizeRowSticker6(); sizeRowSticker8(); });
+
+    function sizeRow3Imgs(id) {
+        const row = document.getElementById(id);
+        if (!row || window.innerWidth <= 640) return;
+        const items = Array.from(row.children);
+        const imgs = items.map(d => d.querySelector('img'));
+        if (!imgs.every(img => img.naturalWidth)) return;
+        const gap = parseFloat(getComputedStyle(row).gap) || 16;
+        const totalW = row.offsetWidth - parseFloat(getComputedStyle(row).paddingLeft) - parseFloat(getComputedStyle(row).paddingRight);
+        const ars = imgs.map(img => img.naturalWidth / img.naturalHeight);
+        const H = (totalW - (imgs.length - 1) * gap) / ars.reduce((a, b) => a + b, 0);
+        items.forEach((div, i) => { div.style.flex = 'none'; div.style.width = (H * ars[i]) + 'px'; });
+    }
+
+    function sizeRowSticker3() { sizeRow3Imgs('da-row-sticker3'); }
+    function sizeRowSticker4() { sizeRow3Imgs('da-row-sticker4'); }
+    function sizeRowSticker5() { sizeRow3Imgs('da-row-sticker5'); }
+    function sizeRowSticker6() { sizeRow3Imgs('da-row-sticker6'); }
+    function sizeRowSticker8() { sizeRow3Imgs('da-row-sticker8'); }
+
+    function loadRow(id, sizeFn) {
+        const imgs = document.querySelectorAll('#' + id + ' img');
+        let loaded = 0;
+        imgs.forEach(img => {
+            if (img.complete && img.naturalWidth) { loaded++; if (loaded === imgs.length) sizeFn(); }
+            else img.addEventListener('load', () => { loaded++; if (loaded === imgs.length) sizeFn(); });
+        });
+    }
+    loadRow('da-row-sticker3', sizeRowSticker3);
+    loadRow('da-row-sticker4', sizeRowSticker4);
+    loadRow('da-row-sticker5', sizeRowSticker5);
+    loadRow('da-row-sticker6', sizeRowSticker6);
+    loadRow('da-row-sticker8', sizeRowSticker8);
+</script>
+</body>
+</html>

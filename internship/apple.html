@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apple — Julia Abboud</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        :root { --bg: #ffffff; --bg-2: #f8f9fc; --text: #0f172a; --muted: #64748b; --subtle: #e2e8f0; --blue: #2563eb; --blue-lt: #eff6ff; --blue-dk: #1d4ed8; --yellow: #fde047; --black: #0f172a; }
+        html { scroll-behavior: smooth; }
+        body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-weight: 400; line-height: 1.7; overflow-x: hidden; }
+        nav.site-nav { position: fixed; top: 0; width: 100%; z-index: 300; padding: 1.4rem 5rem; display: flex; justify-content: space-between; align-items: center; background: var(--blue); border-bottom: 2px solid var(--black); }
+        .logo { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 1rem; letter-spacing: 0.08em; text-transform: uppercase; color: white; text-decoration: none; }
+        nav.site-nav ul { list-style: none; display: flex; gap: 2.8rem; }
+        nav.site-nav ul a { font-family: 'DM Sans', sans-serif; font-weight: 500; font-size: 0.84rem; color: rgba(255,255,255,0.85); text-decoration: none; transition: color 0.2s; position: relative; }
+        nav.site-nav ul a::after { content: ''; position: absolute; bottom: -3px; left: 0; width: 100%; height: 2px; background: white; transform: scaleX(0); transform-origin: left; transition: transform 0.25s ease; }
+        nav.site-nav ul a:hover { color: white; }
+        nav.site-nav ul a:hover::after { transform: scaleX(1); }
+        nav.site-nav .nav-engineering::after { background: var(--yellow); }
+        nav.site-nav .nav-internship::after { background: #d8b4fe; }
+        nav.site-nav .nav-personal::after { background: #f9a8d4; }
+        .hamburger { display: none; flex-direction: column; justify-content: space-between; width: 24px; height: 18px; background: none; border: none; cursor: pointer; padding: 0; z-index: 400; outline: none; -webkit-tap-highlight-color: transparent; appearance: none; -webkit-appearance: none; box-shadow: none; overflow: hidden; clip-path: inset(0); -webkit-clip-path: inset(0); }
+        .hamburger span { display: block; width: 100%; height: 2px; background: white; transition: transform 0.3s ease, opacity 0.3s ease; border-radius: 0; border: none; box-shadow: none; backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+        .hamburger.open span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+        .hamburger.open span:nth-child(2) { opacity: 0; transform: scale(0); }
+        .hamburger.open span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+        .project-nav { border-top: 2px solid rgba(255,255,255,0.08); padding: 1.5rem 5rem; display: flex; justify-content: space-between; align-items: center; background: var(--text); }
+        .proj-nav-link { display: flex; flex-direction: column; gap: 0.3rem; text-decoration: none; color: inherit; transition: opacity 0.2s; }
+        .proj-nav-link:hover { opacity: 0.6; }
+        .proj-nav-label { font-size: 0.66rem; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.45); }
+        .proj-nav-title { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; font-size: 1.3rem; letter-spacing: -0.015em; color: white; }
+        .proj-nav-link.right { text-align: right; }
+        footer#page-footer { background: var(--text); border-top: 1px solid rgba(255,255,255,0.08); padding: 1.2rem 5rem; display: flex; justify-content: space-between; align-items: center; }
+        @keyframes sigColor {
+            0%   { filter: brightness(0) invert(1) sepia(1) saturate(2.5) hue-rotate(0deg) brightness(0.75); }
+            100% { filter: brightness(0) invert(1) sepia(1) saturate(2.5) hue-rotate(360deg) brightness(0.75); }
+        }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #ec4899; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #be185d; }
+        * { scrollbar-color: #ec4899 transparent; }
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+        .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+
+        /* ── Page wrapper ── */
+        .page { max-width: 1400px; margin: 0 auto; padding: 6rem 4rem 0; }
+
+        /* ── Typography ── */
+        h1 { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: clamp(1.6rem, 3vw, 2.4rem); letter-spacing: -0.03em; line-height: 1; color: var(--text); margin-bottom: 1.5rem; }
+        p { font-size: 0.97rem; color: var(--muted); line-height: 1.78; margin-bottom: 1rem; }
+        p strong { color: var(--text); font-weight: 700; }
+        section { margin-bottom: 3.5rem; }
+
+        /* ── Cover image frame ── */
+        .cover-frame { position: relative; border: 2px solid var(--black); }
+        .cover-frame::before { content: ''; position: absolute; top: -14px; right: -16px; width: 70px; height: 38px; background: repeating-linear-gradient(45deg, var(--yellow) 0px, var(--yellow) 4px, #fff 4px, #fff 8px); border: 2px solid var(--black); transform: rotate(8deg); z-index: 2; }
+        .cover-frame::after { content: ''; position: absolute; bottom: 0; left: 0; width: 80px; height: 80px; background-image: radial-gradient(circle, #6d28d9 2.5px, transparent 2.5px); background-size: 9px 9px; z-index: 1; pointer-events: none; }
+
+        .caption { font-size: 0.82rem; color: var(--muted); line-height: 1.6; margin-top: 0.6rem; margin-bottom: 0; }
+
+
+        @media (max-width: 748px) {
+            .page { padding: 5rem 1.5rem 0; }
+            .project-nav { padding-left: 1.5rem; padding-right: 1.5rem; flex-direction: column; gap: 2rem; align-items: center; }
+            .proj-nav-link, .proj-nav-link.right { text-align: center; }
+            footer#page-footer { padding-left: 1.5rem; padding-right: 1.5rem; flex-direction: column; gap: 1rem; align-items: center; text-align: center; }
+        }
+        @media (max-width: 768px) {
+            nav.site-nav { padding-left: 1.5rem; padding-right: 1.5rem; }
+            .hamburger { display: flex; }
+            nav.site-nav ul { display: none; flex-direction: column; position: absolute; top: 100%; left: 0; width: 100%; background: var(--blue); border-bottom: 2px solid var(--black); padding: 1.5rem 2rem; gap: 1.2rem; }
+            nav.site-nav ul.open { display: flex; }
+            nav.site-nav ul a { font-size: 1rem; }
+            #section-header { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+
+<nav class="site-nav">
+    <a href="../index.html" class="logo">Julia Abboud</a>
+    <ul id="nav-ul">
+        <li><a href="../index.html#about">About</a></li>
+        <li><a href="../index.html#projects" class="nav-engineering">Engineering</a></li>
+        <li><a href="../index.html#internship" class="nav-internship">Internship</a></li>
+        <li><a href="../index.html#personal" class="nav-personal">Personal</a></li>
+        <li><a href="../index.html#resume">Contact</a></li>
+    </ul>
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+    </button>
+</nav>
+
+<div class="page">
+
+    <section id="section-header" style="margin-bottom:3.5rem; display:flex; flex-wrap:wrap; gap:2rem;">
+
+        <div style="flex:1 1 400px; align-self:flex-start; padding-top:1.25rem; padding-left:1.25rem;">
+            <div class="cover-frame">
+                <img src="Apple /Apple cover.jpg" alt="Apple Internship" style="width:100%; height:auto; display:block; border:none;">
+                <span style="position:absolute; bottom:-12px; left:-14px; width:64px; height:46px; background:#f9a8d4; border:2px solid var(--black); transform:rotate(-10deg); z-index:3; display:block;"></span>
+            </div>
+        </div>
+
+        <div style="flex:1 1 300px; display:flex; flex-direction:column; justify-content:flex-start; padding-top:1.25rem;">
+            <p style="font-size:0.7rem; font-weight:400; letter-spacing:0.2em; text-transform:uppercase; color:var(--blue); margin-bottom:0.75rem;">JAN – AUG 2026</p>
+            <h1 style="margin-bottom:1.25rem;">Apple</h1>
+            <p style="margin:0;">It has been such a life-changing experience working on upcoming products with the Watch team! Though the details are confidential, my role has included much mechanical design, CAD using NX, rapid prototyping, collaboration with vendors, testing samples for material properties, DFM reviews, developing experiments, public speaking, and technical communication and documentation.</p>
+            <p style="margin-top:1rem; margin-bottom:0;">Please enjoy comics tracking my experience until I fully update!</p>
+            <div style="margin-top:1.5rem;">
+                <img src="Apple /L.jpg" alt="" style="width:100%; height:auto; display:block; border:none;">
+            </div>
+        </div>
+
+    </section>
+
+    <section id="section-comics" style="margin-bottom:3.5rem; display:flex; flex-direction:column; gap:0;">
+        <img src="Apple /1.jpg" alt="" style="width:100%; height:auto; display:block; border:none;">
+        <img src="Apple /2.jpg" alt="" style="width:100%; height:auto; display:block; border:none;">
+        <img src="Apple /3.jpg" alt="" style="width:100%; height:auto; display:block; border:none;">
+        <img src="Apple /4.jpg" alt="" style="width:100%; height:auto; display:block; border:none;">
+        <img src="Apple /5.jpg" alt="" style="width:100%; height:auto; display:block; border:none;">
+        <img src="Apple /6.jpg" alt="" style="width:100%; height:auto; display:block; border:none;">
+        <img src="Apple /7.jpg" alt="" style="width:100%; height:auto; display:block; border:none;">
+        <img src="Apple /8.jpg" alt="" style="width:100%; height:auto; display:block; border:none;">
+        <img src="Apple /9.jpg" alt="" style="width:100%; height:auto; display:block; border:none;">
+        <img src="Apple /10.jpg" alt="" style="width:100%; height:auto; display:block; border:none;">
+        <img src="Apple /11.jpg" alt="" style="width:100%; height:auto; display:block; border:none;">
+        <img src="Apple /12.jpg" alt="" style="width:100%; height:auto; display:block; border:none;">
+        <img src="Apple /13.jpg" alt="" style="width:100%; height:auto; display:block; border:none;">
+        <img src="Apple /14.jpg" alt="" style="width:100%; height:auto; display:block; border:none;">
+    </section>
+
+</div>
+
+<div class="project-nav">
+    <a href="medtronic-2.html" class="proj-nav-link">
+        <span class="proj-nav-label">&larr; Previous Internship</span>
+        <span class="proj-nav-title">Medtronic II</span>
+    </a>
+    <a href="../index.html#internship" class="proj-nav-link right">
+        <span class="proj-nav-label">Back to &rarr;</span>
+        <span class="proj-nav-title">All Internships</span>
+    </a>
+</div>
+
+<footer id="page-footer">
+    <span style="font-size:0.8rem; color:rgba(255,255,255,0.4);">&copy; 2026 Julia Abboud</span>
+    <span style="font-size:0.8rem; color:rgba(255,255,255,0.4); display:inline-flex; align-items:center; gap:0.5rem;">Designed and Developed Independently <img src="../about/Signature.png" alt="Julia Abboud signature" style="height:3rem; width:auto; display:inline; animation:sigColor 4.5s ease-in-out infinite; border:none; background:none;"></span>
+</footer>
+
+<script>
+    const hamburger = document.getElementById('hamburger');
+    const navUl = document.getElementById('nav-ul');
+    hamburger.addEventListener('click', () => {
+        hamburger.classList.toggle('open');
+        navUl.classList.toggle('open');
+    });
+    navUl.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+        hamburger.classList.remove('open');
+        navUl.classList.remove('open');
+    }));
+    const obs = new IntersectionObserver(entries => entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } }), { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>

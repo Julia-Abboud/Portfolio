@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The De-CAN-Taminator — Julia Abboud</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg: #ffffff; --bg-2: #f8f9fc; --text: #0f172a; --muted: #64748b;
+            --subtle: #e2e8f0; --blue: #2563eb; --blue-lt: #eff6ff; --blue-dk: #1d4ed8;
+            --yellow: #fde047; --black: #0f172a;
+        }
+        html { scroll-behavior: smooth; }
+        body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-weight: 400; line-height: 1.7; overflow-x: hidden; }
+
+        /* ── Nav ── */
+        nav.site-nav { position: fixed; top: 0; width: 100%; z-index: 300; padding: 1.4rem 5rem; display: flex; justify-content: space-between; align-items: center; background: var(--blue); border-bottom: 2px solid var(--black); }
+        .logo { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 1rem; letter-spacing: 0.08em; text-transform: uppercase; color: white; text-decoration: none; }
+        nav.site-nav ul { list-style: none; display: flex; gap: 2.8rem; }
+        nav.site-nav ul a { font-family: 'DM Sans', sans-serif; font-weight: 500; font-size: 0.84rem; color: rgba(255,255,255,0.85); text-decoration: none; transition: color 0.2s; position: relative; }
+        nav.site-nav ul a::after { content: ''; position: absolute; bottom: -3px; left: 0; width: 100%; height: 2px; background: white; transform: scaleX(0); transform-origin: left; transition: transform 0.25s ease; }
+        nav.site-nav ul a:hover { color: white; }
+        nav.site-nav ul a:hover::after { transform: scaleX(1); }
+        nav.site-nav .nav-engineering::after { background: var(--yellow); }
+        nav.site-nav .nav-internship::after { background: #d8b4fe; }
+        nav.site-nav .nav-personal::after { background: #f9a8d4; }
+        .hamburger { display: none; flex-direction: column; justify-content: space-between; width: 24px; height: 18px; background: none; border: none; cursor: pointer; padding: 0; z-index: 400; outline: none; -webkit-tap-highlight-color: transparent; appearance: none; -webkit-appearance: none; box-shadow: none; overflow: hidden; clip-path: inset(0); -webkit-clip-path: inset(0); }
+        .hamburger span { display: block; width: 100%; height: 2px; background: white; transition: transform 0.3s ease, opacity 0.3s ease; border-radius: 0; border: none; box-shadow: none; backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+        .hamburger.open span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+        .hamburger.open span:nth-child(2) { opacity: 0; transform: scale(0); }
+        .hamburger.open span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+        .back-link { display: inline-flex; align-items: center; gap: 0.5rem; font-weight: 500; font-size: 0.84rem; color: rgba(255,255,255,0.85); text-decoration: none; transition: color 0.2s, gap 0.2s; }
+        .back-link:hover { color: white; gap: 0.75rem; }
+        @media (max-width: 768px) {
+            nav.site-nav { padding-left: 1.5rem; padding-right: 1.5rem; }
+            .hamburger { display: flex; }
+            nav.site-nav ul { display: none; flex-direction: column; position: absolute; top: 100%; left: 0; width: 100%; background: var(--blue); border-bottom: 2px solid var(--black); padding: 1.5rem 2rem; gap: 1.2rem; }
+            nav.site-nav ul.open { display: flex; }
+            nav.site-nav ul a { font-size: 1rem; }
+        }
+
+        /* ── Page wrapper ── */
+        .page { max-width: 1400px; margin: 0 auto; padding: 6rem 4rem 0; }
+
+        /* ── Layout helpers (matching reference structure) ── */
+        .layout-full { width: 100%; }
+        .layout-2col { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+        .layout-sidebar { display: grid; grid-template-columns: 1fr 2fr; gap: 2.5rem; }
+        .layout-3col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem; }
+        .layout-4col { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 1rem; }
+        .col { min-width: 0; }
+
+        /* ── Typography ── */
+        h1 { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: clamp(1.6rem, 3vw, 2.4rem); letter-spacing: -0.03em; line-height: 1; color: var(--text); margin-bottom: 1.5rem; }
+        h2 { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: clamp(1.5rem, 3vw, 2.2rem); letter-spacing: -0.025em; color: var(--text); text-shadow: 2px 2px 0 rgba(37,99,235,0.08); margin-bottom: 0.5rem; }
+        p { font-size: 0.97rem; color: var(--muted); line-height: 1.78; margin-bottom: 1rem; }
+        p strong { color: var(--text); font-weight: 700; }
+        p em { color: var(--text); font-style: normal; font-weight: 600; }
+        a { color: var(--blue); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+
+        /* ── Section spacing ── */
+        section { margin-bottom: 3.5rem; }
+
+        /* ── Stats band ── */
+        .stats-band { background: var(--blue-dk); color: white; padding: 1.4rem 2.5rem; border: 2px solid var(--black); box-shadow: 4px 4px 0 var(--black); }
+        .stats-band p { color: white; margin: 0; font-size: 1rem; }
+        .stats-band strong { color: var(--yellow); }
+        .stats-band em { color: white; font-style: normal; font-weight: 500; }
+
+        /* ── Images ── */
+        img { width: 100%; height: auto; display: block; object-fit: cover; border: 1px solid var(--subtle); background: var(--bg-2); }
+        .col img + img { margin-top: 1rem; }
+        .caption { font-size: 0.82rem; color: var(--muted); line-height: 1.6; margin-top: 0.6rem; margin-bottom: 0; }
+
+        /* ── Video embed ── */
+        .video-wrap { position: relative; aspect-ratio: 16/9; background: var(--bg-2); border: 1px solid var(--subtle); overflow: hidden; }
+        .video-wrap iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: none; }
+
+        /* ── Document / PDF placeholder ── */
+        .document-placeholder { background: var(--bg-2); border: 1px solid var(--subtle); aspect-ratio: 8.5/11; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.75rem; padding: 1.5rem; }
+        .document-placeholder .doc-icon { font-size: 2rem; opacity: 0.3; }
+        .document-placeholder .doc-label { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); text-align: center; }
+
+        /* ── Carousel (shown as inline grid) ── */
+        .carousel-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.5rem; margin-top: 1rem; }
+
+        /* ── Bottom project nav ── */
+        .project-nav { border-top: 2px solid rgba(255,255,255,0.08); padding: 1.5rem 5rem; display: flex; justify-content: space-between; align-items: center; background: var(--text); }
+        .proj-nav-link { display: flex; flex-direction: column; gap: 0.3rem; text-decoration: none; color: inherit; transition: opacity 0.2s; }
+        .proj-nav-link:hover { opacity: 0.6; }
+        .proj-nav-label { font-size: 0.66rem; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.45); }
+        .proj-nav-title { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; font-size: 1.3rem; letter-spacing: -0.015em; color: white; }
+        .proj-nav-link.right { text-align: right; }
+        /* ── Footer ── */
+        footer#page-footer { background: var(--text); border-top: 1px solid rgba(255,255,255,0.08); padding: 1.2rem 5rem; display: flex; justify-content: space-between; align-items: center; }
+        @keyframes sigColor {
+            0%   { filter: brightness(0) invert(1) sepia(1) saturate(2.5) hue-rotate(0deg) brightness(0.75); }
+            100% { filter: brightness(0) invert(1) sepia(1) saturate(2.5) hue-rotate(360deg) brightness(0.75); }
+        }
+
+        /* ── Cover image frame ── */
+        .cover-frame { position: relative; border: 2px solid var(--black); }
+        .cover-frame::before { content: '★'; position: absolute; top: -14px; left: -16px; width: 48px; height: 48px; background: #d8b4fe; border: 2px solid var(--black); transform: rotate(-8deg); z-index: 2; font-size: 1.6rem; color: #4c1d95; text-align: center; line-height: 48px; }
+        .cover-frame::after { content: ''; position: absolute; top: 0; left: 0; width: 90px; height: 90px; background-image: repeating-linear-gradient(45deg, var(--yellow) 0px, var(--yellow) 4px, transparent 4px, transparent 12px); z-index: 1; }
+
+        /* ── Reveal ── */
+        .reveal { opacity: 0; transform: translateY(18px); transition: opacity 0.55s ease, transform 0.55s ease; }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+
+        /* ── Scrollbar ── */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #ec4899; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #be185d; }
+        * { scrollbar-color: #ec4899 transparent; }
+
+        /* ── Timeline number badge ── */
+        .img-wrap { position: relative; display: block; }
+        .img-wrap img { width: 100%; height: auto; object-fit: unset; }
+        .img-num { position: absolute; top: 0.5rem; right: 0.5rem; border: 2px solid var(--black); box-shadow: 2px 2px 0 var(--black); font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 1.44rem; width: 3.2rem; height: 3.2rem; display: flex; align-items: center; justify-content: center; z-index: 2; }
+
+        /* ── Header option labels ── */
+        .option-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.75rem; }
+
+        /* ── Option A: split, stacks on mobile ── */
+        .header-a { display: grid; grid-template-columns: 1fr 1fr; border: 2px solid var(--black); overflow: hidden; }
+        .header-a .img-panel { position: relative; min-height: 340px; }
+        .header-a .img-panel img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; border: none; }
+        .header-a .text-panel { display: flex; flex-direction: column; justify-content: center; padding: 3rem; background: var(--bg); border-left: 2px solid var(--black); }
+        @media (max-width: 768px) {
+            .header-a { grid-template-columns: 1fr; }
+            .header-a .img-panel { min-height: 240px; }
+            .header-a .text-panel { border-left: none; border-top: 2px solid var(--black); }
+        }
+
+        /* ── Option B: full-bleed with overlay ── */
+        .header-b { position: relative; height: 52vh; min-height: 320px; overflow: hidden; border: 2px solid var(--black); }
+        .header-b img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; border: none; }
+        .header-b .overlay { position: absolute; inset: 0; background: linear-gradient(to right, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0.28) 60%, rgba(0,0,0,0.0) 100%); }
+        .header-b .text-panel { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; padding: 3.5rem; max-width: 60%; }
+        .header-b .text-panel h1 { color: white; margin-bottom: 1rem; }
+        .header-b .text-panel p { color: rgba(255,255,255,0.82); font-size: 0.88rem; margin-bottom: 0.6rem; }
+        .header-b .eyebrow { font-size: 0.7rem; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--yellow); margin-bottom: 0.75rem; }
+        @media (max-width: 768px) {
+            .header-b .text-panel { max-width: 100%; padding: 2rem; }
+            .header-b .overlay { background: linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.75) 100%); }
+            .header-b .text-panel { justify-content: flex-end; }
+        }
+
+        /* ── Option C: wide text, accent image right ── */
+        .header-c { display: grid; grid-template-columns: 3fr 2fr; border: 2px solid var(--black); overflow: hidden; }
+        .header-c .text-panel { display: flex; flex-direction: column; justify-content: center; padding: 3rem; background: var(--bg); }
+        .header-c .img-panel { position: relative; }
+        .header-c .img-panel img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; border: none; }
+        @media (max-width: 768px) {
+            .header-c .img-panel { display: none; }
+            .header-c { grid-template-columns: 1fr; }
+        }
+
+        /* ── Responsive ── */
+        .photo-grid { display: flex; width: 100%; gap: 1rem; align-items: flex-start; }
+        .photo-grid .pg-col { min-width: 0; }
+        .photo-grid .pg-col img { width: 100%; height: auto; display: block; border: none; }
+        .photo-grid .pg-col-stack { display: flex; flex-direction: column; gap: 1rem; }
+        @media (max-width: 600px) {
+            .photo-grid { flex-direction: column; }
+            .photo-grid .pg-col { flex: none !important; width: 100%; }
+        }
+        @media (max-width: 768px) {
+            #section-stats > div { flex-direction: column; }
+            #section-stats > div > div { flex-basis: auto !important; }
+        }
+        @media (max-width: 900px) {
+            nav.site-nav { padding-left: 1.5rem; padding-right: 1.5rem; }
+            .page { padding: 5rem 1.5rem 0; }
+            .layout-2col, .layout-sidebar, .layout-3col { grid-template-columns: 1fr 1fr; }
+            .layout-4col { grid-template-columns: 1fr 1fr; }
+            .project-nav { padding-left: 1.5rem; padding-right: 1.5rem; flex-direction: column; gap: 2rem; align-items: center; }
+            .proj-nav-link, .proj-nav-link.right { text-align: center; }
+            footer#page-footer { padding-left: 1.5rem; padding-right: 1.5rem; flex-direction: column; gap: 1rem; align-items: center; text-align: center; }
+            #section-cad-process > div,
+            #section-runoff > div { grid-template-columns: 1fr !important; }
+            #section-technical-report > div { grid-template-columns: 1fr !important; }
+        }
+        @media (max-width: 540px) {
+            .layout-2col, .layout-sidebar, .layout-3col, .layout-4col, .carousel-grid { grid-template-columns: 1fr; }
+            #section-technical-report .col > div[style*="height:550px"] { height: 370px !important; }
+        }
+        @media (max-width: 900px) {
+            #section-runoff > div { flex-direction: column !important; }
+        }
+        @media (max-width: 700px) {
+            #award-carousel { height: 320px !important; }
+        }
+
+        /* ── Horizontal process scroll ── */
+        /* ── Horizontal process scroll ── */
+        #dec-horiz-scroll-outer { position: relative; width: 100%; background: #0f172a; padding: 2rem 0; }
+        #dec-horiz-scroll-outer .caption { color: rgba(255,255,255,0.8); }
+        #dec-horiz-scroll-track { display: flex; gap: 2rem; padding: 1rem 4rem 1.5rem; overflow-x: auto; align-items: stretch; scrollbar-width: thin; scrollbar-color: #ec4899 rgba(255,255,255,0.15); }
+        #dec-horiz-scroll-track::-webkit-scrollbar { height: 8px; }
+        #dec-horiz-scroll-track::-webkit-scrollbar-track { background: rgba(255,255,255,0.15); border-radius: 4px; }
+        #dec-horiz-scroll-track::-webkit-scrollbar-thumb { background: #ec4899; border-radius: 4px; }
+        .hcard { flex-shrink: 0; height: 460px; display: flex; flex-direction: column; width: 280px; }
+        .hcard > div:first-child { flex: 1; min-height: 0; position: relative; overflow: hidden; }
+        .hcard img { height: 100%; width: auto; display: block; border: none; }
+    </style>
+</head>
+<body>
+
+<nav class="site-nav">
+    <a href="../index.html" class="logo">Julia Abboud</a>
+    <ul id="nav-ul">
+        <li><a href="../index.html#about">About</a></li>
+        <li><a href="../index.html#projects" class="nav-engineering">Engineering</a></li>
+        <li><a href="../index.html#internship" class="nav-internship">Internship</a></li>
+        <li><a href="../index.html#personal" class="nav-personal">Personal</a></li>
+        <li><a href="../index.html#resume">Contact</a></li>
+    </ul>
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+    </button>
+</nav>
+
+<div class="page">
+
+    <!-- DEFAULT HEADER -->
+    <section id="section-header" style="margin-bottom:3.5rem; display:flex; flex-wrap:wrap; gap:2rem;">
+
+        <!-- Image -->
+        <div style="flex:1 1 400px; align-self:flex-start; padding-top:1.25rem; padding-left:1.25rem;">
+            <div class="cover-frame">
+                <img src="De-CAN-Taminator/the de-can-taminator cover.jpg" alt="The De-CAN-Taminator" style="width:100%; height:auto; display:block; border:none;">
+            </div>
+        </div>
+
+        <!-- Text -->
+        <div style="flex:1 1 300px; display:flex; flex-direction:column; justify-content:flex-start;">
+            <p style="font-size:0.7rem; font-weight:400; letter-spacing:0.2em; text-transform:uppercase; color:var(--blue); margin-bottom:0.75rem;">Sep 2023 – Apr 2024</p>
+            <h1 style="margin-bottom:1.25rem;">The De-CAN-Taminator</h1>
+            <p>The goal of this project was to make the recycling process more engaging, informative, and effective. Our group chose to prioritize recycling aluminum cans among consumers in the local community as aluminum is extremely cost-efficient and infinitely recyclable, yet only recycled 45.2% of the time. Based on my original design, together we created The De-CAN-Taminator, an aluminum can collection device that simultaneously entertains and educates users through an informational light display. The machine weighs cans with a load cell and accepts cans ready for recycling with a servo-operated trapdoor.</p>
+            <p>I served as Project Lead on the team of 5, developer of the original idea for The De-CAN-Taminator, head manufacturer (lots of woodworking), and lead presenter. Under my task delegation and constant encouragement to improve, my team quickly excelled while also becoming a close-knit group. When two of our critical components broke the night before our design exposition, I was the one keeping the team together and focused, offering creative solution after solution to execute until we had achieved the function and quality we originally set out to. My efforts were rewarded when we won our class' Best in Section Award the following day.</p>
+            <p style="margin:0;">This experience reinforced to me the importance of flexibility, level-headedness, and organized leadership. Additionally, it was also a great way to learn and apply CAD, laser cutting, 3D printing, woodworking, electronics/circuitry, and coding.</p>
+        </div>
+
+    </section>
+
+    <!-- STATS BAND -->
+    <section id="section-stats" class="reveal">
+        <div style="display:flex; flex-wrap:wrap; gap:2rem;">
+            <div style="flex:1 1 280px; background:var(--yellow); color:var(--black); padding:1.4rem 2.5rem; border:2px solid var(--black); box-shadow:4px 4px 0 var(--black); text-align:center;">
+                <p style="color:var(--black); margin:0;"><strong>Winner in the Category of Innovation — $1,000</strong><br><em style="font-style:normal; font-weight:400;">Student Ideas Showcase, CU Campus Sustainability Summit 2024</em></p>
+            </div>
+            <div style="flex:1 1 280px; background:#f9a8d4; color:var(--black); padding:1.4rem 2.5rem; border:2px solid var(--black); box-shadow:4px 4px 0 var(--black); text-align:center;">
+                <p style="color:var(--black); margin:0;"><strong>Winner of Class Section Award</strong><br><em style="font-style:normal; font-weight:400;">Engineering Design Exposition, 2023</em></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- AWARD PHOTOS CAROUSEL -->
+    <section id="section-runoff" class="reveal">
+        <div style="display:flex; gap:1.5rem; align-items:flex-start; flex-wrap:wrap;">
+
+            <!-- Carousel + caption -->
+            <div style="flex:2; min-width:min(100%, 400px);">
+                <div id="award-carousel" style="position:relative; border:2px solid var(--black); overflow:hidden; height:600px;">
+                    <div id="award-track" style="display:flex; width:100%; height:100%; transition:transform 0.45s cubic-bezier(0.4,0,0.2,1);">
+                        <div style="flex:0 0 100%; height:100%; overflow:hidden;">
+                            <img src="De-CAN-Taminator/decantaminator_1.jpg" alt="Award ceremony" style="width:100%; height:100%; object-fit:cover; object-position:center; display:block; border:none;">
+                        </div>
+                        <div style="flex:0 0 100%; height:100%; overflow:hidden;">
+                            <img src="De-CAN-Taminator/decantaminator_2.jpg" alt="With judges" style="width:100%; height:100%; object-fit:cover; object-position:center; display:block; border:none;">
+                        </div>
+                        <div style="flex:0 0 100%; height:100%; overflow:hidden;">
+                            <img src="De-CAN-Taminator/decantaminator_3.jpg" alt="Climate Expo winners" style="width:100%; height:100%; object-fit:cover; object-position:center; display:block; border:none;">
+                        </div>
+                    </div>
+                    <button onclick="awardPrev()" style="position:absolute; left:0.75rem; top:50%; transform:translateY(-50%); background:white; border:2px solid var(--black); width:2.4rem; height:2.4rem; cursor:pointer; font-size:1rem; display:flex; align-items:center; justify-content:center;">&#8592;</button>
+                    <button onclick="awardNext()" style="position:absolute; right:0.75rem; top:50%; transform:translateY(-50%); background:white; border:2px solid var(--black); width:2.4rem; height:2.4rem; cursor:pointer; font-size:1rem; display:flex; align-items:center; justify-content:center;">&#8594;</button>
+                </div>
+                <p id="award-caption" class="caption" style="margin-top:0.6rem; text-align:center;">Our team, The Doorstoppers, accepting a $1,000 award for Innovation.</p>
+            </div>
+
+            <!-- Side card -->
+            <div style="flex:1; min-width:min(100%, 280px); display:flex; flex-direction:column;">
+                <div style="padding:0 1.5rem 1rem;">
+                    <p style="margin:0 0 0.75rem;">We were incredibly excited for a team reunion to enter the 2024 Campus Climate Expo! This opportunity opened my eyes to the remarkable innovations my peers were developing to combat climate change, showing me that as an individual, there is so much impact I can have on the world through my creations. It was truly an amazing full-circle moment working with this brilliant team and reviving the project that taught me so much about the engineering design process! <a href="https://www.colorado.edu/ecenter/2024/05/07/cu-boulders-annual-sustainability-summit-sets-climate-action-plan-motion#:~:text=The%20goals%20outlined%20in%20the,go%20from%20design%20to%20action" target="_blank" style="color:var(--blue); font-size:0.84rem; font-weight:500; border-bottom:1px solid var(--blue); padding-bottom:1px; text-decoration:none; white-space:nowrap;">Article Mention &#8594;</a></p>
+                </div>
+                <div style="overflow:hidden; flex:1;">
+                    <img src="De-CAN-Taminator/decantaminator_4.jpg" alt="Campus Climate Expo" style="width:100%; height:100%; object-fit:cover; display:block; border:2px dashed #be185d;">
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- PROCESS HEADING -->
+    <section id="section-process-heading" class="layout-full reveal" style="text-align:center;">
+        <span style="display:inline-block; background:#d8b4fe; color:var(--black); border:2px solid var(--black); box-shadow:4px 4px 0 var(--black); padding:0.5rem 1.5rem; font-family:'Plus Jakarta Sans',sans-serif; font-weight:800; font-size:1rem; letter-spacing:0.08em;">Glimpse Into My Build Process!</span>
+    </section>
+
+</div><!-- end first .page -->
+
+<!-- ─── HORIZONTAL PROCESS SCROLL ─── -->
+<div id="dec-horiz-scroll-outer">
+    <div id="dec-horiz-scroll-track">
+
+            <!-- Card 1 -->
+            <div class="hcard" style="border:2px dashed #6d28d9;">
+                <div><img src="De-CAN-Taminator/decantaminator_5.jpg" alt="Frame design"><span class="img-num" style="background:#f9a8d4; color:var(--black);">1</span></div>
+                <p class="caption" style="flex-shrink:0; margin:0; padding:0.75rem 1rem;">The initial frame design changed to make the top arch detachable for storage purposes.</p>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="hcard" style="border:2px dashed #be185d;">
+                <div><img src="De-CAN-Taminator/decantaminator_6.jpg" alt="Frame for recycling bins"><span class="img-num" style="background:#fde047; color:var(--black);">2</span></div>
+                <p class="caption" style="flex-shrink:0; margin:0; padding:0.75rem 1rem;">The frame was created to house the specific recycling bin sizes CU Boulder uses.</p>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="hcard" style="border:2px dashed #2563eb;">
+                <div><img src="De-CAN-Taminator/decantaminator_7.jpg" alt="Cutting arches"><span class="img-num" style="background:#d8b4fe; color:var(--black);">3</span></div>
+                <p class="caption" style="flex-shrink:0; margin:0; padding:0.75rem 1rem;">In total, I cut 12 arches with a jigsaw before gluing and sanding them to achieve a 3D LED track. This took a lot of patience but was worth it.</p>
+            </div>
+
+            <!-- Card 4 -->
+            <div class="hcard" style="border:2px dashed #6d28d9;">
+                <div><img src="De-CAN-Taminator/decantaminator_8.jpg" alt="Completed wood frame"><span class="img-num" style="background:#fde047; color:var(--black);">4</span></div>
+                <p class="caption" style="flex-shrink:0; margin:0; padding:0.75rem 1rem;">From this point, the wood frame was complete. Flattened aluminum cans were added to the side and acrylic to the front.</p>
+            </div>
+
+            <!-- Card 5 -->
+            <div class="hcard" style="border:2px dashed #be185d;">
+                <div><img src="De-CAN-Taminator/decantaminator_9.jpg" alt="Electronics implementation"><span class="img-num" style="background:#d8b4fe; color:var(--black);">5</span></div>
+                <p class="caption" style="flex-shrink:0; margin:0; padding:0.75rem 1rem;">Critical components of the LEDs, load cell, and trapdoor were successfully implemented from there.</p>
+            </div>
+
+            <!-- Card 6 -->
+            <div class="hcard" style="border:2px dashed #2563eb;">
+                <div><img src="De-CAN-Taminator/decantaminator_10.png" alt="Final device"><span class="img-num" style="background:#f9a8d4; color:var(--black);">6</span></div>
+                <p class="caption" style="flex-shrink:0; margin:0; padding:0.75rem 1rem;">The final device included an informational poster, more LEDs, and acrylic to protect the electronics.</p>
+            </div>
+
+            <!-- Card 7 (GIF) -->
+            <div class="hcard" style="border:2px dashed #6d28d9;">
+                <div><img src="De-CAN-Taminator/decantaminator_11.gif" alt="Can rejection"><span class="img-num" style="background:#fde047; color:var(--black);">7</span></div>
+                <p class="caption" style="flex-shrink:0; margin:0; padding:0.75rem 1rem;">Aluminum cans with liquid in them cannot be recycled in Boulder, so our machine rejects them.</p>
+            </div>
+
+            <!-- Card 8 (GIF) -->
+            <div class="hcard" style="border:2px dashed #be185d;">
+                <div><img src="De-CAN-Taminator/decantaminator_12.gif" alt="Can acceptance"><span class="img-num" style="background:#d8b4fe; color:var(--black);">8</span></div>
+                <p class="caption" style="flex-shrink:0; margin:0; padding:0.75rem 1rem;">If the user has properly emptied their can first, it is accepted with a colorful reward!</p>
+            </div>
+
+        </div>
+</div><!-- end horiz scroll -->
+
+<div class="page" style="padding-top:3.5rem;">
+
+    <!-- REPORT INTRO — styled as blue band label -->
+    <section id="section-report-intro" class="layout-full reveal">
+        <div style="background:var(--blue); border:2px solid var(--black); box-shadow:4px 4px 0 var(--black); padding:1rem 2.5rem; text-align:center;">
+            <p style="color:white; margin:0; font-family:'Plus Jakarta Sans',sans-serif; font-weight:800; font-size:1rem; letter-spacing:0.1em;">Project Documentation and Critical Components Explained</p>
+        </div>
+    </section>
+
+    <!-- TECHNICAL REPORT + POSTER -->
+    <section id="section-technical-report" class="reveal">
+        <div class="layout-2col" style="align-items:start;">
+            <div class="col" style="display:flex; flex-direction:column;">
+                <div style="height:550px; overflow:hidden; border:1px solid var(--subtle);">
+                    <iframe src="De-CAN-Taminator/GEEN Final Project Technical Report - The Doorstoppers.pdf" style="width:100%; height:100%; border:none;" title="Technical Report"></iframe>
+                </div>
+                <p class="caption" style="margin-top:0.75rem; flex-shrink:0;">Technical report detailing the research, complete design process, and testing &amp; analysis of the project.</p>
+            </div>
+            <div class="col" style="display:flex; flex-direction:column;">
+                <div style="height:550px; overflow:hidden; border:1px solid var(--subtle);">
+                    <iframe src="De-CAN-Taminator/Design Expo Poster.pdf" style="width:100%; height:100%; border:none;" title="Exposition Poster"></iframe>
+                </div>
+                <p class="caption" style="margin-top:0.75rem; flex-shrink:0;">Poster used at both expositions to summarize and explain the project to the public and judges.</p>
+            </div>
+        </div>
+    </section>
+
+</div><!-- end .page -->
+
+<div class="project-nav">
+    <a href="../index.html#projects" class="proj-nav-link">
+        <span class="proj-nav-label">&larr; Back to</span>
+        <span class="proj-nav-title">All Projects</span>
+    </a>
+    <a href="coding-game.html" class="proj-nav-link right">
+        <span class="proj-nav-label">Next Project &rarr;</span>
+        <span class="proj-nav-title">Coding Game</span>
+    </a>
+    </a>
+</div>
+
+<footer id="page-footer">
+    <span style="font-size:0.8rem; color:rgba(255,255,255,0.4);">&copy; 2026 Julia Abboud</span>
+    <span style="font-size:0.8rem; color:rgba(255,255,255,0.4); display:inline-flex; align-items:center; gap:0.5rem;">Designed and Developed Independently <img src="../about/Signature.png" alt="Julia Abboud signature" style="height:3rem; width:auto; display:inline; animation:sigColor 4.5s ease-in-out infinite; border:none; background:none;"></span>
+</footer>
+
+<script>
+    const hamburger = document.getElementById('hamburger');
+    const navUl = document.getElementById('nav-ul');
+    hamburger.addEventListener('click', () => {
+        hamburger.classList.toggle('open');
+        navUl.classList.toggle('open');
+    });
+    navUl.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+        hamburger.classList.remove('open');
+        navUl.classList.remove('open');
+    }));
+
+    const obs = new IntersectionObserver(entries => entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('visible'); }
+        else { e.target.classList.remove('visible'); }
+    }), { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+    // Horizontal scroll — build process
+    const decHorizTrack = document.getElementById('dec-horiz-scroll-track');
+    let decGifRestarted = false;
+    decHorizTrack.addEventListener('scroll', () => {
+        if (!decGifRestarted) {
+            decGifRestarted = true;
+            decHorizTrack.querySelectorAll('img[src$=".gif"]').forEach(gif => {
+                const s = gif.src; gif.src = ''; gif.src = s;
+            });
+        }
+    }, { passive: true });
+    function sizeDecHcards() {
+        decHorizTrack.querySelectorAll('.hcard').forEach(card => {
+            const img = card.querySelector('img');
+            if (!img) return;
+            const apply = () => {
+                if (!img.naturalWidth || !img.naturalHeight) return;
+                const captionEl = card.querySelector('.caption');
+                const captionH = captionEl ? captionEl.offsetHeight : 0;
+                const imgH = card.offsetHeight - captionH;
+                card.style.width = (img.naturalWidth * (imgH / img.naturalHeight)) + 'px';
+            };
+            if (img.complete) apply();
+            else img.addEventListener('load', apply);
+        });
+    }
+    sizeDecHcards();
+
+    const awardCaptions = [
+        'Our team, The Doorstoppers, accepting a $1,000 award for Innovation.',
+        'Our team accompanied by a few of the judges of the Student Ideas Showcase, including CU Boulder Regent Dr. Lesley Smith.',
+        'Celebrating with all the winners at the Climate Expo!'
+    ];
+    let awardIdx = 0;
+    const awardTrack = document.getElementById('award-track');
+    const awardCapEl = document.getElementById('award-caption');
+    function awardGoTo(n) {
+        awardIdx = (n + 3) % 3;
+        awardTrack.style.transform = `translateX(-${awardIdx * 100}%)`;
+        awardCapEl.textContent = awardCaptions[awardIdx];
+    }
+    function awardPrev() { clearInterval(awardAuto); awardAuto = null; awardGoTo(awardIdx - 1); }
+    function awardNext() { clearInterval(awardAuto); awardAuto = null; awardGoTo(awardIdx + 1); }
+    let awardAuto = setInterval(() => awardGoTo(awardIdx + 1), 5000);
+    new IntersectionObserver(es => { if (es[0].isIntersecting && !awardAuto) awardAuto = setInterval(() => awardGoTo(awardIdx + 1), 5000); }, { threshold: 0.3 }).observe(document.getElementById('award-carousel'));
+</script>
+</body>
+</html>

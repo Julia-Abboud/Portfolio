@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Julia Abboud</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        /* LEFT DECORATIVE SCROLLBAR */
+        .left-scrollbar { position: fixed; left: 0; top: 0; width: 20px; height: 100vh; background: transparent; z-index: 1; pointer-events: none; }
+        .left-scrollbar-thumb { position: absolute; width: 7px; background: #7c3aed; border-radius: 4px; transition: top 0.05s linear; }
+        .left-scrollbar-thumb:first-child { left: 0; }
+        .left-scrollbar-thumb:last-child  { left: 11px; background: #d8b4fe; }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #ec4899; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #be185d; }
+        * { scrollbar-color: #ec4899 transparent; }
+        :root {
+            --bg: #ffffff; --bg-2: #f8f9fc; --text: #0f172a; --muted: #64748b;
+            --subtle: #e2e8f0; --blue: #2563eb; --blue-lt: #eff6ff; --blue-dk: #1d4ed8;
+            --yellow: #fde047; --black: #0f172a;
+        }
+        html { scroll-behavior: smooth; }
+        body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-weight: 400; line-height: 1.7; overflow-x: hidden; }
+
+        /* NAV */
+        nav { position: fixed; top: 0; width: 100%; z-index: 300; padding: 1.4rem 5rem; display: flex; justify-content: space-between; align-items: center; transition: background 0.3s, border-color 0.3s, color 0.3s; border-bottom: 2px solid var(--black); background: var(--blue); }
+        nav.scrolled { background: var(--blue); backdrop-filter: none; border-color: var(--black); }
+        nav.nav-on-blue { background: #ffffff; backdrop-filter: none; }
+        .logo { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 1rem; letter-spacing: 0.08em; text-decoration: none; text-transform: uppercase; display: inline-flex; align-items: center; transition: color 0.3s; }
+        nav ul { list-style: none; display: flex; gap: 2.8rem; }
+        nav .logo { color: white; }
+        nav.nav-on-blue .logo { color: var(--text); }
+        nav ul a { font-family: 'DM Sans', sans-serif; font-weight: 500; font-size: 0.84rem; color: rgba(255,255,255,0.85); text-decoration: none; transition: color 0.2s; position: relative; }
+        nav.nav-on-blue ul a { color: var(--muted); }
+        nav ul a::after { content: ''; position: absolute; bottom: -3px; left: 0; width: 100%; height: 2px; background: white; transform: scaleX(0); transform-origin: left; transition: transform 0.25s ease; }
+        nav.nav-on-blue ul a::after { background: var(--blue); }
+        nav ul a:hover { color: white; }
+        nav.nav-on-blue ul a:hover { color: var(--text); }
+        nav ul a:hover::after { transform: scaleX(1); }
+        nav .nav-engineering::after { background: var(--yellow); }
+        nav .nav-internship::after { background: #d8b4fe; }
+        nav .nav-personal::after { background: #f9a8d4; }
+        nav.nav-on-blue .nav-engineering::after { background: var(--yellow); }
+        nav.nav-on-blue .nav-internship::after { background: #d8b4fe; }
+        nav.nav-on-blue .nav-personal::after { background: #f9a8d4; }
+
+        /* HERO */
+        .hero { min-height: 100vh; display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; padding: 5rem 5rem 4rem; position: relative; overflow: hidden; }
+        .hero-content { display: flex; flex-direction: column; justify-content: center; position: relative; z-index: 1; }
+        .hero-img { position: relative; z-index: 1; }
+        .hero-img::before { content: ''; position: absolute; top: -14px; right: -14px; width: 90px; height: 90px; background-image: radial-gradient(circle, #fde047 2px, transparent 2px); background-size: 12px 12px; z-index: 2; pointer-events: none; animation: fadeUp 0.6s ease 0.6s both; }
+        .hero-img::after { content: ''; position: absolute; bottom: -10px; left: -10px; width: 48px; height: 48px; background: #f9a8d4; border: 2px solid var(--black); z-index: -1; animation: fadeUp 0.6s ease 0.75s both; }
+        .carousel { position: relative; width: 100%; height: 75vh; overflow: hidden; border: 2px solid var(--black); box-shadow: 8px 8px 0 #d8b4fe; z-index: 1; animation: carouselBorder 0.5s ease 0.4s both; }
+        @media (max-width: 768px) { .carousel { height: 45vh; min-height: 240px; } }
+        .carousel-slide { position: absolute; inset: 0; }
+        .carousel-slide img { width: 100%; height: 100%; object-fit: cover; object-position: center; display: block; }
+        .hero::before { content: ''; position: absolute; inset: 0; background-image: radial-gradient(circle, rgba(37,99,235,0.1) 1px, transparent 1px); background-size: 32px 32px; pointer-events: none; }
+        .hero > * { position: relative; z-index: 1; }
+        .eyebrow { font-family: 'DM Sans', sans-serif; font-weight: 500; font-size: 0.8rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--blue); margin-bottom: 2rem; animation: fadeUp 0.7s ease both; }
+        .hero h1 { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: clamp(4rem, 10vw, 11rem); line-height: 0.92; letter-spacing: -0.03em; color: var(--text); margin-bottom: 2.5rem; animation: fadeUp 0.7s ease 0.1s both; }
+        .hero h1 em { font-style: normal; display: inline-block; animation: nameColor 4.5s ease-in-out infinite; }
+        @keyframes nameColor {
+            0%   { color: #2563eb; text-shadow: 3px 3px 0 rgba(37,99,235,0.18); }
+            50%  { color: #2563eb; text-shadow: 3px 3px 0 rgba(37,99,235,0.18); }
+            61%  { color: #7c3aed; text-shadow: 3px 3px 0 rgba(124,58,237,0.18); }
+            72%  { color: #7c3aed; text-shadow: 3px 3px 0 rgba(124,58,237,0.18); }
+            83%  { color: #ec4899; text-shadow: 3px 3px 0 rgba(236,72,153,0.18); }
+            94%  { color: #ec4899; text-shadow: 3px 3px 0 rgba(236,72,153,0.18); }
+            100% { color: #2563eb; text-shadow: 3px 3px 0 rgba(37,99,235,0.18); }
+        }
+        @keyframes sigColor {
+            0%   { filter: brightness(0) invert(1) sepia(1) saturate(2.5) hue-rotate(0deg) brightness(0.75); }
+            100% { filter: brightness(0) invert(1) sepia(1) saturate(2.5) hue-rotate(360deg) brightness(0.75); }
+        }
+        .hero-desc { font-size: clamp(1rem, 1.5vw, 1.2rem); color: var(--muted); max-width: 520px; margin-bottom: 3rem; line-height: 1.75; letter-spacing: 0.2em; animation: fadeUp 0.7s ease 0.2s both; }
+        .hero-actions { display: flex; align-items: center; gap: 1.5rem; animation: fadeUp 0.7s ease 0.3s both; }
+        .btn-solid { display: inline-block; padding: 0.85rem 2rem; background: var(--blue); color: white; text-decoration: none; font-family: 'DM Sans', sans-serif; font-weight: 500; font-size: 0.88rem; border: 2px solid var(--blue-dk); box-shadow: 3px 3px 0 var(--blue-dk); transition: transform 0.15s, box-shadow 0.15s; }
+        .btn-solid:hover { transform: translate(-2px,-2px); box-shadow: 5px 5px 0 var(--blue-dk); }
+        .btn-comic { display: inline-block; padding: 0.85rem 2rem; background: var(--yellow); color: var(--black); text-decoration: none; font-family: 'DM Sans', sans-serif; font-weight: 700; font-size: 0.88rem; border: 2px solid var(--black); box-shadow: 3px 3px 0 var(--black); transition: transform 0.15s, box-shadow 0.15s; }
+        .btn-comic:hover { transform: translate(-2px,-2px); box-shadow: 5px 5px 0 var(--black); }
+        .btn-comic-pink { background: #f9a8d4; }
+        .btn-comic-pink { border-color: var(--black); box-shadow: 3px 3px 0 var(--black); }
+        .speech-bubble { position: relative; display: inline-block; background: var(--yellow); border: 2px solid var(--black); box-shadow: 4px 4px 0 var(--black); padding: 1.3rem 1.8rem 0.8rem; max-width: 520px; margin-top: 1rem; }
+        .speech-bubble::before { content: ''; position: absolute; top: -20px; left: 44px; border: 10px solid transparent; border-bottom: 10px solid var(--black); }
+        .speech-bubble::after { content: ''; position: absolute; top: -14px; left: 47px; border: 7px solid transparent; border-bottom: 7px solid var(--yellow); }
+        .bubble-label { font-family: 'DM Sans', sans-serif; font-weight: 500; font-size: 0.7rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--blue-dk); margin-bottom: 0.35rem; }
+        .speech-bubble p { font-size: 0.9rem; line-height: 1.6; color: var(--black); }
+        .speech-bubble strong { color: var(--blue-dk); font-weight: 700; }
+        .traits { margin-top: 2rem; }
+        .trait { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 1.6rem; letter-spacing: -0.02em; padding: 0.75rem 0; border-bottom: 1px solid var(--subtle); color: var(--subtle); transition: color 0.22s, padding-left 0.22s, text-shadow 0.22s; cursor: default; }
+        .trait:hover { color: var(--blue); padding-left: 0.6rem; text-shadow: 2px 2px 0 rgba(37,99,235,0.15); }
+        .divider { border: none; border-top: 1px solid var(--subtle); margin: 0; }
+        .wrap { max-width: 1300px; margin: 0 auto; padding: 4rem 5rem; }
+        .sec-label { font-size: 0.74rem; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: var(--blue); margin-bottom: 0.6rem; }
+        .sec-title { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: clamp(2.2rem, 4vw, 3rem); line-height: 1.05; letter-spacing: -0.025em; margin-bottom: 2.5rem; }
+
+        /* ABOUT */
+        #about { background-color: var(--blue-dk); background-image: radial-gradient(circle, rgba(255,255,255,0.12) 1.5px, transparent 1.5px); background-size: 22px 22px; }
+        #about .wrap { padding-top: 5.5rem; padding-bottom: 5.5rem; }
+        #about .sec-label { color: rgba(255,255,255,0.55); }
+        #about .sec-title { color: white; }
+        #about .about-text p { color: rgba(255,255,255,0.75); }
+        #about .about-img { box-shadow: 5px 5px 0 var(--black); border: 2px solid var(--black); }
+        #about .rotating-word { color: var(--yellow); text-shadow: 3px 3px 0 rgba(253,224,71,0.2); }
+        #resume .rotating-word { color: #fde047; text-shadow: 3px 3px 0 rgba(253,224,71,0.2); }
+        #about .speech-bubble p { color: var(--black); }
+        #about .speech-bubble strong { color: var(--blue-dk); }
+        #about .bubble-label { color: var(--blue-dk); }
+        .about-grid { display: grid; grid-template-columns: 1fr 1.4fr; gap: 6rem; align-items: center; }
+        .about-img { aspect-ratio: 1/1; background: var(--subtle); display: flex; align-items: center; justify-content: center; color: var(--muted); font-size: 0.75rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; overflow: hidden; border-radius: 50%; box-shadow: 5px 5px 0 var(--subtle); }
+        .about-img img { width: 100%; height: 100%; object-fit: cover; }
+        .about-text p { color: var(--muted); font-size: 1rem; margin-bottom: 1.3rem; max-width: 500px; }
+        .rotating-wrap { display: inline-block; overflow: hidden; vertical-align: bottom; padding-bottom: 0.15em; margin-bottom: -0.15em; text-align: center; }
+        .rotating-word { display: inline-block; color: var(--blue); text-shadow: 3px 3px 0 rgba(37,99,235,0.15); transition: transform 0.45s cubic-bezier(0.4,0,0.2,1), opacity 0.45s ease; }
+
+        /* PROJECTS */
+        #projects { background: var(--bg); }
+        #projects .wrap { padding-left: 5rem; padding-right: 5rem; max-width: 1300px; }
+        #internship .wrap { padding-left: 5rem; padding-right: 5rem; max-width: 1300px; }
+        #projects .sec-title { text-shadow: 2px 2px 0 rgba(37,99,235,0.12); }
+        .grid-featured { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem; }
+        .grid-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+        .card { background: var(--bg); border: 2px solid var(--black); overflow: hidden; text-decoration: none; color: inherit; display: flex; flex-direction: column; transition: transform 0.2s, box-shadow 0.2s; }
+        .card:hover { transform: translate(-2px, -2px); box-shadow: 4px 4px 0 var(--black); }
+        .card-img { background: var(--blue-lt); display: flex; align-items: center; justify-content: center; color: var(--blue); font-size: 0.7rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; overflow: hidden; flex: 1; min-height: 120px; }
+        .card-featured .card-img { flex: none; aspect-ratio: 4/3; }
+        .card-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .card-body { padding: 1rem 1.5rem; }
+        .card-date { font-size: 0.72rem; font-weight: 500; color: var(--blue); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.4rem; }
+        .card-title { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; font-size: 1.1rem; letter-spacing: -0.015em; margin-bottom: 0.6rem; }
+        .card-featured .card-title { font-size: 1.1rem; }
+        .card-desc { font-size: 0.86rem; color: var(--muted); line-height: 1.65; }
+        .card-award { display: inline-block; margin-top: 0.9rem; padding: 0.35rem 0.75rem; background: var(--yellow); border: 1.5px solid var(--black); box-shadow: 2px 2px 0 var(--black); font-size: 0.72rem; font-weight: 500; color: var(--black); }
+        .card-arrow { display: inline-flex; align-items: center; gap: 0.4rem; margin-top: 1rem; font-size: 0.8rem; font-weight: 500; color: var(--blue); transition: gap 0.2s; }
+        .card:hover .card-arrow { gap: 0.65rem; }
+
+        /* INTERNSHIP & PERSONAL SECTIONS */
+        .section-alt { border-top: 2px dashed var(--subtle); }
+        #internship { border-top-color: #ec4899; }
+        #personal { border-top-color: #7c3aed; }
+        section { scroll-margin-top: 5rem; }
+        #internship { background-color: #f8f9fc; }
+        #internship .sec-title { text-shadow: 2px 2px 0 rgba(124,58,237,0.1); }
+        #personal { background: var(--bg); }
+        #personal .sec-title { text-shadow: 2px 2px 0 rgba(236,72,153,0.1); }
+
+        .section-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 2.5rem; }
+        .btn-line { display: inline-flex; align-items: center; gap: 0.4rem; color: var(--blue); text-decoration: none; font-size: 0.84rem; font-weight: 500; border-bottom: 1px solid var(--blue); padding-bottom: 2px; transition: gap 0.2s, opacity 0.2s; }
+        .btn-line:hover { gap: 0.65rem; opacity: 0.75; }
+
+        /* internship cards */
+        .intern-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+        .intern-card { background: var(--bg); border: 2px solid var(--black); padding: 1.8rem; text-decoration: none; color: inherit; display: block; transition: transform 0.2s, box-shadow 0.2s; }
+        .intern-card:hover { transform: translate(-2px,-2px); box-shadow: 4px 4px 0 var(--black); }
+        .intern-card.current { background: var(--blue-lt); }
+        .intern-badge { display: inline-block; padding: 0.25rem 0.6rem; background: var(--blue); color: white; font-size: 0.66rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 1rem; }
+        .intern-badge.past { background: var(--subtle); color: var(--muted); }
+        .intern-company { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 1.3rem; letter-spacing: -0.015em; margin-bottom: 0.3rem; }
+        .intern-role { font-size: 0.84rem; font-weight: 500; color: var(--black); margin-bottom: 0.9rem; }
+        .intern-date { font-size: 0.72rem; font-weight: 500; color: var(--blue); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.4rem; }
+        .intern-desc { font-size: 0.84rem; color: var(--muted); line-height: 1.65; }
+        .intern-arrow { display: inline-flex; align-items: center; gap: 0.4rem; margin-top: 1.2rem; font-size: 0.78rem; font-weight: 500; color: var(--blue); transition: gap 0.2s; }
+        .intern-card:hover .intern-arrow { gap: 0.65rem; }
+
+        /* RESUME */
+        #resume { background: var(--text); }
+        #resume .wrap { text-align: center; }
+        #resume .sec-label { color: #60a5fa; }
+        #resume .sec-title { color: white; text-shadow: none; }
+        #resume p { color: rgba(255,255,255,0.5); max-width: 380px; margin: 0 auto 2.5rem; font-size: 0.96rem; }
+        #resume .btn-solid { border-color: white; box-shadow: 3px 3px 0 white; }
+        #resume .btn-solid:hover { box-shadow: 5px 5px 0 white; }
+        #resume .btn-comic { border-color: white; box-shadow: 3px 3px 0 white; }
+        #resume .btn-comic:hover { box-shadow: 5px 5px 0 white; }
+        .btn-ghost { border: 2px solid white; box-shadow: 3px 3px 0 white; transition: transform 0.15s, box-shadow 0.15s; }
+        .btn-ghost:hover { transform: translate(-2px,-2px); box-shadow: 5px 5px 0 white; }
+
+        /* FOOTER */
+        footer { background: var(--text); border-top: 1px solid rgba(255,255,255,0.08); padding: 1.2rem 5rem; display: flex; justify-content: space-between; align-items: center; }
+        .footer-name { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 0.9rem; color: white; }
+        .footer-links { display: flex; gap: 2rem; }
+        .footer-links a { font-size: 0.8rem; font-weight: 500; color: rgba(255,255,255,0.4); text-decoration: none; transition: color 0.2s; }
+        .footer-links a:hover { color: white; }
+
+        /* ANIMATIONS */
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes wipeReveal { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0% 0 0); } }
+        @keyframes carouselBorder { from { border-color: transparent; box-shadow: 8px 8px 0 rgba(216,180,254,0); } to { border-color: var(--black); box-shadow: 8px 8px 0 #d8b4fe; } }
+        .reveal { opacity: 0; transform: translateY(22px); transition: opacity 0.65s ease, transform 0.65s cubic-bezier(0.25,0.46,0.45,0.94); }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+        .d1 { transition-delay: 0.08s; } .d2 { transition-delay: 0.16s; } .d3 { transition-delay: 0.24s; }
+
+        /* RESPONSIVE */
+        @media (max-width: 1100px) {
+            .intern-grid { grid-template-columns: 1fr 1fr; }
+            .grid-featured { grid-template-columns: 1fr; }
+            .grid-row { grid-template-columns: 1fr 1fr; }
+        }
+        .hamburger { display: none; flex-direction: column; justify-content: space-between; width: 24px; height: 18px; background: none; border: none; cursor: pointer; padding: 0; z-index: 400; outline: none; -webkit-tap-highlight-color: transparent; appearance: none; -webkit-appearance: none; box-shadow: none; overflow: hidden; clip-path: inset(0); -webkit-clip-path: inset(0); }
+        .hamburger span { display: block; width: 100%; height: 2px; background: white; transition: transform 0.3s ease, opacity 0.3s ease, background 0.3s; border-radius: 0; border: none; box-shadow: none; backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+        nav.nav-on-blue .hamburger span { background: var(--black); }
+        @media (max-width: 768px) { nav.nav-on-blue ul { background: #ffffff; } }
+        .hamburger.open span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+        .hamburger.open span:nth-child(2) { opacity: 0; transform: scale(0); }
+        .hamburger.open span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+        @media (max-width: 768px) {
+            .hamburger { display: flex; }
+            nav ul { display: none; flex-direction: column; position: absolute; top: 100%; left: 0; width: 100%; background: var(--blue); backdrop-filter: blur(12px); border-bottom: 2px solid var(--black); padding: 1.5rem 2rem; gap: 1.2rem; }
+            nav ul.open { display: flex; }
+            nav ul a { font-size: 1rem; }
+            nav, footer { padding-left: 1.5rem; padding-right: 1.5rem; }
+            .hero, .wrap { padding-left: 1.5rem; padding-right: 1.5rem; }
+            #projects .wrap, #internship .wrap { padding-left: 1.5rem; padding-right: 1.5rem; }
+            .hero { grid-template-columns: 1fr; }
+            .hero-img { display: none; }
+            nav.scrolled { padding-left: 1.5rem; padding-right: 1.5rem; }
+            .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+            .intern-grid, .grid-row { grid-template-columns: 1fr; }
+            footer { flex-direction: column; gap: 1.5rem; text-align: center; }
+            .section-header { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
+        }
+        @media (max-width: 600px) {
+            nav ul a { font-size: 1rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="left-scrollbar" aria-hidden="true"><div class="left-scrollbar-thumb" id="leftThumb"></div><div class="left-scrollbar-thumb" id="leftThumb2"></div></div>
+
+<nav id="nav">
+    <a href="index.html" class="logo">Julia Abboud
+    </a>
+    <ul>
+        <li><a href="#about">About</a></li>
+        <li><a href="#projects" class="nav-engineering">Engineering</a></li>
+        <li><a href="#internship" class="nav-internship">Internship</a></li>
+        <li><a href="#personal" class="nav-personal">Personal</a></li>
+        <li><a href="#resume">Contact</a></li>
+    </ul>
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+    </button>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+    <div class="hero-content">
+        <p class="eyebrow">Portfolio — 2026</p>
+        <h1>Julia<br><em>Abboud</em></h1>
+        <p class="hero-desc"><span style="text-transform:uppercase;font-size:0.95rem;">B.S. Mechanical Engineering</span></p>
+        <div class="hero-actions">
+            <a href="#projects" class="btn-comic">View My Work</a>
+            <a href="#footer" class="btn-comic btn-comic-pink">Contact</a>
+        </div>
+    </div>
+    <div class="hero-img">
+        <div class="carousel">
+            <div class="carousel-slide">
+                <img src="about/norlin pic.jpg" alt="Norlin Library, CU Boulder">
+            </div>
+            <div class="carousel-slide">
+                <img src="about/swe pic.jpg" alt="SWE" style="width:100%;height:100%;object-fit:cover;object-position:top;display:block;">
+            </div>
+            <div class="carousel-slide">
+                <img src="about/seagull .jpeg" alt="Seagull">
+            </div>
+        </div>
+    </div>
+</section>
+
+<hr class="divider">
+
+<!-- ABOUT -->
+<section id="about">
+    <div class="wrap">
+        <div class="about-grid">
+            <div class="about-img reveal" style="border-radius:0;aspect-ratio:4/5;box-shadow:5px 5px 0 var(--black);border:2px solid var(--black);"><video autoplay loop muted playsinline style="width:100%;height:100%;object-fit:cover;display:block;"><source src="about/animation.mp4" type="video/mp4"></video></div>
+            <div class="about-text">
+                <p class="sec-label reveal">About Me</p>
+                <h2 class="sec-title reveal d1">
+                    <span class="rotating-wrap"><span class="rotating-word">Engineer</span></span>
+                </h2>
+                <p class="reveal d2">I'm Julia, a Mechanical Engineering student at the University of Colorado Boulder. I am passionate about innovation, problem-solving, and creative design, specifically using these skills in a meaningful way.</p>
+                <p class="reveal d3">This portfolio showcases my academic and professional experience, as well as some personal projects. Thank you for taking the time to learn more about me!</p>
+                <div class="traits">
+                    <div class="speech-bubble reveal">
+                        <p class="bubble-label">Now — Apple Park, Cupertino CA</p>
+                        <p style="display:flex;justify-content:space-between;align-items:baseline;gap:1rem;margin-bottom:0;"><span style="color:var(--blue-dk);">Apple Product Design Intern</span><span style="color:var(--blue-dk);">JAN – AUG 2026</span></p>
+                        <p style="margin-top:0;margin-bottom:0;">Proud to join this team and continue my growth. What an incredible experience!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<hr class="divider">
+
+<!-- ENGINEERING PROJECTS -->
+<section id="projects">
+    <div class="wrap">
+        <h2 class="sec-title reveal d1">Engineering Projects</h2>
+
+        <!-- ============================================================
+             ENGINEERING CARD TEMPLATE — copy a block below for new cards
+             Delay classes cycle per row: reveal → reveal d1 → reveal d2
+             ==============================================================
+
+        BASIC CARD (no award):
+        <a href="projects/PAGE.html" class="card reveal">
+            <div class="card-img" style="flex:none;height:auto;overflow:hidden;">
+                <img src="projects/FOLDER/cover.jpg" alt="Project Name" style="width:100%;height:auto;display:block;">
+            </div>
+            <div class="card-body">
+                <p class="card-date">MON YYYY – MON YYYY</p>
+                <h3 class="card-title">Project Title</h3>
+                <p class="card-desc">Short description of the project.</p>
+            </div>
+        </a>
+
+        AWARD BADGE OPTIONS (add inside .card-body):
+            Yellow (default):      <span class="card-award">Award · Event, YYYY</span>
+            Light purple:          <span class="card-award" style="background:#d8b4fe;display:block;margin-top:0.5rem;margin-bottom:0.9rem;">Award · Event, YYYY</span>
+            Pink:                  <span class="card-award" style="background:#f9a8d4;">Award · Event, YYYY</span>
+
+        ============================================================ -->
+        <div class="grid-row">
+            <a href="projects/drill-bike.html" class="card reveal">
+                <div class="card-img" style="flex:none;height:auto;overflow:hidden;"><img src="projects/Drill-Bike/drill-powered bike cover.png" alt="Drill-Powered Bike" style="width:calc(100% + 25px);height:auto;display:block;margin-left:-10px;"></div>
+                <div class="card-body">
+                    <p class="card-date">Sep – Dec 2025</p>
+                    <h3 class="card-title">Drill-Powered Bike</h3>
+                    <p class="card-desc">Project Manager of creating a drill-powered vehicle with a focus on accurate stress calculations, CAD modeling/drawing/FEA, DFM, manufacturing, and quality.</p>
+                    <span class="card-award" style="background:#f9a8d4;">4th Place — 48.4s · Maneuverability Competition, Run Off 2025</span>
+                </div>
+            </a>
+            <a href="projects/wobbler-engine.html" class="card reveal d1">
+                <div class="card-img"><img src="projects/Wobbler Engine/wobbler engine cover.jpg" alt="Wobbler Engine" style="width:100%;height:calc(100% + 35px);object-fit:cover;display:block;margin-top:-10px;"></div>
+                <div class="card-body">
+                    <p class="card-date">Oct – Dec 2024</p>
+                    <h3 class="card-title">Wobbler Engine</h3>
+                    <p class="card-desc">Creating an air-powered engine with CAD drawings, machining on a lathe and mill, and tuning.</p>
+                    <hr style="border:none;border-top:1px solid var(--subtle);margin:1rem 0;">
+                    <p class="card-date">Feb – Dec 2025</p>
+                    <h3 class="card-title">Machine Shop Assistant</h3>
+                    <p class="card-desc">Working as a Machine Shop Assistant to help students fabricate the engine in a safe and informative environment.</p>
+                </div>
+            </a>
+            <a href="projects/cad-reverse.html" class="card reveal d2">
+                <div class="card-img" style="flex:none;height:auto;overflow:hidden;"><img src="projects/CAD Reverse Engineering/cad reverse engineering cover.jpg" alt="CAD Reverse Engineering" style="width:100%;height:auto;display:block;"></div>
+                <div class="card-body">
+                    <p class="card-date">Sep – Dec 2024</p>
+                    <h3 class="card-title">CAD Reverse Engineering</h3>
+                    <p class="card-desc">Modeling LEGO 9441 in SolidWorks while practicing caliper accuracy, assemblies, drawings, and animation.</p>
+                    <span class="card-award" style="background:#d8b4fe;">CSWA Certified</span>
+                </div>
+            </a>
+            <a href="projects/coding-game.html" class="card reveal">
+                <div class="card-img" style="flex:none;height:auto;overflow:hidden;"><img src="projects/Coding Game/coding game cover.jpg" alt="Coding Game" style="width:100%;height:auto;display:block;"></div>
+                <div class="card-body">
+                    <p class="card-date">APR 2024</p>
+                    <h3 class="card-title">Coding Game</h3>
+                    <p class="card-desc">A 2-player game created in C++ to practice coding topics like structs, classes, and loops, including a map, shop, and combat feature.</p>
+                </div>
+            </a>
+            <a href="projects/decantaminator.html" class="card reveal d1">
+                <div class="card-img"><img src="projects/De-CAN-Taminator/the de-can-taminator cover.jpg" alt="The De-CAN-Taminator"></div>
+                <div class="card-body">
+                    <p class="card-date">Sep 2023 – Apr 2024</p>
+                    <h3 class="card-title">The De-CAN-Taminator</h3>
+                    <p class="card-desc">Informative and entertaining aluminum can collection device to combat the gap in consumer recycling, for which I served as Project Lead and Head Manufacturer.</p>
+                    <span class="card-award" style="background:#d8b4fe;display:block;margin-top:0.5rem;margin-bottom:0.9rem;">Winner — Class Section Award &nbsp;·&nbsp; Engineering Design Exposition, 2023</span>
+                    <span class="card-award" style="display:block;margin-top:0.5rem;">Winner — Innovation, $1,000 &nbsp;·&nbsp; CU Sustainability Summit, 2024</span>
+                </div>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- INTERNSHIP EXPERIENCE -->
+<section id="internship" class="section-alt">
+    <div class="wrap">
+        <div class="section-header">
+            <div>
+                <h2 class="sec-title reveal d1" style="margin-bottom:0">Internship Experience</h2>
+            </div>
+        </div>
+        <div class="intern-grid">
+            <a href="internship/apple.html" class="intern-card current reveal" style="background:#ffffff;">
+                <div style="height:clamp(180px, 45vw, 300px);overflow:hidden;margin:-1.8rem -1.8rem 1.5rem -1.8rem;"><img src="internship/Apple /Apple cover.jpg" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
+                <p class="intern-date">Jan – Aug 2026</p>
+                <p class="intern-company">Apple</p>
+                <p class="intern-role">Product Design Intern &mdash; Apple Watch</p>
+                <p class="intern-desc">Coming soon!</p>
+                <span class="card-award" style="margin-top:0.9rem;">Check out my Comic</span>
+            </a>
+            <a href="internship/medtronic-2.html" class="intern-card reveal d1">
+                <div style="height:clamp(180px, 45vw, 300px);overflow:hidden;margin:-1.8rem -1.8rem 1.5rem -1.8rem;"><img src="internship/Medtronic II/Medtronic II cover.jpg" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
+                <p class="intern-date">Jun – Aug 2025</p>
+                <p class="intern-company">Medtronic II</p>
+                <p class="intern-role">Engineering R&D Intern &mdash; Oximetry & Wearables</p>
+                <p class="intern-desc">Discovering the best curvature-detection method for a wearable sensor through analysis, testing, and prototyping. Growing skills in design calculations, CAD, circuits, and technical documentation.</p>
+            </a>
+            <a href="internship/medtronic-1.html" class="intern-card reveal d2">
+                <div style="height:clamp(180px, 45vw, 300px);overflow:hidden;margin:-1.8rem -1.8rem 1.5rem -1.8rem;"><img src="internship/Medtronic I/Medtronic I cover.jpg" style="width:100%;height:100%;object-fit:cover;object-position:center top;display:block;"></div>
+                <p class="intern-date">Jun – Aug 2024</p>
+                <p class="intern-company">Medtronic I</p>
+                <p class="intern-role">WISE R&D Intern &mdash; Oximetry & Wearables</p>
+                <p class="intern-desc">Summer working in MedTech on various assignments including creating an official product requirements document (Systems Engineering), developing and running a sensor ambient light test, and creating a procedure, protocol, and memo for the test.</p>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- PERSONAL PROJECTS -->
+<section id="personal" class="section-alt">
+    <div class="wrap">
+        <div class="section-header">
+            <div>
+                <h2 class="sec-title reveal d1" style="margin-bottom:0">Personal Projects</h2>
+            </div>
+        </div>
+        <div class="grid-row">
+                <a href="personal/digital-art.html" class="card reveal">
+                    <div class="card-img" style="flex:none;height:auto;overflow:hidden;"><img src="personal/Digital Art/digital_art_1.jpg" alt="Digital Art" style="width:100%;height:auto;display:block;"></div>
+                    <div class="card-body">
+                        <p class="card-date">2020 – Present</p>
+                        <h3 class="card-title">Digital Art</h3>
+                        <p class="card-desc">My favorite self-taught skill and hobby. Original works created to tell stories, as gifts, and for fun!</p>
+                    </div>
+                </a>
+                <a href="personal/design.html" class="card reveal d1">
+                    <div class="card-img" style="flex:none;height:auto;overflow:hidden;"><img src="personal/Design/design_7.jpeg" alt="Design" style="width:100%;height:auto;display:block;"></div>
+                    <div class="card-body">
+                        <p class="card-date">2020 – Present</p>
+                        <h3 class="card-title">Design</h3>
+                        <p class="card-desc">Club stickers, school apparel, logos, and this portfolio website. Turning digital art skills into physical items to share and use.</p>
+                    </div>
+                </a>
+                <a href="personal/vail-map.html" class="card reveal d2">
+                    <div class="card-img" style="flex:none;height:auto;overflow:hidden;"><img src="personal/Vail Mountain Map/vail mountain map cover.jpg" alt="Vail Mountain Map" style="width:100%;height:auto;display:block;"></div>
+                    <div class="card-body">
+                        <p class="card-date">Mar – Jul 2025</p>
+                        <h3 class="card-title">Vail Mountain Map</h3>
+                        <p class="card-desc">A family-commissioned collection of 3 massive ski maps accurately painted on handmade canvases.</p>
+                    </div>
+                </a>
+                <a href="personal/traditional-art.html" class="card reveal d3">
+                    <div class="card-img" style="flex:none;height:auto;overflow:hidden;"><img src="personal/Traditional Art/traditional_art_5.jpg" alt="Traditional Art" style="width:100%;height:auto;display:block;"></div>
+                    <div class="card-body">
+                        <p class="card-date">Varies</p>
+                        <h3 class="card-title">Traditional Art</h3>
+                        <p class="card-desc">I have been making art since childhood. After becoming a digital artist, I have also spent more time working in traditional mediums.</p>
+                    </div>
+                </a>
+                <a href="personal/additional.html" class="card reveal d4">
+                    <div class="card-img" style="flex:none;height:auto;overflow:hidden;"><img src="personal/Additional/additional cover.jpg" alt="Additional" style="width:100%;height:auto;display:block;"></div>
+                    <div class="card-body">
+                        <p class="card-date">Varies</p>
+                        <h3 class="card-title">Additional Projects</h3>
+                        <p class="card-desc">Bonus small projects, including prop creation, MOC LEGOs, and stop motion animation!</p>
+                    </div>
+                </a>
+            </div>
+    </div>
+</section>
+
+<!-- CONTACT -->
+<section id="resume">
+    <div class="wrap">
+        <p class="sec-label reveal">Contact</p>
+        <h2 class="sec-title reveal d1">Let's make something <span class="rotating-wrap"><span class="rotating-word contact-rotating-word">awesome</span></span> together</h2>
+        <p class="reveal d2" style="max-width:600px;margin-left:auto;margin-right:auto;">Ask me about these projects, what I am up to now, or just say hello!</p>
+        <div class="reveal d3" style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
+            <a href="Resume_Abboud_Julia.pdf" target="_blank" download="Resume_Abboud_Julia.pdf" class="btn-ghost" style="display:inline-flex;align-items:center;gap:0.5rem;padding:0.85rem 1.5rem;color:white;text-decoration:none;font-family:'DM Sans',sans-serif;font-weight:500;font-size:0.88rem;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fde047" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                Download Resume
+            </a>
+            <a href="mailto:juliaabboud@gmail.com" class="btn-ghost" style="display:inline-flex;align-items:center;gap:0.5rem;padding:0.85rem 1.5rem;color:white;text-decoration:none;font-family:'DM Sans',sans-serif;font-weight:500;font-size:0.88rem;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c084fc" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                Email
+            </a>
+            <a href="https://www.linkedin.com/in/juliaabboud/" target="_blank" class="btn-ghost" style="display:inline-flex;align-items:center;padding:0.85rem;color:#2563eb;text-decoration:none;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+            </a>
+            <a href="#" class="btn-ghost" style="display:inline-flex;align-items:center;padding:0.85rem;color:#f9a8d4;text-decoration:none;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+            </a>
+        </div>
+    </div>
+</section>
+
+<footer id="footer">
+    <span style="font-size:0.8rem;color:rgba(255,255,255,0.4);">&copy; 2026 Julia Abboud</span>
+    <span style="font-size:0.8rem;color:rgba(255,255,255,0.4);display:inline-flex;align-items:center;gap:0.5rem;">Designed and Developed Independently <img src="about/Signature.png" alt="Julia Abboud signature" style="height:3rem;animation:sigColor 4.5s ease-in-out infinite;"></span>
+</footer>
+
+<script>
+    history.scrollRestoration = 'manual';
+    window.scrollTo(0, 0);
+
+    // Carousel
+    const slides = document.querySelectorAll('.carousel-slide');
+    let current = 0;
+    let animating = false;
+
+    slides.forEach(s => { s.style.clipPath = 'inset(0 100% 0 0)'; s.style.zIndex = '0'; });
+
+    function wipeIn(slide, delay) {
+        return new Promise(resolve => {
+            slide.style.zIndex = '2';
+            slide.style.animation = 'none';
+            void slide.offsetWidth;
+            slide.style.animation = `wipeReveal 0.9s cubic-bezier(0.4,0,0.2,1) ${delay} both`;
+            slide.addEventListener('animationend', () => {
+                slide.style.clipPath = 'inset(0 0% 0 0)';
+                slide.style.animation = 'none';
+                slide.style.zIndex = '1';
+                resolve();
+            }, { once: true });
+        });
+    }
+
+    wipeIn(slides[0], '0.4s');
+
+    function goToSlide(n) {
+        if (animating) return;
+        const prev = current;
+        current = (n + slides.length) % slides.length;
+        if (current === prev) return;
+        animating = true;
+        slides[prev].style.clipPath = 'inset(0 0% 0 0)';
+        slides[prev].style.zIndex = '1';
+        wipeIn(slides[current], '0s').then(() => {
+            slides[prev].style.clipPath = 'inset(0 100% 0 0)';
+            slides[prev].style.zIndex = '0';
+            animating = false;
+        });
+    }
+
+    let autoplay = setInterval(() => goToSlide(current + 1), 4000);
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+        const navHeight = nav.offsetHeight;
+        const about = document.getElementById('about');
+        const aboutTop = about.getBoundingClientRect().top;
+        const aboutBottom = about.getBoundingClientRect().bottom;
+        const onBlue = aboutTop <= navHeight && aboutBottom >= navHeight;
+        nav.classList.toggle('scrolled', window.scrollY > 60);
+        nav.classList.toggle('nav-on-blue', onBlue);
+    }, { passive: true });
+    const hamburger = document.getElementById('hamburger');
+    const navUl = document.querySelector('nav ul');
+    hamburger.addEventListener('click', () => {
+        hamburger.classList.toggle('open');
+        navUl.classList.toggle('open');
+    });
+    navUl.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+        hamburger.classList.remove('open');
+        navUl.classList.remove('open');
+    }));
+
+    const obs = new IntersectionObserver(entries => entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('visible'); }
+        else { e.target.classList.remove('visible'); }
+    }), { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+    const words = ['Engineer', 'Designer', 'Artist'];
+    const colors = ['#fde047', '#d8b4fe', '#f9a8d4'];
+    const shadows = ['rgba(253,224,71,0.2)', 'rgba(216,180,254,0.2)', 'rgba(249,168,212,0.2)'];
+    const el = document.querySelector('.rotating-word');
+    let i = 0;
+    setInterval(() => {
+        el.style.transform = 'translateY(-110%)';
+        el.style.opacity = '0';
+        setTimeout(() => {
+            i = (i + 1) % words.length;
+            el.textContent = words[i];
+            el.style.color = colors[i];
+            el.style.textShadow = `3px 3px 0 ${shadows[i]}`;
+            el.style.transition = 'none';
+            el.style.transform = 'translateY(110%)';
+            el.style.opacity = '0';
+            requestAnimationFrame(() => requestAnimationFrame(() => {
+                el.style.transition = 'transform 0.45s cubic-bezier(0.4,0,0.2,1), opacity 0.45s ease';
+                el.style.transform = 'translateY(0)';
+                el.style.opacity = '1';
+            }));
+        }, 460);
+    }, 2500);
+
+    const contactWords = ['unique', 'impactful', 'awesome'];
+    const contactColors = ['#fde047', '#fde047', '#fde047'];
+    const contactShadows = ['rgba(253,224,71,0.2)', 'rgba(253,224,71,0.2)', 'rgba(253,224,71,0.2)'];
+    const cel = document.querySelector('.contact-rotating-word');
+    const cwrap = cel.closest('.rotating-wrap');
+    let ci = 2;
+
+    // lock wrap to width of longest word
+    const widths = contactWords.map(w => { cel.textContent = w; return cel.offsetWidth; });
+    cwrap.style.width = Math.max(...widths) + 'px';
+    cel.textContent = contactWords[ci];
+    setInterval(() => {
+        cel.style.transform = 'translateY(110%)';
+        cel.style.opacity = '0';
+        setTimeout(() => {
+            ci = (ci + 1) % contactWords.length;
+            cel.textContent = contactWords[ci];
+            cel.style.color = contactColors[ci];
+            cel.style.textShadow = `3px 3px 0 ${contactShadows[ci]}`;
+            cel.style.transition = 'none';
+            cel.style.transform = 'translateY(-110%)';
+            cel.style.opacity = '0';
+            requestAnimationFrame(() => requestAnimationFrame(() => {
+                cel.style.transition = 'transform 0.45s cubic-bezier(0.4,0,0.2,1), opacity 0.45s ease';
+                cel.style.transform = 'translateY(0)';
+                cel.style.opacity = '1';
+            }));
+        }, 460);
+    }, 2500);
+
+    // left decorative scrollbar (moves opposite direction)
+    const leftThumb = document.getElementById('leftThumb');
+    const leftThumb2 = document.getElementById('leftThumb2');
+    const trackH = window.innerHeight;
+    const thumbH = Math.max(40, trackH * (trackH / document.body.scrollHeight));
+    leftThumb.style.height = thumbH + 'px';
+    leftThumb2.style.height = thumbH + 'px';
+    const updateLeftThumb = () => {
+        const progress = window.scrollY / (document.body.scrollHeight - trackH);
+        const top = ((1 - progress) * (trackH - thumbH)) + 'px';
+        leftThumb.style.top = top;
+        leftThumb2.style.top = top;
+    };
+    updateLeftThumb();
+    window.addEventListener('scroll', updateLeftThumb, { passive: true });
+
+    document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>

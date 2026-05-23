@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drill-Powered Bike — Julia Abboud</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg: #ffffff; --bg-2: #f8f9fc; --text: #0f172a; --muted: #64748b;
+            --subtle: #e2e8f0; --blue: #2563eb; --blue-lt: #eff6ff; --blue-dk: #1d4ed8;
+            --yellow: #fde047; --black: #0f172a;
+        }
+        html { scroll-behavior: smooth; }
+        body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-weight: 400; line-height: 1.7; overflow-x: hidden; }
+
+        /* ── Nav ── */
+        nav.site-nav { position: fixed; top: 0; width: 100%; z-index: 300; padding: 1.4rem 5rem; display: flex; justify-content: space-between; align-items: center; background: var(--blue); border-bottom: 2px solid var(--black); }
+        .logo { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 1rem; letter-spacing: 0.08em; text-transform: uppercase; color: white; text-decoration: none; }
+        nav.site-nav ul { list-style: none; display: flex; gap: 2.8rem; }
+        nav.site-nav ul a { font-family: 'DM Sans', sans-serif; font-weight: 500; font-size: 0.84rem; color: rgba(255,255,255,0.85); text-decoration: none; transition: color 0.2s; position: relative; }
+        nav.site-nav ul a::after { content: ''; position: absolute; bottom: -3px; left: 0; width: 100%; height: 2px; background: white; transform: scaleX(0); transform-origin: left; transition: transform 0.25s ease; }
+        nav.site-nav ul a:hover { color: white; }
+        nav.site-nav ul a:hover::after { transform: scaleX(1); }
+        nav.site-nav .nav-engineering::after { background: var(--yellow); }
+        nav.site-nav .nav-internship::after { background: #d8b4fe; }
+        nav.site-nav .nav-personal::after { background: #f9a8d4; }
+        .hamburger { display: none; flex-direction: column; justify-content: space-between; width: 24px; height: 18px; background: none; border: none; cursor: pointer; padding: 0; z-index: 400; outline: none; -webkit-tap-highlight-color: transparent; appearance: none; -webkit-appearance: none; box-shadow: none; overflow: hidden; clip-path: inset(0); -webkit-clip-path: inset(0); }
+        .hamburger span { display: block; width: 100%; height: 2px; background: white; transition: transform 0.3s ease, opacity 0.3s ease; border-radius: 0; border: none; box-shadow: none; backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+        .hamburger.open span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+        .hamburger.open span:nth-child(2) { opacity: 0; transform: scale(0); }
+        .hamburger.open span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+        .back-link { display: inline-flex; align-items: center; gap: 0.5rem; font-weight: 500; font-size: 0.84rem; color: rgba(255,255,255,0.85); text-decoration: none; transition: color 0.2s, gap 0.2s; }
+        .back-link:hover { color: white; gap: 0.75rem; }
+        @media (max-width: 768px) {
+            nav.site-nav { padding-left: 1.5rem; padding-right: 1.5rem; }
+            .hamburger { display: flex; }
+            nav.site-nav ul { display: none; flex-direction: column; position: absolute; top: 100%; left: 0; width: 100%; background: var(--blue); border-bottom: 2px solid var(--black); padding: 1.5rem 2rem; gap: 1.2rem; }
+            nav.site-nav ul.open { display: flex; }
+            nav.site-nav ul a { font-size: 1rem; }
+        }
+
+        /* ── Page wrapper ── */
+        .page { max-width: 1400px; margin: 0 auto; padding: 6rem 4rem 0; }
+
+        /* ── Layout helpers (matching reference structure) ── */
+        .layout-full { width: 100%; }
+        .layout-2col { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+        .layout-sidebar { display: grid; grid-template-columns: 1fr 2fr; gap: 2.5rem; }
+        .layout-3col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem; }
+        .layout-4col { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 1rem; }
+        .col { min-width: 0; }
+
+        /* ── Typography ── */
+        h1 { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: clamp(1.6rem, 3vw, 2.4rem); letter-spacing: -0.03em; line-height: 1; color: var(--text); margin-bottom: 1.5rem; }
+        h2 { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: clamp(1.5rem, 3vw, 2.2rem); letter-spacing: -0.025em; color: var(--text); text-shadow: 2px 2px 0 rgba(37,99,235,0.08); margin-bottom: 0.5rem; }
+        p { font-size: 0.97rem; color: var(--muted); line-height: 1.78; margin-bottom: 1rem; }
+        p strong { color: var(--text); font-weight: 700; }
+        p em { color: var(--text); font-style: normal; font-weight: 600; }
+        a { color: var(--blue); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+
+        /* ── Section spacing ── */
+        section { margin-bottom: 3.5rem; }
+
+        /* ── Stats band ── */
+        .stats-band { background: var(--blue-dk); color: white; padding: 1.4rem 2.5rem; border: 2px solid var(--black); box-shadow: 4px 4px 0 var(--black); }
+        .stats-band p { color: white; margin: 0; font-size: 1rem; }
+        .stats-band strong { color: var(--yellow); }
+        .stats-band em { color: white; font-style: normal; font-weight: 500; }
+
+        /* ── Images ── */
+        img { width: 100%; height: auto; display: block; object-fit: cover; border: 1px solid var(--subtle); background: var(--bg-2); }
+        .col img + img { margin-top: 1rem; }
+        .caption { font-size: 0.82rem; color: var(--muted); line-height: 1.6; margin-top: 0.6rem; margin-bottom: 0; }
+
+        /* ── Video embed ── */
+        .video-wrap { position: relative; aspect-ratio: 16/9; background: var(--bg-2); border: 1px solid var(--subtle); overflow: hidden; }
+        .video-wrap iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: none; }
+
+        /* ── Document / PDF placeholder ── */
+        .document-placeholder { background: var(--bg-2); border: 1px solid var(--subtle); aspect-ratio: 8.5/11; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.75rem; padding: 1.5rem; }
+        .document-placeholder .doc-icon { font-size: 2rem; opacity: 0.3; }
+        .document-placeholder .doc-label { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); text-align: center; }
+
+        /* ── Carousel (shown as inline grid) ── */
+        .carousel-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.5rem; margin-top: 1rem; }
+
+        /* ── Bottom project nav ── */
+        .project-nav { border-top: 2px solid rgba(255,255,255,0.08); padding: 1.5rem 5rem; display: flex; justify-content: space-between; align-items: center; background: var(--text); }
+        .proj-nav-link { display: flex; flex-direction: column; gap: 0.3rem; text-decoration: none; color: inherit; transition: opacity 0.2s; }
+        .proj-nav-link:hover { opacity: 0.6; }
+        .proj-nav-label { font-size: 0.66rem; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.45); }
+        .proj-nav-title { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; font-size: 1.3rem; letter-spacing: -0.015em; color: white; }
+        .proj-nav-link.right { text-align: right; }
+        /* ── Footer ── */
+        footer#page-footer { background: var(--text); border-top: 1px solid rgba(255,255,255,0.08); padding: 1.2rem 5rem; display: flex; justify-content: space-between; align-items: center; }
+        @keyframes sigColor {
+            0%   { filter: brightness(0) invert(1) sepia(1) saturate(2.5) hue-rotate(0deg) brightness(0.75); }
+            100% { filter: brightness(0) invert(1) sepia(1) saturate(2.5) hue-rotate(360deg) brightness(0.75); }
+        }
+
+        /* ── Cover image frame ── */
+        .cover-frame { position: relative; border: 2px solid var(--black); }
+        .cover-frame::before { content: ''; position: absolute; top: -14px; left: -16px; width: 70px; height: 38px; background: repeating-linear-gradient(45deg, var(--yellow) 0px, var(--yellow) 4px, #fff 4px, #fff 8px); border: 2px solid var(--black); transform: rotate(-8deg); z-index: 2; }
+        .cover-frame::after { content: ''; position: absolute; top: 0; left: 0; width: 90px; height: 90px; background-image: radial-gradient(circle, #be185d 3px, transparent 3px); background-size: 13px 13px; z-index: 1; }
+
+        /* ── Reveal ── */
+        .reveal { opacity: 0; transform: translateY(18px); transition: opacity 0.55s ease, transform 0.55s ease; }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+
+        /* ── Scrollbar ── */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #ec4899; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #be185d; }
+        * { scrollbar-color: #ec4899 transparent; }
+
+        /* ── Timeline number badge ── */
+        .img-wrap { position: relative; display: block; }
+        .img-wrap img { width: 100%; height: auto; object-fit: unset; }
+        .img-num { position: absolute; top: 0.5rem; right: 0.5rem; border: 2px solid var(--black); box-shadow: 2px 2px 0 var(--black); font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 1.44rem; width: 3.2rem; height: 3.2rem; display: flex; align-items: center; justify-content: center; z-index: 2; }
+
+        /* ── Header option labels ── */
+        .option-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.75rem; }
+
+        /* ── Option A: split, stacks on mobile ── */
+        .header-a { display: grid; grid-template-columns: 1fr 1fr; border: 2px solid var(--black); overflow: hidden; }
+        .header-a .img-panel { position: relative; min-height: 340px; }
+        .header-a .img-panel img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; border: none; }
+        .header-a .text-panel { display: flex; flex-direction: column; justify-content: center; padding: 3rem; background: var(--bg); border-left: 2px solid var(--black); }
+        @media (max-width: 768px) {
+            .header-a { grid-template-columns: 1fr; }
+            .header-a .img-panel { min-height: 240px; }
+            .header-a .text-panel { border-left: none; border-top: 2px solid var(--black); }
+        }
+
+        /* ── Option B: full-bleed with overlay ── */
+        .header-b { position: relative; height: 52vh; min-height: 320px; overflow: hidden; border: 2px solid var(--black); }
+        .header-b img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; border: none; }
+        .header-b .overlay { position: absolute; inset: 0; background: linear-gradient(to right, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0.28) 60%, rgba(0,0,0,0.0) 100%); }
+        .header-b .text-panel { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; padding: 3.5rem; max-width: 60%; }
+        .header-b .text-panel h1 { color: white; margin-bottom: 1rem; }
+        .header-b .text-panel p { color: rgba(255,255,255,0.82); font-size: 0.88rem; margin-bottom: 0.6rem; }
+        .header-b .eyebrow { font-size: 0.7rem; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--yellow); margin-bottom: 0.75rem; }
+        @media (max-width: 768px) {
+            .header-b .text-panel { max-width: 100%; padding: 2rem; }
+            .header-b .overlay { background: linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.75) 100%); }
+            .header-b .text-panel { justify-content: flex-end; }
+        }
+
+        /* ── Option C: wide text, accent image right ── */
+        .header-c { display: grid; grid-template-columns: 3fr 2fr; border: 2px solid var(--black); overflow: hidden; }
+        .header-c .text-panel { display: flex; flex-direction: column; justify-content: center; padding: 3rem; background: var(--bg); }
+        .header-c .img-panel { position: relative; }
+        .header-c .img-panel img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; border: none; }
+        @media (max-width: 768px) {
+            .header-c .img-panel { display: none; }
+            .header-c { grid-template-columns: 1fr; }
+        }
+
+        /* ── Horizontal process scroll ── */
+        #horiz-scroll-outer { position: relative; width: 100%; background: #0f172a; padding: 2rem 0; }
+        #horiz-scroll-outer .caption { color: rgba(255,255,255,0.8); }
+        #horiz-scroll-track { display: flex; gap: 2rem; padding: 1rem 4rem 1.5rem; overflow-x: auto; align-items: stretch; scrollbar-width: thin; scrollbar-color: #ec4899 rgba(255,255,255,0.15); }
+        #horiz-scroll-track::-webkit-scrollbar { height: 8px; }
+        #horiz-scroll-track::-webkit-scrollbar-track { background: rgba(255,255,255,0.15); border-radius: 4px; }
+        #horiz-scroll-track::-webkit-scrollbar-thumb { background: #ec4899; border-radius: 4px; }
+        .hcard { flex-shrink: 0; height: 460px; display: flex; flex-direction: column; width: 280px; }
+        .hcard > div:first-child { flex: 1; min-height: 0; position: relative; overflow: hidden; }
+        .hcard img { height: 100%; width: auto; display: block; border: none; }
+
+        /* ── Responsive ── */
+        .photo-grid { display: flex; width: 100%; gap: 1rem; align-items: flex-start; }
+        .photo-grid .pg-col { min-width: 0; }
+        .photo-grid .pg-col img { width: 100%; height: auto; display: block; border: none; }
+        .photo-grid .pg-col-stack { display: flex; flex-direction: column; gap: 1rem; }
+        @media (max-width: 640px) {
+            .photo-grid { flex-direction: column; }
+            .photo-grid .pg-col { flex: none !important; width: 100%; }
+            .photo-grid .pg-col:nth-child(3),
+            .photo-grid .pg-col:nth-child(4) { flex-direction: row; }
+            .photo-grid .pg-col:nth-child(3) img,
+            .photo-grid .pg-col:nth-child(4) img { width: 50%; flex-shrink: 0; }
+            #section-technical-report > div { grid-template-columns: 1fr !important; }
+            #section-technical-report .col:first-child > div:first-child { flex: none; height: 500px; }
+            #section-cad-drawings > div { grid-template-columns: 1fr !important; }
+            #section-runoff > div { grid-template-columns: 1fr !important; }
+        }
+        @media (max-width: 768px) {
+            #section-stats > div { flex-direction: column; }
+            #section-stats > div > div { flex-basis: auto !important; }
+        }
+        @media (max-width: 900px) {
+            nav.site-nav { padding-left: 1.5rem; padding-right: 1.5rem; }
+            .page { padding: 5rem 1.5rem 0; }
+            .layout-2col, .layout-sidebar, .layout-3col { grid-template-columns: 1fr 1fr; }
+            .layout-4col { grid-template-columns: 1fr 1fr; }
+            .project-nav { padding-left: 1.5rem; padding-right: 1.5rem; flex-direction: column; gap: 2rem; align-items: center; }
+            .proj-nav-link, .proj-nav-link.right { text-align: center; }
+            footer#page-footer { padding-left: 1.5rem; padding-right: 1.5rem; flex-direction: column; gap: 1rem; align-items: center; text-align: center; }
+            #section-runoff > div { grid-template-columns: 1fr 1fr !important; }
+            #section-runoff > div > :first-child { grid-column: 1 / -1; }
+        }
+        @media (max-width: 540px) {
+            .layout-2col, .layout-sidebar, .layout-3col, .layout-4col, .carousel-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<nav class="site-nav">
+    <a href="../index.html" class="logo">Julia Abboud</a>
+    <ul id="nav-ul">
+        <li><a href="../index.html#about">About</a></li>
+        <li><a href="../index.html#projects" class="nav-engineering">Engineering</a></li>
+        <li><a href="../index.html#internship" class="nav-internship">Internship</a></li>
+        <li><a href="../index.html#personal" class="nav-personal">Personal</a></li>
+        <li><a href="../index.html#resume">Contact</a></li>
+    </ul>
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+    </button>
+</nav>
+
+<div class="page">
+
+    <!-- DEFAULT HEADER -->
+    <section id="section-header" style="margin-bottom:3.5rem; display:flex; flex-wrap:wrap; gap:2rem;">
+
+        <!-- Image -->
+        <div style="flex:1 1 400px; align-self:flex-start; padding-top:1.25rem; padding-left:1.25rem;">
+            <div class="cover-frame">
+                <img src="Drill-Bike/drill-powered bike cover.png" alt="Drill-Powered Bike" style="width:100%; height:auto; display:block; border:none;">
+            </div>
+        </div>
+
+        <!-- Text -->
+        <div style="flex:1 1 300px; display:flex; flex-direction:column; justify-content:flex-start;">
+            <p style="font-size:0.7rem; font-weight:400; letter-spacing:0.2em; text-transform:uppercase; color:var(--blue); margin-bottom:0.75rem;">Sep – Dec 2025</p>
+            <h1 style="margin-bottom:1.25rem;">Drill-Powered Bike</h1>
+            <p>This project aimed to design and build a hand-drill-powered bike, applying principles from Component Design, including engineering analysis, design iteration, and manufacturing. Our team optimized maneuverability through extensive CAD modeling, stress and bearing calculations, gear analysis, iterative feedback, and troubleshooting ambiguity.</p>
+            <p style="margin:0;">As the Project Manager for a group of 5, I prioritized clear communication through tools like Trello to track task assignment and completion. To facilitate success, I created an 11-week timeline and oversaw all aspects of the project. My organization helped the team deliver a functional product 2 weeks ahead of schedule. I encouraged collaborative discussions and problem-solving during key decisions, such as how to align the drive chain. I stepped in to resolve conflicts and fill in gaps when needed, contributing heavily to CAD modeling, technical drawings, and playing a major role in manufacturing and assembly. While refining these skills throughout this project, I learned much about persistent leadership, appropriate engineering analysis methods, material selection, and DFM. The bike successfully stayed under a $200 budget / 50 lb weight limit at just $133 / 37.5 lb.</p>
+        </div>
+
+    </section>
+
+    <!-- STATS BAND -->
+    <section id="section-stats" class="reveal">
+        <div style="display:flex; flex-wrap:wrap; gap:2rem;">
+            <div style="flex:1 1 280px; background:#d8b4fe; color:var(--black); padding:1.4rem 2.5rem; border:2px solid var(--black); box-shadow:4px 4px 0 var(--black); text-align:center;">
+                <p style="color:var(--black); margin:0;"><strong>Maneuverability Competition:</strong> <em style="font-style:normal; font-weight:500;">4th Place — 48.4 seconds</em></p>
+            </div>
+            <div style="flex:1 1 280px; background:#f9a8d4; color:var(--black); padding:1.4rem 2.5rem; border:2px solid var(--black); box-shadow:4px 4px 0 var(--black); text-align:center;">
+                <p style="color:var(--black); margin:0;"><strong>The Run Off:</strong> <em style="font-style:normal; font-weight:500;">27 Teams, 13 Competitors</em></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- RUN OFF: photo + 2 videos (3-col) -->
+    <section id="section-runoff" class="reveal">
+        <div style="display:grid; grid-template-columns:2fr 1fr 1fr; gap:1.5rem; align-items:start;">
+            <div class="col">
+                <img src="Drill-Bike/drill_bike_1.png" alt="Bike at the 2025 Run Off" style="width:100%; height:auto; display:block; border:none;">
+                <p style="margin-top:0.6rem;">Culminating the semester at the 2025 Run Off was so fun! All our hard work had paid off in a bike that was fully functional, fast, and had a very unique design compared to others. Our group, Team Rocket, completed the Maneuverability course multiple times, weaving through cones, passing under a 3ft tunnel, and making 2 5ft radius turns — despite the unanticipated snowfall the day before!</p>
+            </div>
+            <div class="col" style="border:2px dashed #2563eb; overflow:hidden;">
+                <div class="video-wrap" style="aspect-ratio:9/16;">
+                    <video id="vid1" controls style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:#000;">
+                        <source src="Drill-Bike/Function Vehicle Demonstration.mp4" type="video/mp4">
+                    </video>
+                </div>
+                <p class="caption" style="padding:0.5rem 0.75rem;">The first run with our working vehicle on the challenge course was incredibly successful.</p>
+            </div>
+            <div class="col" style="border:2px dashed #be185d; overflow:hidden;">
+                <div class="video-wrap" style="aspect-ratio:9/16;">
+                    <video id="vid2" controls style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:#000;">
+                        <source src="Drill-Bike/Run Off.mp4" type="video/mp4">
+                    </video>
+                </div>
+                <p class="caption" style="padding:0.5rem 0.75rem;">It was very rewarding to take home 4th place during the Run Off with this take at the course.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- CAD VS ACTUAL HEADING -->
+    <section id="section-cad-heading" class="layout-full reveal">
+        <div style="background:var(--blue); border:2px solid var(--black); box-shadow:4px 4px 0 var(--black); padding:1rem 2.5rem; text-align:center;">
+            <p style="color:white; margin:0; font-family:'Plus Jakarta Sans',sans-serif; font-weight:800; font-size:1rem; letter-spacing:0.1em; text-transform:uppercase;">CAD vs Actual Model</p>
+        </div>
+    </section>
+
+    <!-- CAD VS ACTUAL GRID 1: 4-col, equal height -->
+    <section id="section-cad-grid" class="reveal">
+        <div class="layout-4col">
+            <div class="col" style="aspect-ratio:2/3; overflow:hidden;"><img src="Drill-Bike/drill_bike_2.jpg" alt="CAD model view 1" style="width:100%;height:100%;object-fit:cover;border:none;"></div>
+            <div class="col" style="aspect-ratio:2/3; overflow:hidden;"><img src="Drill-Bike/drill_bike_3.png" alt="CAD model view 2" style="width:100%;height:100%;object-fit:cover;border:none;"></div>
+            <div class="col" style="aspect-ratio:2/3; overflow:hidden;"><img src="Drill-Bike/drill_bike_4.jpg" alt="Actual bike view 1" style="width:100%;height:100%;object-fit:cover;border:none;"></div>
+            <div class="col" style="aspect-ratio:2/3; overflow:hidden;"><img src="Drill-Bike/drill_bike_5.png" alt="Actual bike view 2" style="width:100%;height:100%;object-fit:cover;border:none;"></div>
+        </div>
+    </section>
+
+    <!-- CAD VS ACTUAL GRID 2: natural widths, equal height -->
+    <section id="section-photo-grid" class="reveal">
+        <div class="photo-grid">
+            <div class="pg-col" style="flex: 4.39;">
+                <img src="Drill-Bike/drill_bike_6.jpg" alt="Bike photo 1">
+            </div>
+            <div class="pg-col pg-col-stack" style="flex: 2.42;">
+                <img src="Drill-Bike/drill_bike_7.jpg" alt="Bike photo 2">
+                <img src="Drill-Bike/drill_bike_8.jpg" alt="Bike photo 3">
+            </div>
+            <div class="pg-col pg-col-stack" style="flex: 1.32;">
+                <img src="Drill-Bike/drill_bike_9.jpg" alt="Bike photo 4">
+                <img src="Drill-Bike/drill_bike_10.jpg" alt="Bike photo 5">
+            </div>
+            <div class="pg-col pg-col-stack" style="flex: 1.00;">
+                <img src="Drill-Bike/drill_bike_11.jpg" alt="Bike photo 6">
+                <img src="Drill-Bike/drill_bike_12.jpg" alt="Bike photo 7">
+            </div>
+        </div>
+    </section>
+
+    <!-- PROCESS HEADING -->
+    <section id="section-process-heading" class="layout-full reveal" style="text-align:center;">
+        <span style="display:inline-block; background:var(--yellow); color:var(--black); border:2px solid var(--black); box-shadow:4px 4px 0 var(--black); padding:0.5rem 1.5rem; font-family:'Plus Jakarta Sans',sans-serif; font-weight:800; font-size:1rem; letter-spacing:0.08em;">See Some of My Work!</span>
+    </section>
+
+    <!-- CAD INTRO TEXT -->
+    <section id="section-cad-intro" style="margin-bottom:1.5rem;">
+        <p style="margin:0;">We began by collaborating on the original design. I facilitated discussion about which features and dimensions we wanted and digitally drew out the ideas. I ended up completing most of the preliminary SolidWorks CAD, including the frame, front fork, drill plate, and drill. The hours I put into the CAD model paid off as the majority of these items remained consistent throughout. I also created most of the drawings. We had a Design Review with the course team and then reworked some of the design and drawings based on their feedback. I met with the TAs and machinists in advance of this presentation to begin implementing their advice.</p>
+    </section>
+
+
+</div><!-- end first .page -->
+
+<!-- ─── HORIZONTAL PROCESS SCROLL ─── -->
+<div id="horiz-scroll-outer">
+    <div id="horiz-scroll-track">
+
+            <!-- Card 1 -->
+            <div class="hcard" style="border:2px dashed #6d28d9;">
+                <div><img src="Drill-Bike/drill_bike_13.jpg" alt="SolidWorks CAD model"><span class="img-num" style="background:#f9a8d4; color:var(--black);">1</span></div>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="hcard" style="border:2px dashed #be185d;">
+                <div><img src="Drill-Bike/drill_bike_14.jpg" alt="FEA analysis screenshot"><span class="img-num" style="background:#d8b4fe; color:var(--black);">2</span></div>
+                <p class="caption" style="flex-shrink:0; margin:0; padding:0.75rem 1rem;">I ran FEA on the frame to evaluate the factor of safety, stresses, and reaction forces compared to our hand calculations.</p>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="hcard" style="border:2px dashed #be185d;">
+                <div><img src="Drill-Bike/drill_bike_15.jpg" alt="Sourcing and cutting tubing"><span class="img-num" style="background:#fde047; color:var(--black);">3</span></div>
+                <p class="caption" style="flex-shrink:0; margin:0; padding:0.75rem 1rem;">I sourced 16ft of 14-gauge A513 round tubing and cut it on the bandsaw.</p>
+            </div>
+
+            <!-- Card 4 -->
+            <div class="hcard" style="border:2px dashed #2563eb;">
+                <div><img src="Drill-Bike/drill_bike_16.png" alt="Coping and sanding tubes"><span class="img-num" style="background:#d8b4fe; color:var(--black);">4</span></div>
+                <p class="caption" style="flex-shrink:0; margin:0; padding:0.75rem 1rem;">Overall, I properly dimensioned and cut 9 copes followed by sanding and sandblasting.</p>
+            </div>
+
+            <!-- Card 5 -->
+            <div class="hcard" style="border:2px dashed #6d28d9;">
+                <div><img src="Drill-Bike/drill_bike_17.png" alt="Welding the footrest"><span class="img-num" style="background:#f9a8d4; color:var(--black);">5</span></div>
+                <p class="caption" style="flex-shrink:0; margin:0; padding:0.75rem 1rem;">Knowledge from previously taking a welding workshop helped me tack and finish the footrest.</p>
+            </div>
+
+            <!-- Card 6 -->
+            <div class="hcard" style="border:2px dashed #2563eb;">
+                <div><img src="Drill-Bike/drill_bike_18.png" alt="Mill and lathe work"><span class="img-num" style="background:#fde047; color:var(--black);">6</span></div>
+                <p class="caption" style="flex-shrink:0; margin:0; padding:0.75rem 1rem;">I worked on the mill and lathe to create the disk brake supports, head tube, pillow blocks, and refine the drill plate.</p>
+            </div>
+
+            <!-- Card 7 -->
+            <div class="hcard" style="border:2px dashed #6d28d9;">
+                <div><img src="Drill-Bike/drill_bike_19.png" alt="Team meeting during lab"><span class="img-num" style="background:#fde047; color:var(--black);">7</span></div>
+                <p class="caption" style="flex-shrink:0; margin:0; padding:0.75rem 1rem;">During and beyond our lab period, I continuously led team meetings and directed next steps. I emphasized diverse perspectives and accountability.</p>
+            </div>
+
+            <!-- Card 8 -->
+            <div class="hcard" style="border:2px dashed #2563eb;">
+                <div><img src="Drill-Bike/drill_bike_20.png" alt="Assembling the bike"><span class="img-num" style="background:#d8b4fe; color:var(--black);">8</span></div>
+                <p class="caption" style="flex-shrink:0; margin:0; padding:0.75rem 1rem;">With aid from the machinists, my teammates and I assembled the bike. I put in extra time to troubleshoot drive chain issues.</p>
+            </div>
+
+            <!-- Card 9 -->
+            <div class="hcard" style="border:2px dashed #be185d;">
+                <div><img src="Drill-Bike/drill_bike_21.png" alt="Painting the bike"><span class="img-num" style="background:#f9a8d4; color:var(--black);">9</span></div>
+                <p class="caption" style="flex-shrink:0; margin:0; padding:0.75rem 1rem;">After confirming the bike was working well, I prepped and spray painted it to fulfill the original vision.</p>
+            </div>
+
+        </div>
+</div><!-- end horiz scroll -->
+
+<div class="page" style="padding-top:3.5rem;">
+
+
+
+    <!-- REPORT INTRO — styled as blue band label -->
+    <section id="section-report-intro" class="layout-full reveal">
+        <div style="background:var(--blue); border:2px solid var(--black); box-shadow:4px 4px 0 var(--black); padding:1rem 2.5rem; text-align:center;">
+            <p style="color:white; margin:0; font-family:'Plus Jakarta Sans',sans-serif; font-weight:800; font-size:1rem; letter-spacing:0.1em;">Full Design Process Documentation Including 20+ CAD Drawings</p>
+        </div>
+    </section>
+
+    <!-- TECHNICAL REPORT + CAROUSEL -->
+    <section id="section-technical-report" class="reveal">
+        <div class="layout-2col" style="align-items:stretch;">
+            <div class="col" style="display:flex; flex-direction:column;">
+                <div style="flex:1; min-height:0; overflow:hidden; border:1px solid var(--subtle);">
+                    <iframe src="Drill-Bike/Team Rocket Final Technical Report.pdf#zoom=150" style="width:100%; height:100%; border:none;" title="Team Rocket Final Technical Report"></iframe>
+                </div>
+                <p class="caption" style="margin-top:0.75rem; flex-shrink:0;">This technical report details the goals, design ideation, testing, analysis, manufacturing, and all CAD drawings of the bike.</p>
+            </div>
+            <div class="col">
+                <p>I guided my teammates throughout the manufacturing process using knowledge from my time as a <a href="wobbler-engine.html">Machine Shop Assistant</a>. This expedited manufacturing and gave every member hands-on skills to excel. I took these photos as it was important to me that they could later share their accomplishments with others!</p>
+                <div style="overflow:hidden; border:1px solid var(--subtle); margin-top:0.5rem; aspect-ratio:1159/869;">
+                    <div id="report-track" style="display:flex; height:100%; transition:transform 0.4s ease;">
+                        <div style="min-width:100%; height:100%; overflow:hidden; flex-shrink:0;">
+                            <img src="Drill-Bike/drill_bike_22.jpg" alt="Manufacturing process photo 1" style="height:100%; width:auto; display:block; border:none;">
+                        </div>
+                        <div style="min-width:100%; height:100%; overflow:hidden; flex-shrink:0;">
+                            <img src="Drill-Bike/drill_bike_23.jpg" alt="Manufacturing process photo 2" style="height:100%; width:auto; display:block; border:none;">
+                        </div>
+                        <div style="min-width:100%; height:100%; overflow:hidden; flex-shrink:0;">
+                            <img src="Drill-Bike/drill_bike_24.jpg" alt="Manufacturing process photo 3" style="height:100%; width:auto; display:block; border:none;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CAD DRAWINGS: 3-col PDF embeds -->
+    <section id="section-cad-drawings" class="reveal">
+        <div class="layout-3col">
+            <div class="col">
+                <div style="position:relative; padding-top:calc(64.706% + 55px);">
+                    <div style="position:absolute; inset:0; overflow:hidden; border:1px solid var(--subtle);">
+                        <iframe src="Drill-Bike/DRILL_PLATE.pdf" style="width:100%; height:100%; border:none;" title="Drill Plate Drawing"></iframe>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div style="position:relative; padding-top:calc(64.706% + 55px);">
+                    <div style="position:absolute; inset:0; overflow:hidden; border:1px solid var(--subtle);">
+                        <iframe src="Drill-Bike/BOTTOM_BEAM.pdf" style="width:100%; height:100%; border:none;" title="Bottom Beam Drawing"></iframe>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div style="position:relative; padding-top:calc(64.706% + 55px);">
+                    <div style="position:absolute; inset:0; overflow:hidden; border:1px solid var(--subtle);">
+                        <iframe src="Drill-Bike/PILLOW_BLOCK.pdf" style="width:100%; height:100%; border:none;" title="Pillow Block Drawing"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TEAM / FUN PHOTOS: 4-col with intro text -->
+    <section id="section-team-photos" class="reveal">
+        <div class="layout-4col">
+            <div class="col" style="display:flex; flex-direction:column; overflow:hidden; border:2px dashed #be185d;">
+                <p class="caption" style="flex-shrink:0; padding:0.5rem 0.75rem 0; margin:0;">I was also responsible for the team name and costume design. I loved sharing this bike with my cousins after the Run Off!</p>
+                <img src="Drill-Bike/drill_bike_25.png" alt="Team Rocket costume photo 1" style="flex:1; min-height:0; width:100%; height:0; object-fit:cover; display:block; border:none;">
+            </div>
+            <div class="col" style="overflow:hidden; border:2px dashed #6d28d9;">
+                <img src="Drill-Bike/drill_bike_26.png" alt="Team Rocket costume photo 2" style="width:100%; height:100%; object-fit:cover; display:block; border:none;">
+            </div>
+            <div class="col" style="overflow:hidden; border:2px dashed #2563eb;">
+                <img src="Drill-Bike/drill_bike_27.png" alt="Sharing the bike with cousins 1" style="width:100%; height:100%; object-fit:cover; display:block; border:none;">
+            </div>
+            <div class="col" style="position:relative; border:2px dashed #be185d;">
+                <img src="Drill-Bike/drill_bike_28.png" alt="Sharing the bike with cousins 2" style="width:100%; height:100%; object-fit:cover; display:block; border:none;">
+                <!-- dots sticker -->
+                <div style="position:absolute; bottom:-0.5rem; right:-0.5rem; width:58px; height:58px; background-image:radial-gradient(circle, #fde047 2.5px, transparent 2.5px); background-size:11px 11px; pointer-events:none; z-index:3;"></div>
+                <!-- heart sticker -->
+                <div style="position:absolute; top:-1.1rem; right:-0.6rem; background:#f9a8d4; border:2px solid var(--black); width:3rem; height:3rem; display:flex; align-items:center; justify-content:center; font-size:1.6rem; color:#be185d; z-index:4; pointer-events:none; transform:rotate(15deg);">♥</div>
+            </div>
+        </div>
+    </section>
+
+</div><!-- end .page -->
+
+<div class="project-nav">
+    <a href="wobbler-engine.html" class="proj-nav-link">
+        <span class="proj-nav-label">&larr; Previous Project</span>
+        <span class="proj-nav-title">Wobbler Engine</span>
+    </a>
+    <a href="../index.html#projects" class="proj-nav-link right">
+        <span class="proj-nav-label">Back to &rarr;</span>
+        <span class="proj-nav-title">All Projects</span>
+    </a>
+</div>
+
+<footer id="page-footer">
+    <span style="font-size:0.8rem; color:rgba(255,255,255,0.4);">&copy; 2026 Julia Abboud</span>
+    <span style="font-size:0.8rem; color:rgba(255,255,255,0.4); display:inline-flex; align-items:center; gap:0.5rem;">Designed and Developed Independently <img src="../about/Signature.png" alt="Julia Abboud signature" style="height:3rem; width:auto; display:inline; animation:sigColor 4.5s ease-in-out infinite; border:none; background:none;"></span>
+</footer>
+
+<script>
+    // Scroll-linked horizontal pan — sticky pins at viewport bottom
+    const horizTrack = document.getElementById('horiz-scroll-track');
+
+    // Size each hcard to its image's natural aspect ratio
+    function sizeHcards() {
+        document.querySelectorAll('.hcard').forEach(card => {
+            const img = card.querySelector('img');
+            if (!img) return;
+            const apply = () => {
+                if (!img.naturalWidth || !img.naturalHeight) return;
+                const captionEl = card.querySelector('.caption');
+                const captionH = captionEl ? captionEl.offsetHeight : 0;
+                const imgH = card.offsetHeight - captionH;
+                card.style.width = (img.naturalWidth * (imgH / img.naturalHeight)) + 'px';
+            };
+            if (img.complete) apply();
+            else img.addEventListener('load', apply);
+        });
+    }
+    sizeHcards();
+
+    const hamburger = document.getElementById('hamburger');
+    const navUl = document.getElementById('nav-ul');
+    document.getElementById('vid1').volume = 0.25;
+    document.getElementById('vid2').volume = 0.25;
+    hamburger.addEventListener('click', () => {
+        hamburger.classList.toggle('open');
+        navUl.classList.toggle('open');
+    });
+    navUl.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+        hamburger.classList.remove('open');
+        navUl.classList.remove('open');
+    }));
+
+    const obs = new IntersectionObserver(entries => entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('visible'); }
+        else { e.target.classList.remove('visible'); }
+    }), { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+    let reportIdx = 0;
+    const reportTrack = document.getElementById('report-track');
+    function reportPrev() {
+        reportIdx = (reportIdx - 1 + 3) % 3;
+        reportTrack.style.transform = `translateX(-${reportIdx * 100}%)`;
+    }
+    function reportNext() {
+        reportIdx = (reportIdx + 1) % 3;
+        reportTrack.style.transform = `translateX(-${reportIdx * 100}%)`;
+    }
+    setInterval(reportNext, 3500);
+</script>
+</body>
+</html>

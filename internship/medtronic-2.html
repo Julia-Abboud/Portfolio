@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medtronic II — Julia Abboud</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        :root { --bg: #ffffff; --bg-2: #f8f9fc; --text: #0f172a; --muted: #64748b; --subtle: #e2e8f0; --blue: #2563eb; --blue-lt: #eff6ff; --blue-dk: #1d4ed8; --yellow: #fde047; --black: #0f172a; }
+        html { scroll-behavior: smooth; }
+        body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-weight: 400; line-height: 1.7; overflow-x: hidden; }
+        nav.site-nav { position: fixed; top: 0; width: 100%; z-index: 300; padding: 1.4rem 5rem; display: flex; justify-content: space-between; align-items: center; background: var(--blue); border-bottom: 2px solid var(--black); }
+        .logo { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 1rem; letter-spacing: 0.08em; text-transform: uppercase; color: white; text-decoration: none; }
+        nav.site-nav ul { list-style: none; display: flex; gap: 2.8rem; }
+        nav.site-nav ul a { font-family: 'DM Sans', sans-serif; font-weight: 500; font-size: 0.84rem; color: rgba(255,255,255,0.85); text-decoration: none; transition: color 0.2s; position: relative; }
+        nav.site-nav ul a::after { content: ''; position: absolute; bottom: -3px; left: 0; width: 100%; height: 2px; background: white; transform: scaleX(0); transform-origin: left; transition: transform 0.25s ease; }
+        nav.site-nav ul a:hover { color: white; }
+        nav.site-nav ul a:hover::after { transform: scaleX(1); }
+        nav.site-nav .nav-engineering::after { background: var(--yellow); }
+        nav.site-nav .nav-internship::after { background: #d8b4fe; }
+        nav.site-nav .nav-personal::after { background: #f9a8d4; }
+        .hamburger { display: none; flex-direction: column; justify-content: space-between; width: 24px; height: 18px; background: none; border: none; cursor: pointer; padding: 0; z-index: 400; outline: none; -webkit-tap-highlight-color: transparent; appearance: none; -webkit-appearance: none; box-shadow: none; overflow: hidden; clip-path: inset(0); -webkit-clip-path: inset(0); }
+        .hamburger span { display: block; width: 100%; height: 2px; background: white; transition: transform 0.3s ease, opacity 0.3s ease; border-radius: 0; border: none; box-shadow: none; backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+        .hamburger.open span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+        .hamburger.open span:nth-child(2) { opacity: 0; transform: scale(0); }
+        .hamburger.open span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+        .project-nav { border-top: 2px solid rgba(255,255,255,0.08); padding: 1.5rem 5rem; display: flex; justify-content: space-between; align-items: center; background: var(--text); }
+        .proj-nav-link { display: flex; flex-direction: column; gap: 0.3rem; text-decoration: none; color: inherit; transition: opacity 0.2s; }
+        .proj-nav-link:hover { opacity: 0.6; }
+        .proj-nav-label { font-size: 0.66rem; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.45); }
+        .proj-nav-title { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; font-size: 1.3rem; letter-spacing: -0.015em; color: white; }
+        .proj-nav-link.right { text-align: right; }
+        footer#page-footer { background: var(--text); border-top: 1px solid rgba(255,255,255,0.08); padding: 1.2rem 5rem; display: flex; justify-content: space-between; align-items: center; }
+        @keyframes sigColor {
+            0%   { filter: brightness(0) invert(1) sepia(1) saturate(2.5) hue-rotate(0deg) brightness(0.75); }
+            100% { filter: brightness(0) invert(1) sepia(1) saturate(2.5) hue-rotate(360deg) brightness(0.75); }
+        }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #ec4899; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #be185d; }
+        * { scrollbar-color: #ec4899 transparent; }
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+        .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+        .d1 { transition-delay: 0.1s; } .d2 { transition-delay: 0.2s; }
+
+        /* ── Page wrapper ── */
+        .page { max-width: 1400px; margin: 0 auto; padding: 6rem 4rem 0; }
+
+        /* ── Typography ── */
+        h1 { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: clamp(1.6rem, 3vw, 2.4rem); letter-spacing: -0.03em; line-height: 1; color: var(--text); margin-bottom: 1.5rem; }
+        p { font-size: 0.97rem; color: var(--muted); line-height: 1.78; margin-bottom: 1rem; }
+        p strong { color: var(--text); font-weight: 700; }
+        section { margin-bottom: 3.5rem; }
+
+        /* ── Cover image frame ── */
+        .cover-frame { position: relative; border: 2px solid var(--black); }
+        .cover-frame::before { content: ''; position: absolute; bottom: -14px; left: -16px; width: 80px; height: 44px; background: radial-gradient(circle at center, #be185d 30%, #f9a8d4 30%); border: 2px solid var(--black); transform: rotate(8deg); z-index: 2; }
+        .cover-frame::after { content: ''; position: absolute; bottom: 0; right: 0; width: 90px; height: 90px; background-image: repeating-linear-gradient(45deg, var(--yellow) 0px, var(--yellow) 4px, transparent 4px, transparent 10px); z-index: 2; pointer-events: none; }
+
+        .caption { font-size: 0.82rem; color: var(--muted); line-height: 1.6; margin-top: 0.6rem; margin-bottom: 0; }
+
+        @media (max-width: 900px) {
+            .page { padding: 5rem 1.5rem 0; }
+            .project-nav { padding-left: 1.5rem; padding-right: 1.5rem; flex-direction: column; gap: 2rem; align-items: center; }
+            .proj-nav-link, .proj-nav-link.right { text-align: center; }
+            footer#page-footer { padding-left: 1.5rem; padding-right: 1.5rem; flex-direction: column; gap: 1rem; align-items: center; text-align: center; }
+            #section-extra-carousels > div > div > div:first-child { height: 400px !important; }
+        }
+        @media (max-width: 768px) {
+            nav.site-nav { padding-left: 1.5rem; padding-right: 1.5rem; }
+            .hamburger { display: flex; }
+            nav.site-nav ul { display: none; flex-direction: column; position: absolute; top: 100%; left: 0; width: 100%; background: var(--blue); border-bottom: 2px solid var(--black); padding: 1.5rem 2rem; gap: 1.2rem; }
+            nav.site-nav ul.open { display: flex; }
+            nav.site-nav ul a { font-size: 1rem; }
+            #section-invos > div { grid-template-columns: 1fr !important; }
+            #section-invos-carousel { padding: 2rem 1.5rem !important; }
+            #section-invos-carousel > div > div { display: grid !important; grid-template-columns: 1fr 1fr; overflow: visible; gap: 1rem; align-items: start; }
+            #med2-img-row, #med2-img-row-2, #med2-img-row-3 { display: contents !important; }
+            #med2-img-row img, #med2-img-row-2 img, #med2-img-row-3 img { width: 100% !important; height: auto !important; }
+            #section-sensor > div { flex-direction: column; }
+            #section-extra-carousels > div { flex-direction: column; }
+            #section-extra-carousels > div > div:first-child > div:first-child { height: 620px !important; }
+            #section-extra-carousels > div > div:last-child > div:first-child { height: 400px !important; }
+        }
+        @media (max-width: 480px) {
+            #section-extra-carousels > div > div:first-child > div:first-child { height: 320px !important; }
+            #section-extra-carousels > div > div:last-child > div:first-child { height: 240px !important; }
+        }
+    </style>
+</head>
+<body>
+
+<nav class="site-nav">
+    <a href="../index.html" class="logo">Julia Abboud</a>
+    <ul id="nav-ul">
+        <li><a href="../index.html#about">About</a></li>
+        <li><a href="../index.html#projects" class="nav-engineering">Engineering</a></li>
+        <li><a href="../index.html#internship" class="nav-internship">Internship</a></li>
+        <li><a href="../index.html#personal" class="nav-personal">Personal</a></li>
+        <li><a href="../index.html#resume">Contact</a></li>
+    </ul>
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+    </button>
+</nav>
+
+<div class="page">
+
+    <section id="section-header" style="margin-bottom:3.5rem; display:flex; flex-wrap:wrap; gap:2rem;">
+
+        <div style="flex:1 1 400px; align-self:flex-start; padding-top:1.25rem; padding-left:1.25rem;">
+            <div class="cover-frame">
+                <img src="Medtronic II/Medtronic II cover.jpg" alt="Medtronic R&D Internship" style="width:100%; height:auto; display:block; border:none;">
+                <span style="position:absolute; bottom:0; left:0; width:60px; height:60px; background-image:radial-gradient(circle, #6d28d9 2.5px, transparent 2.5px); background-size:9px 9px; z-index:1; display:block; pointer-events:none;"></span>
+            </div>
+        </div>
+
+        <div style="flex:1 1 300px; display:flex; flex-direction:column; justify-content:flex-start;">
+            <p style="font-size:0.7rem; font-weight:400; letter-spacing:0.2em; text-transform:uppercase; color:var(--blue); margin-bottom:0.75rem;">JUN – AUG 2025</p>
+            <h1 style="margin-bottom:1.25rem;">Medtronic II</h1>
+            <p style="margin:0;">Returning to Medtronic for a second summer was a privilege that allowed me to grow my experience working in a lab, prototyping products, performing testing, communicating technically, and learning engineering software such as MATLAB, Arduino, and Altium Designer. Traveling between Medtronic's Gunbarrel and Lafayette sites, I was fortunate to collaborate again with the Oximetry &amp; Wearables team, this time with more focus on Mechanical Design work. My main project was largely self-led, so I practiced task and timeline management, often utilizing critical thinking to evaluate my next steps. I was tasked with identifying the best sensor to distinguish between different sites on the body and developing a prototype to do so.</p>
+            <p style="margin:0; margin-top:1rem;">I additionally completed 2 smaller projects and continued my engagement and learning through informational interviews, SWE professional development events, volunteering, leadership summits, lab tours, meeting the different operational units, and supporting my peers with their work when applicable. I furthered my love for hands-on design work and idea generation. My creativity, adaptability, and independence helped me excel in this role, and I look forward to enhancing these strengths and the new technical skills I picked up during this internship!</p>
+        </div>
+
+    </section>
+
+    <section id="section-callout" style="margin-bottom:3.5rem;">
+        <div style="background:#d8b4fe; border:2px solid var(--black); box-shadow:4px 4px 0 var(--black); padding:1.4rem 2.5rem; text-align:center;">
+            <p style="margin:0; color:var(--black); font-weight:600;">Theory, testing, results, and documentation.</p>
+        </div>
+    </section>
+
+</div>
+
+<div class="page" style="padding-top:0;">
+
+    <!-- Project 1 -->
+    <section id="section-invos" class="reveal" style="margin-bottom:3.5rem;">
+        <div style="display:grid; grid-template-columns:1fr 2fr; gap:3rem; align-items:start;">
+            <div style="display:flex; flex-direction:column; gap:1rem;">
+                <div>
+                    <img src="Medtronic II/medtronic_2_1.png" alt="" style="width:100%; height:auto; display:block; border:none;">
+                </div>
+                <div>
+                    <img src="Medtronic II/medtronic_2_2.png" alt="" style="width:100%; height:auto; display:block; border:none;">
+                </div>
+                <div>
+                    <img src="Medtronic II/medtronic_2_3.png" alt="" style="width:100%; height:auto; display:block; border:none;">
+                </div>
+            </div>
+            <div>
+                <h1 style="margin-bottom:1.25rem; font-size:clamp(1.1rem, 2vw, 1.55rem); font-weight:700;">Curvature Detection Prototype</h1>
+                <p style="margin:0;">My summer goal was to find the best way to distinguish between 3+ sites on the human body. Because there is such diversity in Medtronic sensors and their application, being able to identify between different locations is crucial for calibrating pulse oximetry data, which behaves differently in each site. For this project, I looked at differentiating between the Adult Finger, Nose, Forehead, and Neonate Forehead based on their curvature. I used data from Human Factors and SolidWorks to create test fixtures and ran calculations using my knowledge from Mechanics of Solids to predict the expected strain at each surface. I refined my testing skills, evaluating strain gauges, flex sensors, and force sensors as possible detection methods. This process required me to create a Wheatstone bridge-Arduino circuit as well as a strain gauge amplifier to collect data. I tracked all my discoveries and methods in a 28+ page technical report.</p>
+                <div style="margin-top:1.5rem; border:2px dashed #be185d; overflow:hidden;">
+                    <img src="Medtronic II/medtronic_2_4.jpg" alt="" style="width:100%; height:auto; display:block; border:none;">
+                </div>
+                <p class="caption" style="margin-top:0.6rem;">Examples of sites where Medtronic pulse oximetry sensors can be applied, and some of the different curvature-detection sensors I worked with and studied over the summer.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3x3 image grid -->
+    <section id="section-invos-carousel" class="reveal" style="margin-bottom:3.5rem; width:100vw; position:relative; left:50%; transform:translateX(-50%); background:var(--black); padding:2rem 4rem;">
+        <div style="max-width:1400px; margin:0 auto; display:flex; flex-direction:column; gap:1rem;">
+            <div style="display:flex; gap:1rem; align-items:stretch; border:2px dashed #6d28d9; overflow:hidden;">
+                <p class="caption" style="margin:0; flex:0 0 25%; color:rgba(255,255,255,0.6); padding:1rem;">Examples of the calculations I then utilized to create dummy human curvature fixtures and a Wheatstone bridge-Arduino data collection device.</p>
+                <div id="med2-img-row" style="display:flex; gap:1rem; align-items:center; flex:1; min-width:0;">
+                    <img src="Medtronic II/medtronic_2_5.jpg" alt="" style="height:220px; width:auto; display:block; border:none;">
+                    <img src="Medtronic II/medtronic_2_6.jpg" alt="" style="height:220px; width:auto; display:block; border:none;">
+                    <img src="Medtronic II/medtronic_2_7.jpg" alt="" style="height:220px; width:auto; display:block; border:none;">
+                </div>
+            </div>
+            <div style="display:flex; gap:1rem; align-items:stretch; border:2px dashed #be185d; overflow:hidden;">
+                <div id="med2-img-row-2" style="display:flex; gap:1rem; align-items:center; flex:1; min-width:0;">
+                    <img src="Medtronic II/medtronic_2_8.jpg" alt="" style="height:220px; width:auto; display:block; border:none;">
+                    <img src="Medtronic II/medtronic_2_9.jpg" alt="" style="height:220px; width:auto; display:block; border:none;">
+                    <img src="Medtronic II/medtronic_2_10.jpg" alt="" style="height:220px; width:auto; display:block; border:none;">
+                </div>
+                <p class="caption" style="margin:0; flex:0 0 25%; color:rgba(255,255,255,0.6); padding:1rem;">Testing the different sensors required meticulous soldering, wiring, and strain gauge set-up. One test I performed was a 3-point bend on an Instron.</p>
+            </div>
+            <div style="display:flex; gap:1rem; align-items:stretch; border:2px dashed #2563eb; overflow:hidden;">
+                <p class="caption" style="margin:0; flex:0 0 25%; color:rgba(255,255,255,0.6); padding:1rem;">One of the most rewarding parts of the summer was designing and receiving custom strain gauge flexes. I used Altium Designer to do this and analyzed how to balance material selection and cost-savings. It was special to prove how bending these flexes would increase their resistance value but also to put the design in context with business goals and feasibility.</p>
+                <div id="med2-img-row-3" style="display:flex; gap:1rem; align-items:center; flex:1; min-width:0;">
+                    <img src="Medtronic II/medtronic_2_11.jpg" alt="" style="height:220px; width:auto; display:block; border:none;">
+                    <img src="Medtronic II/medtronic_2_12.jpg" alt="" style="height:220px; width:auto; display:block; border:none;">
+                    <img src="Medtronic II/medtronic_2_13.jpg" alt="" style="height:220px; width:auto; display:block; border:none;">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Callout 2 -->
+    <section id="section-callout-lab" class="reveal" style="margin-bottom:3.5rem;">
+        <div style="background:#f9a8d4; border:2px solid var(--black); box-shadow:4px 4px 0 var(--black); padding:1.4rem 2.5rem; text-align:center;">
+            <p style="margin:0; color:var(--black); font-weight:600;">Laboratory Test Design, Execution, and Documentation.</p>
+        </div>
+    </section>
+
+    <!-- Mini Projects -->
+    <section id="section-sensor" class="reveal" style="margin-bottom:3.5rem;">
+        <div style="display:flex; gap:3rem; align-items:flex-start;">
+            <div style="flex:3; min-width:0;">
+                <h1 style="margin-bottom:1.25rem; font-size:clamp(1.1rem, 2vw, 1.55rem); font-weight:700;">Mini Projects</h1>
+                <p style="margin:0;">Other major projects during my internship included performing a failure analysis on a released product. My strategy was to begin with hypotheses about the causation, use what info and resources I already had, and ultimately experiment with the parts to hone in on the problem. I concluded this to be a tolerance stack-up issue and was excited to learn weeks later that this had solved the manufacturing issue.</p>
+                <p style="margin-top:1rem; margin-bottom:0;">I also got to do SolidWorks CAD for variants of a next-gen pulse oximetry sensor. The time I put into crafting clear assemblies and components paid off in visuals that the team was able to use for communicating design ideas cross-functionally.</p>
+            </div>
+            <div style="flex:1; min-width:0;">
+                <img src="Medtronic II/medtronic_2_14.png" alt="" style="width:100%; height:auto; display:block; border:none;">
+            </div>
+        </div>
+    </section>
+
+    <!-- Additional experiences callout -->
+    <section id="section-callout-extra" class="reveal" style="margin-bottom:2rem; display:flex; justify-content:center;">
+        <div style="background:var(--yellow); border:2px solid var(--black); box-shadow:4px 4px 0 var(--black); padding:0.9rem 2rem; text-align:center;">
+            <p style="margin:0; color:var(--black); font-weight:600;">Snap Shot into my Summer!</p>
+        </div>
+    </section>
+
+    <!-- Additional experiences carousels -->
+    <section id="section-extra-carousels" class="reveal" style="margin-bottom:3.5rem;">
+        <div style="display:flex; gap:2rem; align-items:start;">
+
+            <!-- Left 2/5 -->
+            <div style="flex:2; min-width:0;">
+                <div style="position:relative; overflow:hidden; border:2px solid var(--black); height:580px;">
+                    <div id="med2-left-track" style="display:flex; height:100%; transition:transform 0.5s ease; will-change:transform;">
+                        <div style="flex:0 0 100%; height:100%; overflow:hidden;"><img src="Medtronic II/medtronic_2_15.jpg" alt="" style="width:100%; height:100%; object-fit:cover; display:block; border:none;"></div>
+                        <div style="flex:0 0 100%; height:100%; overflow:hidden;"><img src="Medtronic II/medtronic_2_16.jpg" alt="" style="width:100%; height:100%; object-fit:cover; display:block; border:none;"></div>
+                        <div style="flex:0 0 100%; height:100%; overflow:hidden;"><img src="Medtronic II/medtronic_2_17.jpg" alt="" style="width:100%; height:100%; object-fit:cover; display:block; border:none;"></div>
+                        <div style="flex:0 0 100%; height:100%; overflow:hidden;"><img src="Medtronic II/medtronic_2_18.jpg" alt="" style="width:100%; height:100%; object-fit:cover; display:block; border:none;"></div>
+                        <div style="flex:0 0 100%; height:100%; overflow:hidden;"><img src="Medtronic II/medtronic_2_19.jpg" alt="" style="width:100%; height:100%; object-fit:cover; display:block; border:none;"></div>
+                    </div>
+                    <button onclick="med2LeftManualMove(-1)" style="position:absolute; top:50%; left:1rem; transform:translateY(-50%); background:#f9a8d4; border:2px solid var(--black); color:var(--black); width:2.5rem; height:2.5rem; font-size:1.4rem; line-height:1; cursor:pointer; display:flex; align-items:center; justify-content:center; z-index:10; font-family:'DM Sans',sans-serif;">‹</button>
+                    <button onclick="med2LeftManualMove(1)" style="position:absolute; top:50%; right:1rem; transform:translateY(-50%); background:#f9a8d4; border:2px solid var(--black); color:var(--black); width:2.5rem; height:2.5rem; font-size:1.4rem; line-height:1; cursor:pointer; display:flex; align-items:center; justify-content:center; z-index:10; font-family:'DM Sans',sans-serif;">›</button>
+                </div>
+                <p id="med2-left-caption" class="caption" style="margin-top:0.6rem; text-align:center;">Helping pack up the lab in Boulder because the team was moving to Lafayette.</p>
+            </div>
+
+            <!-- Right 3/5 -->
+            <div style="flex:3; min-width:0;">
+                <div style="position:relative; overflow:hidden; border:2px solid var(--black); height:580px;">
+                    <div id="med2-right-track" style="display:flex; height:100%; transition:transform 0.5s ease; will-change:transform;">
+                        <div style="flex:0 0 100%; height:100%; overflow:hidden;"><img src="Medtronic II/medtronic_2_20.jpg" alt="" style="width:100%; height:100%; object-fit:cover; display:block; border:none;"></div>
+                        <div style="flex:0 0 100%; height:100%; overflow:hidden;"><img src="Medtronic II/medtronic_2_21.jpg" alt="" style="width:100%; height:100%; object-fit:cover; display:block; border:none;"></div>
+                        <div style="flex:0 0 100%; height:100%; overflow:hidden;"><img src="Medtronic II/medtronic_2_22.jpg" alt="" style="width:100%; height:100%; object-fit:cover; display:block; border:none;"></div>
+                        <div style="flex:0 0 100%; height:100%; overflow:hidden;"><img src="Medtronic II/medtronic_2_23.jpg" alt="" style="width:100%; height:100%; object-fit:cover; display:block; border:none;"></div>
+                        <div style="flex:0 0 100%; height:100%; overflow:hidden;"><img src="Medtronic II/medtronic_2_24.jpg" alt="" style="width:100%; height:100%; object-fit:cover; display:block; border:none;"></div>
+                    </div>
+                    <button onclick="med2RightManualMove(-1)" style="position:absolute; top:50%; left:1rem; transform:translateY(-50%); background:#d8b4fe; border:2px solid var(--black); color:var(--black); width:2.5rem; height:2.5rem; font-size:1.4rem; line-height:1; cursor:pointer; display:flex; align-items:center; justify-content:center; z-index:10; font-family:'DM Sans',sans-serif;">‹</button>
+                    <button onclick="med2RightManualMove(1)" style="position:absolute; top:50%; right:1rem; transform:translateY(-50%); background:#d8b4fe; border:2px solid var(--black); color:var(--black); width:2.5rem; height:2.5rem; font-size:1.4rem; line-height:1; cursor:pointer; display:flex; align-items:center; justify-content:center; z-index:10; font-family:'DM Sans',sans-serif;">›</button>
+                </div>
+                <p id="med2-right-caption" class="caption" style="margin-top:0.6rem; text-align:center;">My final intern presentation to the broader team and company.</p>
+            </div>
+
+        </div>
+    </section>
+
+</div>
+
+<div class="project-nav">
+    <a href="medtronic-1.html" class="proj-nav-link">
+        <span class="proj-nav-label">&larr; Previous Internship</span>
+        <span class="proj-nav-title">Medtronic I</span>
+    </a>
+    <a href="apple.html" class="proj-nav-link right">
+        <span class="proj-nav-label">Next Internship &rarr;</span>
+        <span class="proj-nav-title">Apple</span>
+    </a>
+</div>
+
+<footer id="page-footer">
+    <span style="font-size:0.8rem; color:rgba(255,255,255,0.4);">&copy; 2026 Julia Abboud</span>
+    <span style="font-size:0.8rem; color:rgba(255,255,255,0.4); display:inline-flex; align-items:center; gap:0.5rem;">Designed and Developed Independently <img src="../about/Signature.png" alt="Julia Abboud signature" style="height:3rem; width:auto; display:inline; animation:sigColor 4.5s ease-in-out infinite; border:none; background:none;"></span>
+</footer>
+
+<script>
+    const hamburger = document.getElementById('hamburger');
+    const navUl = document.getElementById('nav-ul');
+    hamburger.addEventListener('click', () => {
+        hamburger.classList.toggle('open');
+        navUl.classList.toggle('open');
+    });
+    navUl.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+        hamburger.classList.remove('open');
+        navUl.classList.remove('open');
+    }));
+    const obs = new IntersectionObserver(entries => entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } }), { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+    function fitMed2ImgRow() {
+        const row = document.getElementById('med2-img-row');
+        if (!row) return;
+        const imgs = [...row.querySelectorAll('img')];
+        if (!imgs.every(img => img.naturalWidth > 0)) return;
+        const gap = 16;
+        const available = row.offsetWidth - (imgs.length - 1) * gap;
+        const sumAspects = imgs.reduce((s, img) => s + img.naturalWidth / img.naturalHeight, 0);
+        const h = available / sumAspects;
+        imgs.forEach(img => { img.style.height = h + 'px'; img.style.width = 'auto'; });
+    }
+    function fitMed2ImgRow2() {
+        const row = document.getElementById('med2-img-row-2');
+        if (!row) return;
+        const imgs = [...row.querySelectorAll('img')];
+        if (!imgs.every(img => img.naturalWidth > 0)) return;
+        const gap = 16;
+        const available = row.offsetWidth - (imgs.length - 1) * gap;
+        const sumAspects = imgs.reduce((s, img) => s + img.naturalWidth / img.naturalHeight, 0);
+        const h = available / sumAspects;
+        imgs.forEach(img => { img.style.height = h + 'px'; img.style.width = 'auto'; });
+    }
+    function fitMed2ImgRow3() {
+        const row = document.getElementById('med2-img-row-3');
+        if (!row) return;
+        const imgs = [...row.querySelectorAll('img')];
+        if (!imgs.every(img => img.naturalWidth > 0)) return;
+        const gap = 16;
+        const available = row.offsetWidth - (imgs.length - 1) * gap;
+        const sumAspects = imgs.reduce((s, img) => s + img.naturalWidth / img.naturalHeight, 0);
+        const h = available / sumAspects;
+        imgs.forEach(img => { img.style.height = h + 'px'; img.style.width = 'auto'; });
+    }
+    window.addEventListener('load', () => { fitMed2ImgRow(); fitMed2ImgRow2(); fitMed2ImgRow3(); });
+    window.addEventListener('resize', () => { fitMed2ImgRow(); fitMed2ImgRow2(); fitMed2ImgRow3(); });
+
+    const med2LeftTrack = document.getElementById('med2-left-track');
+    const med2LeftCapEl = document.getElementById('med2-left-caption');
+    const med2LeftCaps = [
+        'Helping pack up the lab in Boulder because the team was moving to Lafayette.',
+        'Very tiny soldering was challenging to do.',
+        'Hiking with the other interns was very fun.',
+        'Moving labs meant a lot of disposal of old sensors.',
+        'I started an intern tradition my previous summer of playing laser tag at the end!'
+    ];
+    let med2LeftIdx = 0;
+    function med2LeftMove(dir) {
+        med2LeftIdx = (med2LeftIdx + dir + 5) % 5;
+        med2LeftTrack.style.transform = `translateX(${-med2LeftIdx * 100}%)`;
+        med2LeftCapEl.textContent = med2LeftCaps[med2LeftIdx];
+    }
+    let med2LeftAuto = setInterval(() => med2LeftMove(1), 4000);
+    function med2LeftManualMove(dir) { clearInterval(med2LeftAuto); med2LeftAuto = null; med2LeftMove(dir); }
+    new IntersectionObserver(es => { if (es[0].isIntersecting && !med2LeftAuto) med2LeftAuto = setInterval(() => med2LeftMove(1), 4000); }, { threshold: 0.3 }).observe(document.getElementById('section-extra-carousels'));
+
+    const med2RightTrack = document.getElementById('med2-right-track');
+    const med2RightCapEl = document.getElementById('med2-right-caption');
+    const med2RightCaps = [
+        'My final intern presentation to the broader team and company.',
+        'Experiencing the Tissue & Ablation Lab a second time.',
+        'Visiting and playing with surgery robot Hugo.',
+        'We found neonate cap sensors...',
+        'Working in the lab and making time to join virtual personal development sessions.'
+    ];
+    let med2RightIdx = 0;
+    function med2RightMove(dir) {
+        med2RightIdx = (med2RightIdx + dir + 5) % 5;
+        med2RightTrack.style.transform = `translateX(${-med2RightIdx * 100}%)`;
+        med2RightCapEl.textContent = med2RightCaps[med2RightIdx];
+    }
+    let med2RightAuto = setInterval(() => med2RightMove(1), 4000);
+    function med2RightManualMove(dir) { clearInterval(med2RightAuto); med2RightAuto = null; med2RightMove(dir); }
+    new IntersectionObserver(es => { if (es[0].isIntersecting && !med2RightAuto) med2RightAuto = setInterval(() => med2RightMove(1), 4000); }, { threshold: 0.3 }).observe(document.getElementById('section-extra-carousels'));
+</script>
+</body>
+</html>
