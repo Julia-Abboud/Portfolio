@@ -11,7 +11,6 @@
     <link rel="stylesheet" href="/style.css">
     <style>
         /* ── Cover image frame ── */
-        .cover-frame { position: relative; border: 2px solid var(--black); }
         .cover-frame::before { display: none; }
         .cover-frame::after { content: ''; position: absolute; bottom: -0.6rem; left: -0.6rem; width: 60px; height: 60px; background-color: transparent; background-image: radial-gradient(circle, #be185d 3px, transparent 3px); background-size: 12px 12px; z-index: 2; }
 
@@ -20,22 +19,12 @@
         .project-body { max-width: 820px; margin: 0 auto; padding: 0.5rem 2rem 6rem; }
 
         /* ── Content section classes ── */
-        .section-block { margin-bottom: 5rem; }
-        .block-label { font-family: 'DM Sans', sans-serif; font-weight: 500; font-size: 0.7rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--blue); margin-bottom: 0.5rem; }
-        .block-title { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: clamp(1.8rem, 3.5vw, 2.6rem); letter-spacing: -0.025em; line-height: 1; color: var(--text); text-shadow: 2px 2px 0 rgba(37,99,235,0.1); margin-bottom: 1.5rem; }
-        .block-text { font-size: 1rem; color: var(--muted); line-height: 1.78; max-width: 680px; }
-        .block-text + .block-text { margin-top: 1rem; }
-        .img-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; margin: 2rem 0; }
         .img-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.2rem; margin: 2rem 0; }
-        .img-half { aspect-ratio: 4/3; background: var(--bg-2); border: 1px solid var(--subtle); display: flex; align-items: center; justify-content: center; color: var(--muted); font-size: 0.7rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; overflow: hidden; }
-        .img-half img { width: 100%; height: 100%; object-fit: cover; display: block; }
         .img-sq { aspect-ratio: 1/1; background: var(--bg-2); border: 1px solid var(--subtle); display: flex; align-items: center; justify-content: center; color: var(--muted); font-size: 0.7rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; overflow: hidden; }
         .img-sq img { width: 100%; height: 100%; object-fit: cover; display: block; }
         .highlight-callout { background: #6b21a8; border: 2px solid var(--black); box-shadow: 5px 5px 0 var(--black); padding: 2.5rem; color: white; margin: 2rem 0; }
         .highlight-callout p { font-size: 1rem; color: rgba(255,255,255,0.8); line-height: 1.75; }
         .highlight-callout strong { color: var(--yellow); }
-        .skills-list { display: flex; flex-wrap: wrap; gap: 0.65rem; margin-top: 1.2rem; }
-        .skill-tag { padding: 0.36rem 0.9rem; background: var(--bg-2); border: 1px solid var(--subtle); font-family: 'DM Sans', sans-serif; font-weight: 500; font-size: 0.78rem; color: var(--text); }
         .da-label { position: absolute; top: 0.4rem; left: 0.4rem; background: rgba(0,0,0,0.65); color: white; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; font-size: 0.75rem; padding: 0.2rem 0.5rem; letter-spacing: 0.05em; z-index: 1; }
         .da-gallery { display: flex; gap: 1rem; max-width: 1400px; margin: 1rem auto; padding: 0 4rem 1rem; align-items: flex-start; }
         .da-gallery-auto { columns: 3; column-gap: 0.6rem; max-width: 1400px; margin: 1rem auto; padding: 0 4rem 1rem; }
