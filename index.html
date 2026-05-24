@@ -572,18 +572,7 @@
         nav.classList.toggle('scrolled', window.scrollY > 60);
         nav.classList.toggle('nav-on-blue', onBlue);
     }, { passive: true });
-    const hamburger = document.getElementById('hamburger');
-    const navUl = document.querySelector('nav ul');
-    hamburger.addEventListener('click', () => {
-        hamburger.classList.toggle('open');
-        navUl.classList.toggle('open');
-    });
-    navUl.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
-        hamburger.classList.remove('open');
-        navUl.classList.remove('open');
-    }));
-
-    const obs = new IntersectionObserver(entries => entries.forEach(e => {
+const obs = new IntersectionObserver(entries => entries.forEach(e => {
         if (e.isIntersecting) { e.target.classList.add('visible'); }
         else { e.target.classList.remove('visible'); }
     }), { threshold: 0.1 });
@@ -660,28 +649,7 @@
     window.addEventListener('scroll', updateLeftThumb, { passive: true });
 
     document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
-
-    // Signature rainbow canvas
-    document.querySelectorAll('.sig-canvas').forEach(canvas => {
-        const W = 150, H = 48;
-        canvas.width = W; canvas.height = H;
-        const ctx = canvas.getContext('2d');
-        const img = new Image();
-        img.src = canvas.dataset.sig;
-        let hue = 0;
-        img.onload = () => {
-            (function frame() {
-                ctx.clearRect(0, 0, W, H);
-                ctx.globalCompositeOperation = 'source-over';
-                ctx.fillStyle = `hsl(${hue}, 100%, 50%)`;
-                ctx.fillRect(0, 0, W, H);
-                ctx.globalCompositeOperation = 'destination-in';
-                ctx.drawImage(img, 0, 0, W, H);
-                hue = (hue + 0.7) % 360;
-                requestAnimationFrame(frame);
-            })();
-        };
-    });
 </script>
+<script src="/main.js"></script>
 </body>
 </html>

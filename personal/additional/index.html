@@ -251,17 +251,7 @@
 </footer>
 
 <script>
-    const hamburger = document.getElementById('hamburger');
-    const navUl = document.getElementById('nav-ul');
-    hamburger.addEventListener('click', () => {
-        hamburger.classList.toggle('open');
-        navUl.classList.toggle('open');
-    });
-    navUl.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
-        hamburger.classList.remove('open');
-        navUl.classList.remove('open');
-    }));
-    const obs = new IntersectionObserver(entries => entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } }), { threshold: 0.1 });
+const obs = new IntersectionObserver(entries => entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } }), { threshold: 0.1 });
     document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
 
     function sizeAddRow1() {
@@ -344,28 +334,7 @@
     }
     loadAddRow3();
     window.addEventListener('resize', sizeAddRow3);
-
-    // Signature rainbow canvas
-    document.querySelectorAll('.sig-canvas').forEach(canvas => {
-        const W = 150, H = 48;
-        canvas.width = W; canvas.height = H;
-        const ctx = canvas.getContext('2d');
-        const img = new Image();
-        img.src = canvas.dataset.sig;
-        let hue = 0;
-        img.onload = () => {
-            (function frame() {
-                ctx.clearRect(0, 0, W, H);
-                ctx.globalCompositeOperation = 'source-over';
-                ctx.fillStyle = `hsl(${hue}, 100%, 50%)`;
-                ctx.fillRect(0, 0, W, H);
-                ctx.globalCompositeOperation = 'destination-in';
-                ctx.drawImage(img, 0, 0, W, H);
-                hue = (hue + 0.7) % 360;
-                requestAnimationFrame(frame);
-            })();
-        };
-    });
 </script>
+<script src="/main.js"></script>
 </body>
 </html>
