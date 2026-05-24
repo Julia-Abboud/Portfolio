@@ -347,7 +347,7 @@
 
 <div class="vail-section" style="max-width:1400px; margin:0 auto; padding:3.5rem 4rem 0;">
     <section class="reveal">
-        <div style="text-align:center; margin-bottom:1rem;"><span style="display:inline-block; background:#f9a8d4; color:var(--black); border:2px solid var(--black); box-shadow:4px 4px 0 var(--black); padding:0.5rem 1.5rem; font-family:'Plus Jakarta Sans',sans-serif; font-weight:800; font-size:1rem; letter-spacing:0.08em;">Hover over the Map to Zoom In</span></div>
+        <div style="text-align:center; margin-bottom:1rem;"><span style="display:inline-block; background:#f9a8d4; color:var(--black); border:2px solid var(--black); box-shadow:4px 4px 0 var(--black); padding:0.5rem 1.5rem; font-family:'Plus Jakarta Sans',sans-serif; font-weight:800; font-size:1rem; letter-spacing:0.08em;">Hover or Touch the Map to Zoom In</span></div>
         <div id="vail-magnifier-wrap" style="position:relative; width:100%; border:2px solid var(--black); box-shadow:6px 6px 0 #d8b4fe; overflow:hidden; cursor:none;">
             <img id="vail-magnifier-img" src="../Vail Mountain Map/vail_mountain_map zoom.JPG" alt="Vail Mountain Map" style="width:100%; height:auto; display:block; user-select:none; -webkit-user-drag:none;">
             <div id="vail-lens" style="position:absolute; width:180px; height:180px; border:2px solid var(--black); box-shadow:0 0 0 1px rgba(255,255,255,0.4), inset 0 0 0 1px rgba(255,255,255,0.2); pointer-events:none; display:none; overflow:hidden; background-repeat:no-repeat;"></div>
@@ -481,6 +481,10 @@
     wrap.addEventListener('mouseenter', () => { lens.style.display = 'block'; });
     wrap.addEventListener('mouseleave', () => { lens.style.display = 'none'; });
     wrap.addEventListener('mousemove', moveLens);
+
+    wrap.addEventListener('touchstart', (e) => { e.preventDefault(); lens.style.display = 'block'; moveLens(e); }, { passive: false });
+    wrap.addEventListener('touchmove',  (e) => { e.preventDefault(); moveLens(e); }, { passive: false });
+    wrap.addEventListener('touchend',   () => { lens.style.display = 'none'; });
 
     const siteNav = document.querySelector('nav.site-nav');
     const darkBand = document.getElementById('vail-horiz-scroll-outer');
