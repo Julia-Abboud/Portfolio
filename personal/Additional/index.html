@@ -2,9 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link rel="icon" type="image/png" href="../favicon.png">
+    <link rel="icon" type="image/png" href="../../favicon.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Traditional Art — Julia Abboud</title>
+    <title>Additional Projects — Julia Abboud</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
@@ -30,7 +30,7 @@
         .hamburger.open span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
         h1 { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: clamp(1.6rem, 3vw, 2.4rem); letter-spacing: -0.03em; line-height: 1; color: var(--text); margin-bottom: 1.5rem; }
         .page-header { max-width: 1400px; margin: 0 auto; padding: 6rem 4rem 0; }
-        .project-body { max-width: 820px; margin: 0 auto; padding: 6rem 2rem; }
+        .project-body { max-width: 820px; margin: 0 auto; padding: 3.5rem 2rem 6rem; }
         .section-block { margin-bottom: 5rem; }
         .block-label { font-family: 'DM Sans', sans-serif; font-weight: 500; font-size: 0.7rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--blue); margin-bottom: 0.5rem; }
         .block-title { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: clamp(1.8rem, 3.5vw, 2.6rem); letter-spacing: -0.025em; line-height: 1; color: var(--text); text-shadow: 2px 2px 0 rgba(37,99,235,0.1); margin-bottom: 1.5rem; }
@@ -42,16 +42,28 @@
         .gallery-date { font-size: 0.72rem; font-weight: 500; color: var(--blue); letter-spacing: 0.08em; }
         .art-gallery { max-width: 1400px; margin: 0 auto; padding: 0 4rem 1.5rem; }
         @media (max-width: 900px) { .art-gallery { padding-left: 1.5rem; padding-right: 1.5rem; } }
+        .art-row { display: flex; gap: 1.5rem; margin-bottom: 2rem; align-items: flex-start; }
         @media (max-width: 640px) {
             .art-row { flex-direction: column !important; }
             .art-row > * { flex: none !important; width: 100% !important; }
+            #add-row3 { flex-direction: row !important; flex-wrap: wrap !important; }
+            #add-row3 > * { width: calc(50% - 0.75rem) !important; }
         }
-        .img-full { width: 100%; aspect-ratio: 16/9; background: var(--bg-2); border: 1px solid var(--subtle); display: flex; align-items: center; justify-content: center; color: var(--muted); font-size: 0.72rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; margin: 2rem 0; overflow: hidden; }
-        .img-full img { width: 100%; height: 100%; object-fit: cover; display: block; }
-        .quote-block { border-left: 3px solid var(--blue); padding: 1.2rem 1.8rem; background: var(--blue-lt); margin: 2rem 0; }
-        .quote-block p { font-size: 1rem; font-style: italic; color: var(--text); line-height: 1.75; }
-        .skills-list { display: flex; flex-wrap: wrap; gap: 0.65rem; margin-top: 1.2rem; }
-        .skill-tag { padding: 0.36rem 0.9rem; background: var(--bg-2); border: 1px solid var(--subtle); font-family: 'DM Sans', sans-serif; font-weight: 500; font-size: 0.78rem; color: var(--text); }
+        .project-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin: 2rem 0; }
+        .project-card { border: 1px solid var(--subtle); background: var(--bg-2); overflow: hidden; }
+        .project-card-img { aspect-ratio: 4/3; background: var(--bg); border-bottom: 1px solid var(--subtle); overflow: hidden; }
+        .project-card-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .project-card-body { padding: 1rem 1.2rem; }
+        .project-card-title { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; font-size: 0.96rem; color: var(--text); margin-bottom: 0.2rem; }
+        .project-card-meta { font-size: 0.76rem; color: var(--muted); line-height: 1.45; }
+        .project-card-date { font-size: 0.7rem; font-weight: 500; color: var(--blue); margin-top: 0.4rem; letter-spacing: 0.06em; }
+        .featured-block { border: 2px solid var(--black); box-shadow: 5px 5px 0 var(--black); margin: 2rem 0; overflow: hidden; }
+        .featured-block-img { aspect-ratio: 16/9; background: var(--bg-2); overflow: hidden; }
+        .featured-block-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .featured-block-body { padding: 1.5rem 2rem; background: var(--bg-2); }
+        .featured-block-title { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 1.1rem; color: var(--text); margin-bottom: 0.6rem; }
+        .featured-block-text { font-size: 0.9rem; color: var(--muted); line-height: 1.7; }
+        .featured-block-date { font-size: 0.7rem; font-weight: 500; color: var(--blue); margin-top: 0.5rem; letter-spacing: 0.06em; }
         .project-nav { border-top: 2px solid rgba(255,255,255,0.08); padding: 1.5rem 5rem; display: flex; justify-content: space-between; align-items: center; background: var(--text); }
         .proj-nav-link { display: flex; flex-direction: column; gap: 0.3rem; text-decoration: none; color: inherit; transition: opacity 0.2s; }
         .proj-nav-link:hover { opacity: 0.6; }
@@ -100,7 +112,8 @@
             nav.site-nav ul { display: none; flex-direction: column; position: absolute; top: 100%; left: 0; width: 100%; background: var(--blue); border-bottom: 2px solid var(--black); padding: 1.5rem 2rem; gap: 1.2rem; }
             nav.site-nav ul.open { display: flex; }
             nav.site-nav ul a { font-size: 1rem; }
-            .project-body { padding: 4rem 1.5rem; }
+            .project-body { padding: 2rem 1.5rem 4rem; }
+            .project-grid { grid-template-columns: 1fr; }
         }
     </style>
     <!-- Google tag (gtag.js) -->
@@ -115,13 +128,13 @@
 <body>
 
 <nav class="site-nav">
-    <a href="../index.html" class="logo">Julia Abboud</a>
+    <a href="/" class="logo">Julia Abboud</a>
     <ul id="nav-ul">
-        <li><a href="../index.html#about">About</a></li>
-        <li><a href="../index.html#projects" class="nav-engineering">Engineering</a></li>
-        <li><a href="../index.html#internship" class="nav-internship">Internship</a></li>
-        <li><a href="../index.html#personal" class="nav-personal">Personal</a></li>
-        <li><a href="../index.html#resume">Contact</a></li>
+        <li><a href="/#about">About</a></li>
+        <li><a href="/#projects" class="nav-engineering">Engineering</a></li>
+        <li><a href="/#internship" class="nav-internship">Internship</a></li>
+        <li><a href="/#personal" class="nav-personal">Personal</a></li>
+        <li><a href="/#resume">Contact</a></li>
     </ul>
     <button class="hamburger" id="hamburger" aria-label="Menu">
         <span></span><span></span><span></span>
@@ -131,118 +144,110 @@
 <div class="page-header">
     <section id="section-header" style="margin-bottom:3.5rem;">
         <p style="font-size:0.7rem; font-weight:400; letter-spacing:0.2em; text-transform:uppercase; color:var(--blue); margin-bottom:0.75rem;">Varies</p>
-        <h1>Traditional Art</h1>
-        <p style="margin:0;">Digital art is my usual chosen medium, and I often import paper sketches to my computer program to make them into more refined pieces, but sometimes pencil and paper win out! There is something unique about being unable to undo your mistakes when making more traditional art. For me, this category of art includes anything physically tangible that was drawn or painted. Having only one copy makes it all the more special!</p>
+        <h1>Additional Projects</h1>
+        <p style="margin:0;">As a creative person, I am always making and trying new things! This page features a collection of mini projects that do not fit into traditional categories.</p>
     </section>
 </div>
 
 <div class="art-gallery">
-
-    <!-- Row 1: left 2/3, right 1/3 with caption -->
-    <div class="reveal art-row" style="display:flex; gap:1.5rem; margin-bottom:2rem; align-items:flex-start;">
-        <img src="Traditional Art/traditional_art_1.jpg" alt="folklore" style="flex:2; min-width:0; width:0; height:auto; display:block; border:1px solid var(--subtle);">
+    <div id="add-row1" class="reveal art-row">
         <div style="flex:1; min-width:0;">
-            <img src="Traditional Art/traditional_art_2.jpg" alt="Worm Gear" style="width:100%; height:auto; display:block; border:1px solid var(--subtle);">
+            <img src="../Additional/additional_1.jpg" alt="Additional project" style="width:100%; height:auto; display:block; border:1px solid var(--subtle);">
             <div class="gallery-caption">
-                <span class="gallery-title">Worm Gear</span>
-                <span class="gallery-meta">Recycled engineering part drawing from 1942, pencil, Micron pens</span>
-                <span class="gallery-date">2/14/25</span>
+                <span class="gallery-title">Modern House MOC</span>
+                <span class="gallery-meta">LEGO pieces</span>
+                <span class="gallery-date">8/24</span>
+            </div>
+        </div>
+        <img src="../Additional/additional_2.jpg" alt="Additional project" style="flex:1; min-width:0; width:0; height:auto; display:block; border:1px solid var(--subtle);">
+        <img src="../Additional/additional_3.jpg" alt="Additional project" style="flex:1; min-width:0; width:0; height:auto; display:block; border:1px solid var(--subtle);">
+        <img src="../Additional/additional_4.jpg" alt="Additional project" style="flex:1; min-width:0; width:0; height:auto; display:block; border:1px solid var(--subtle);">
+    </div>
+
+    <div id="add-row2" class="reveal art-row">
+        <div style="flex:1; min-width:0;">
+            <img src="../Additional/additional_5.png" alt="Iron Man Hand" style="width:100%; height:auto; display:block; border:1px solid var(--subtle);">
+            <div class="gallery-caption">
+                <span class="gallery-title">Iron Man Hand</span>
+                <span class="gallery-meta">LEGO pieces from set 76155</span>
+                <span class="gallery-date">7/10/22</span>
+            </div>
+        </div>
+        <div style="flex:1; min-width:0;">
+            <img src="../Additional/additional_6.jpg" alt="Pixel Art" style="width:100%; height:auto; display:block; border:1px solid var(--subtle);">
+            <div class="gallery-caption">
+                <span class="gallery-title">Pixel Art</span>
+                <span class="gallery-meta">Custom ordered LEGO pieces, off-brand base plates</span>
+                <span class="gallery-date">12/20/20</span>
             </div>
         </div>
     </div>
 
-    <!-- Row 2: 3 images with captions -->
-    <div class="reveal art-row" style="display:flex; gap:1.5rem; margin-bottom:2rem; align-items:flex-start;">
+    <div id="add-row3" class="reveal art-row">
         <div style="flex:1; min-width:0;">
-            <img src="Traditional Art/traditional_art_3.jpg" alt="New York" style="width:100%; height:auto; display:block; border:1px solid var(--subtle);">
+            <img src="../Additional/additional_7.jpg" alt="Slayer's Scythe" style="width:100%; height:auto; display:block; border:1px solid var(--subtle);">
             <div class="gallery-caption">
-                <span class="gallery-title">New York</span>
-                <span class="gallery-meta">Acrylic paint</span>
-                <span class="gallery-date">4/17/25</span>
+                <span class="gallery-title">Slayer's Scythe</span>
+                <span class="gallery-meta">EVA foam, metal rod, wood dowel, leather scraps, spray paint, acrylic paint</span>
+                <span class="gallery-date">7/7/23</span>
             </div>
         </div>
         <div style="flex:1; min-width:0;">
-            <img src="Traditional Art/traditional_art_4.jpg" alt="The 100" style="width:100%; height:auto; display:block; border:1px solid var(--subtle);">
+            <img src="../Additional/additional_8.jpg" alt="Harley Quinn Bat" style="width:100%; height:auto; display:block; border:1px solid var(--subtle);">
             <div class="gallery-caption">
-                <span class="gallery-title">The 100</span>
-                <span class="gallery-meta">Marker</span>
-                <span class="gallery-date">3/5/25</span>
+                <span class="gallery-title">Harley Quinn Bat</span>
+                <span class="gallery-meta">Metal baseball bat, spray paint, acrylic paint</span>
+                <span class="gallery-date">4/2/23</span>
             </div>
         </div>
         <div style="flex:1; min-width:0;">
-            <img src="Traditional Art/traditional_art_5.jpg" alt="Engineer's Desk" style="width:100%; height:auto; display:block; border:1px solid var(--subtle);">
+            <img src="../Additional/additional_9.jpg" alt="Apocalypse Bat" style="width:100%; height:auto; display:block; border:1px solid var(--subtle);">
             <div class="gallery-caption">
-                <span class="gallery-title">Engineer's Desk</span>
-                <span class="gallery-meta">Paper, pencil, Micron pens, Ohuhu markers</span>
-                <span class="gallery-date">10/4/24</span>
-            </div>
-        </div>
-    </div>
-
-    <!-- Row 3: 2 images side by side -->
-    <div id="trad-art-row3" class="reveal art-row" style="display:flex; gap:1.5rem; margin-bottom:2rem; align-items:flex-start;">
-        <div style="flex:1; min-width:0;">
-            <img src="Traditional Art/traditional_art_6.png" alt="Family" style="width:100%; height:auto; display:block; border:1px solid var(--subtle);">
-            <div class="gallery-caption">
-                <span class="gallery-title">Family</span>
-                <span class="gallery-meta">Paper, pencil, Micron pens, watercolor</span>
-                <span class="gallery-date">11/19/23</span>
+                <span class="gallery-title">Apocalypse Bat</span>
+                <span class="gallery-meta">Metal baseball bat, spray paint, wood stain, acrylic paint</span>
+                <span class="gallery-date">6/2/22</span>
             </div>
         </div>
         <div style="flex:1; min-width:0;">
-            <img src="Traditional Art/traditional_art_7.jpg" alt="Abboud" style="width:100%; height:auto; display:block; border:1px solid var(--subtle);">
+            <img src="../Additional/additional_10.jpg" alt="Sword of Protection" style="width:100%; height:auto; display:block; border:1px solid var(--subtle);">
             <div class="gallery-caption">
-                <span class="gallery-title">Abboud</span>
-                <span class="gallery-meta">Recycled snowboard, Sharpie</span>
-                <span class="gallery-date">11/26/20</span>
+                <span class="gallery-title">Sword of Protection</span>
+                <span class="gallery-meta">EVA foam, wood dowel, acrylic paint</span>
+                <span class="gallery-date">6/24/21</span>
             </div>
         </div>
     </div>
 
-    <!-- Row 4: 3 images with captions -->
-    <div class="reveal art-row" style="display:flex; gap:1.5rem; margin-bottom:2rem; align-items:flex-start;">
+    <!-- Stop motion video row -->
+    <div class="reveal art-row" style="align-items:stretch;">
+        <video controls style="flex:2; min-width:0; width:0; height:auto; display:block; border:1px solid var(--subtle); background:#000;">
+            <source src="../Additional/A Completely Accurate Retelling of the Yarmouth Suspension Bridge Disaster.mp4" type="video/mp4">
+        </video>
         <div style="flex:1; min-width:0;">
-            <img src="Traditional Art/traditional_art_8.jpg" alt="Soccer!" style="width:100%; height:auto; display:block; border:1px solid var(--subtle);">
-            <div class="gallery-caption">
-                <span class="gallery-title">Soccer!</span>
-                <span class="gallery-meta">Paper, pencil, Micron pens</span>
-                <span class="gallery-date">9/28/24</span>
-            </div>
-        </div>
-        <div style="flex:1; min-width:0;">
-            <img src="Traditional Art/traditional_art_9.jpg" alt="folklore" style="width:100%; height:auto; display:block; border:1px solid var(--subtle);">
-            <div class="gallery-caption">
-                <span class="gallery-title">folklore</span>
-                <span class="gallery-meta">Old guitar, acrylic paint</span>
-                <span class="gallery-date">7/19/23</span>
-            </div>
-        </div>
-        <div style="flex:1; min-width:0;">
-            <img src="Traditional Art/traditional_art_10.jpg" alt="Wednesday" style="width:100%; height:auto; display:block; border:1px solid var(--subtle);">
-            <div class="gallery-caption">
-                <span class="gallery-title">Wednesday</span>
-                <span class="gallery-meta">Light digital art, Micron pen inking</span>
-                <span class="gallery-date">1/21/23</span>
+            <div class="gallery-caption" style="margin-top:0;">
+                <span class="gallery-title">A Completely Accurate Retelling of the Yarmouth Suspension Bridge Disaster</span>
+                <span class="gallery-meta">LEGO, lots of hours</span>
+                <span class="gallery-date">4/5/25</span>
+                <p style="font-size:0.82rem; color:var(--muted); line-height:1.7; margin-top:0.75rem;">I made this stop motion based on the Yarmouth Suspension Bridge Collapse, which occurred in 1845 in Norfolk, England. A crowd had gathered on the bridge to watch a clown come down the river in a barrel pulled by 4 geese. When he got close to the bridge, everyone rushed over to one side of it, and a suspension eyebar failed under the load, causing the whole side of the bridge to tip over and everyone to fall into the water. Boats came to save them, but 79 people died, mainly children. This video was used for a Materials Science project and took a day to create.</p>
             </div>
         </div>
     </div>
-
 </div>
 
 <div class="project-nav">
-    <a href="additional.html" class="proj-nav-link">
-        <span class="proj-nav-label">&larr; Previous Project</span>
-        <span class="proj-nav-title">Additional Projects</span>
+    <a href="/#personal" class="proj-nav-link">
+        <span class="proj-nav-label">&larr; Back to</span>
+        <span class="proj-nav-title">All Projects</span>
     </a>
-    <a href="vail-map.html" class="proj-nav-link right">
+    <a href="../traditional-art/" class="proj-nav-link right">
         <span class="proj-nav-label">Next Project &rarr;</span>
-        <span class="proj-nav-title">Vail Mountain Map</span>
+        <span class="proj-nav-title">Traditional Art</span>
     </a>
 </div>
 
 <footer id="page-footer">
     <span style="font-size:0.8rem; color:rgba(255,255,255,0.4);">&copy; 2026 Julia Abboud</span>
-    <span style="font-size:0.8rem; color:rgba(255,255,255,0.4); display:inline-flex; align-items:center; gap:0.5rem;">Designed and Developed Independently <canvas class="sig-canvas" data-sig="../about/Signature.png" style="height:3rem;width:5rem;vertical-align:middle;flex-shrink:0;display:inline-block;"></canvas></span>
+    <span style="font-size:0.8rem; color:rgba(255,255,255,0.4); display:inline-flex; align-items:center; gap:0.5rem;">Designed and Developed Independently <canvas class="sig-canvas" data-sig="../../about/Signature.png" style="height:3rem;width:5rem;vertical-align:middle;flex-shrink:0;display:inline-block;"></canvas></span>
 </footer>
 
 <script>
@@ -259,34 +264,86 @@
     const obs = new IntersectionObserver(entries => entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } }), { threshold: 0.1 });
     document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
 
-    function sizeRow3() {
-        const row = document.getElementById('trad-art-row3');
+    function sizeAddRow1() {
+        const row = document.getElementById('add-row1');
         if (!row || window.innerWidth <= 640) return;
-        const [colB, colD] = row.children;
-        const imgB = colB.querySelector('img');
-        const imgD = colD.querySelector('img');
-        if (!imgB.naturalWidth || !imgD.naturalWidth) return;
+        const items = Array.from(row.children);
+        const imgs = items.map(item => item.tagName === 'IMG' ? item : item.querySelector('img'));
+        if (!imgs.every(img => img.naturalWidth)) return;
         const gap = 24;
         const totalW = row.offsetWidth;
-        const arB = imgB.naturalWidth / imgB.naturalHeight;
-        const arD = imgD.naturalWidth / imgD.naturalHeight;
-        const wB = (totalW - gap) * arB / (arB + arD);
-        colB.style.flex = 'none';
-        colB.style.width = wB + 'px';
-        colD.style.flex = 'none';
-        colD.style.width = (totalW - gap - wB) + 'px';
-    }
-
-    function loadRow3() {
-        const imgs = document.querySelectorAll('#trad-art-row3 img');
-        let loaded = 0;
-        imgs.forEach(img => {
-            if (img.complete && img.naturalWidth) { loaded++; if (loaded === 2) sizeRow3(); }
-            else img.addEventListener('load', () => { loaded++; if (loaded === 2) sizeRow3(); });
+        const ars = imgs.map(img => img.naturalWidth / img.naturalHeight);
+        const H = (totalW - (imgs.length - 1) * gap) / ars.reduce((a, b) => a + b, 0);
+        items.forEach((item, i) => {
+            item.style.flex = 'none';
+            item.style.width = (H * ars[i]) + 'px';
         });
     }
-    loadRow3();
-    window.addEventListener('resize', sizeRow3);
+
+    function loadAddRow1() {
+        const imgs = document.querySelectorAll('#add-row1 img');
+        let loaded = 0;
+        imgs.forEach(img => {
+            if (img.complete && img.naturalWidth) { loaded++; if (loaded === imgs.length) sizeAddRow1(); }
+            else img.addEventListener('load', () => { loaded++; if (loaded === imgs.length) sizeAddRow1(); });
+        });
+    }
+    loadAddRow1();
+    window.addEventListener('resize', sizeAddRow1);
+
+    function sizeAddRow2() {
+        const row = document.getElementById('add-row2');
+        if (!row || window.innerWidth <= 640) return;
+        const items = Array.from(row.children);
+        const imgs = items.map(item => item.querySelector('img'));
+        if (!imgs.every(img => img.naturalWidth)) return;
+        const gap = 24;
+        const totalW = row.offsetWidth;
+        const ars = imgs.map(img => img.naturalWidth / img.naturalHeight);
+        const H = (totalW - gap) / ars.reduce((a, b) => a + b, 0);
+        items.forEach((item, i) => {
+            item.style.flex = 'none';
+            item.style.width = (H * ars[i]) + 'px';
+        });
+    }
+
+    function loadAddRow2() {
+        const imgs = document.querySelectorAll('#add-row2 img');
+        let loaded = 0;
+        imgs.forEach(img => {
+            if (img.complete && img.naturalWidth) { loaded++; if (loaded === imgs.length) sizeAddRow2(); }
+            else img.addEventListener('load', () => { loaded++; if (loaded === imgs.length) sizeAddRow2(); });
+        });
+    }
+    loadAddRow2();
+    window.addEventListener('resize', sizeAddRow2);
+
+    function sizeAddRow3() {
+        const row = document.getElementById('add-row3');
+        if (!row || window.innerWidth <= 640) return;
+        const items = Array.from(row.children);
+        const imgs = items.map(item => item.querySelector('img'));
+        if (!imgs.every(img => img.naturalWidth)) return;
+        const gap = 24;
+        const totalW = row.offsetWidth;
+        const ars = imgs.map(img => img.naturalWidth / img.naturalHeight);
+        const H = (totalW - (imgs.length - 1) * gap) / ars.reduce((a, b) => a + b, 0);
+        items.forEach((item, i) => {
+            item.style.flex = 'none';
+            item.style.width = (H * ars[i]) + 'px';
+        });
+    }
+
+    function loadAddRow3() {
+        const imgs = document.querySelectorAll('#add-row3 img');
+        let loaded = 0;
+        imgs.forEach(img => {
+            if (img.complete && img.naturalWidth) { loaded++; if (loaded === imgs.length) sizeAddRow3(); }
+            else img.addEventListener('load', () => { loaded++; if (loaded === imgs.length) sizeAddRow3(); });
+        });
+    }
+    loadAddRow3();
+    window.addEventListener('resize', sizeAddRow3);
 
     // Signature rainbow canvas
     document.querySelectorAll('.sig-canvas').forEach(canvas => {
