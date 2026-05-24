@@ -1,8 +1,8 @@
-// Shared nav and footer — injected synchronously via document.write()
+// Shared nav and footer — injected synchronously via insertAdjacentHTML()
 // Load this script (no defer/async) in <head>, then call renderNav() / renderFooter() inline in <body>.
 
 window.renderNav = function () {
-    document.write(
+    document.currentScript.insertAdjacentHTML('beforebegin',
         '<nav class="site-nav">' +
         '<a href="/" class="logo">Julia Abboud</a>' +
         '<ul id="nav-ul">' +
@@ -20,7 +20,7 @@ window.renderNav = function () {
 };
 
 window.renderFooter = function () {
-    document.write(
+    document.currentScript.insertAdjacentHTML('beforebegin',
         '<footer id="page-footer">' +
         '<span style="font-size:0.8rem;color:rgba(255,255,255,0.4);">© 2026 Julia Abboud</span>' +
         '<span style="font-size:0.8rem;color:rgba(255,255,255,0.4);display:inline-flex;align-items:center;gap:0.5rem;">' +
