@@ -37,6 +37,8 @@
             [id^="da-row-sticker"] img { width: 100% !important; height: auto !important; }
             #da-row-sticker1 { padding-left: 0 !important; padding-right: 0 !important; }
             #da-row-sticker1 > div:last-child { padding-top: 0 !important; }
+            #da-row-sticker9 { padding-left: 0 !important; padding-right: 0 !important; }
+            #da-row-sticker9 > div:first-child { padding-top: 0 !important; }
             .blue-callout { margin-left: 1.5rem; margin-right: 1.5rem; }
             .da-tools-wrap { padding-left: 1.5rem !important; padding-right: 1.5rem !important; }
             .da-tools-wrap > div { flex-direction: column !important; align-items: flex-start !important; }
@@ -163,6 +165,20 @@
     </div>
 </div>
 
+<div style="max-width:1400px; margin:1rem auto; padding:0 4rem;">
+    <div id="da-row-sticker9" style="display:flex; gap:1rem; align-items:flex-start; border:2px dashed #be185d;">
+        <div style="flex:1; min-width:0; font-size:0.82rem; color:var(--muted); line-height:1.6; padding:1rem;">
+            The first shirt I ever designed was at age 7 in 2012 for an after-school LEGO club! I remember drawing the LEGO Minifigure on paper and entering a club-wide t-shirt vote. My design won and my teacher scanned the image to then make the custom shirts. A few years later, I had a similar experience making the LEGO Robotics Team shirt, which was a LEGO chicken using laser vision to obliterate trash. As you can imagine, this design went over very well with my elementary school peers. It is awesome to look back and find early examples of using the skills I still love today!
+        </div>
+        <div style="min-width:0; position:relative;">
+            <img src="design_23.jpg" alt="" style="width:100%; height:auto; display:block; border:1px solid var(--subtle);" loading="eager">
+        </div>
+        <div style="min-width:0; position:relative; background:#2a2a2a;">
+            <img src="design_24.png" alt="" style="width:100%; height:auto; display:block; border:1px solid var(--subtle);" loading="eager">
+        </div>
+    </div>
+</div>
+
 <div class="da-tools-wrap" style="max-width:1400px; margin:1rem auto 2rem; padding:0 4rem;">
     <div style="display:flex; gap:1.5rem; align-items:center; justify-content:center; background:#d8b4fe; border:2px solid var(--black); box-shadow:4px 4px 0 var(--black); padding:1.2rem 1.5rem;">
         <div style="display:flex; gap:1.5rem; flex-shrink:0;">
@@ -219,9 +235,10 @@ const obs = new IntersectionObserver(entries => entries.forEach(e => { if (e.isI
         });
     }
 
-    const rows = ['da-row-sticker1', 'da-row-sticker2', 'da-row-sticker3', 'da-row-sticker4', 'da-row-sticker5', 'da-row-sticker6', 'da-row-sticker8'];
-    rows.forEach(id => loadRow(id, () => sizeRow(id, id === 'da-row-sticker1' ? 0.75 : 1.0)));
-    window.addEventListener('resize', () => rows.forEach(id => sizeRow(id, id === 'da-row-sticker1' ? 0.75 : 1.0)));
+    const rows = ['da-row-sticker1', 'da-row-sticker2', 'da-row-sticker3', 'da-row-sticker4', 'da-row-sticker5', 'da-row-sticker6', 'da-row-sticker8', 'da-row-sticker9'];
+    const textRows = new Set(['da-row-sticker1', 'da-row-sticker9']);
+    rows.forEach(id => loadRow(id, () => sizeRow(id, textRows.has(id) ? 0.75 : 1.0)));
+    window.addEventListener('resize', () => rows.forEach(id => sizeRow(id, textRows.has(id) ? 0.75 : 1.0)));
 </script>
 <script src="/main.js"></script>
 </body>
