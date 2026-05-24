@@ -78,6 +78,23 @@
             0%   { filter: brightness(0) invert(1) sepia(1) saturate(8) hue-rotate(0deg) brightness(0.75); }
             100% { filter: brightness(0) invert(1) sepia(1) saturate(8) hue-rotate(360deg) brightness(0.75); }
         }
+        @keyframes sigColorBg {
+            0%   { background-color: #ef4444; }
+            16%  { background-color: #f97316; }
+            33%  { background-color: #eab308; }
+            50%  { background-color: #22c55e; }
+            66%  { background-color: #3b82f6; }
+            83%  { background-color: #a855f7; }
+            100% { background-color: #ef4444; }
+        }
+            33%  { background-color: #eab308; }
+            50%  { background-color: #22c55e; }
+            66%  { background-color: #3b82f6; }
+            83%  { background-color: #a855f7; }
+            100% { background-color: #ef4444; }
+        }
+            100% { filter: brightness(0) invert(1) sepia(1) saturate(8) hue-rotate(360deg) brightness(0.75); }
+        }
         .hero-desc { font-size: clamp(1rem, 1.5vw, 1.2rem); color: var(--muted); max-width: 520px; margin-bottom: 3rem; line-height: 1.75; letter-spacing: 0.2em; animation: fadeUp 0.7s ease 0.2s both; }
         .hero-actions { display: flex; align-items: center; gap: 1.5rem; animation: fadeUp 0.7s ease 0.3s both; }
         .btn-solid { display: inline-block; padding: 0.85rem 2rem; background: var(--blue); color: white; text-decoration: none; font-family: 'DM Sans', sans-serif; font-weight: 500; font-size: 0.88rem; border: 2px solid var(--blue-dk); box-shadow: 3px 3px 0 var(--blue-dk); transition: transform 0.15s, box-shadow 0.15s; }
@@ -498,7 +515,7 @@
 
 <footer id="footer">
     <span style="font-size:0.8rem;color:rgba(255,255,255,0.4);">&copy; 2026 Julia Abboud</span>
-    <span style="font-size:0.8rem;color:rgba(255,255,255,0.4);display:inline-flex;align-items:center;gap:0.5rem;">Designed and Developed Independently <img src="about/Signature.png" alt="Julia Abboud signature" style="height:3rem;animation:sigColor 4.5s ease-in-out infinite;"></span>
+    <span style="font-size:0.8rem;color:rgba(255,255,255,0.4);display:inline-flex;align-items:center;gap:0.5rem;">Designed and Developed Independently <span style="display:inline-block;height:3rem;width:5rem;-webkit-mask-image:url('about/Signature.png');mask-image:url('about/Signature.png');-webkit-mask-size:contain;mask-size:contain;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;-webkit-mask-position:center;mask-position:center;animation:sigColorBg 4.5s linear infinite;flex-shrink:0;"></span></span>
 </footer>
 
 <script>

@@ -75,6 +75,23 @@
             0%   { filter: brightness(0) invert(1) sepia(1) saturate(8) hue-rotate(0deg) brightness(0.75); }
             100% { filter: brightness(0) invert(1) sepia(1) saturate(8) hue-rotate(360deg) brightness(0.75); }
         }
+        @keyframes sigColorBg {
+            0%   { background-color: #ef4444; }
+            16%  { background-color: #f97316; }
+            33%  { background-color: #eab308; }
+            50%  { background-color: #22c55e; }
+            66%  { background-color: #3b82f6; }
+            83%  { background-color: #a855f7; }
+            100% { background-color: #ef4444; }
+        }
+            33%  { background-color: #eab308; }
+            50%  { background-color: #22c55e; }
+            66%  { background-color: #3b82f6; }
+            83%  { background-color: #a855f7; }
+            100% { background-color: #ef4444; }
+        }
+            100% { filter: brightness(0) invert(1) sepia(1) saturate(8) hue-rotate(360deg) brightness(0.75); }
+        }
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #ec4899; border-radius: 4px; }
@@ -222,7 +239,7 @@
 
 <footer id="page-footer">
     <span style="font-size:0.8rem; color:rgba(255,255,255,0.4);">&copy; 2026 Julia Abboud</span>
-    <span style="font-size:0.8rem; color:rgba(255,255,255,0.4); display:inline-flex; align-items:center; gap:0.5rem;">Designed and Developed Independently <img src="../about/Signature.png" alt="Julia Abboud signature" style="height:3rem; width:auto; display:inline; animation:sigColor 4.5s ease-in-out infinite; border:none; background:none;"></span>
+    <span style="font-size:0.8rem; color:rgba(255,255,255,0.4); display:inline-flex; align-items:center; gap:0.5rem;">Designed and Developed Independently <span style="display:inline-block;height:3rem;width:5rem;-webkit-mask-image:url('../about/Signature.png');mask-image:url('../about/Signature.png');-webkit-mask-size:contain;mask-size:contain;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;-webkit-mask-position:center;mask-position:center;animation:sigColorBg 4.5s linear infinite;flex-shrink:0;"></span></span>
 </footer>
 
 <script>
