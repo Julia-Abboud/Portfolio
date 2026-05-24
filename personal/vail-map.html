@@ -13,7 +13,17 @@
         :root { --bg: #ffffff; --bg-2: #f8f9fc; --text: #0f172a; --muted: #64748b; --subtle: #e2e8f0; --blue: #2563eb; --blue-lt: #eff6ff; --blue-dk: #1d4ed8; --yellow: #fde047; --black: #0f172a; }
         html { scroll-behavior: smooth; }
         body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-weight: 400; line-height: 1.7; overflow-x: hidden; }
-        nav.site-nav { position: fixed; top: 0; width: 100%; z-index: 300; padding: 1.4rem 5rem; display: flex; justify-content: space-between; align-items: center; background: var(--blue); border-bottom: 2px solid var(--black); }
+        nav.site-nav { position: fixed; top: 0; width: 100%; z-index: 300; padding: 1.4rem 5rem; display: flex; justify-content: space-between; align-items: center; background: var(--blue); border-bottom: 2px solid var(--black); transition: background 0.3s, border-color 0.3s; }
+        nav.site-nav.nav-light { background: #ffffff; }
+        nav.site-nav.nav-light .logo { color: var(--text); }
+        nav.site-nav.nav-light ul a { color: var(--muted); }
+        nav.site-nav.nav-light ul a::after { background: var(--blue); }
+        nav.site-nav.nav-light .nav-engineering::after { background: var(--yellow); }
+        nav.site-nav.nav-light .nav-internship::after { background: #d8b4fe; }
+        nav.site-nav.nav-light .nav-personal::after { background: #f9a8d4; }
+        nav.site-nav.nav-light ul a:hover { color: var(--text); }
+        nav.site-nav.nav-light .hamburger span { background: var(--black); }
+        @media (max-width: 768px) { nav.site-nav.nav-light ul { background: #ffffff; } }
         .logo { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 1rem; letter-spacing: 0.08em; text-transform: uppercase; color: white; text-decoration: none; }
         nav.site-nav ul { list-style: none; display: flex; gap: 2.8rem; }
         nav.site-nav ul a { font-family: 'DM Sans', sans-serif; font-weight: 500; font-size: 0.84rem; color: rgba(255,255,255,0.85); text-decoration: none; transition: color 0.2s; position: relative; }
@@ -154,7 +164,7 @@
         <div style="flex:1 1 300px; display:flex; flex-direction:column; justify-content:flex-start;">
             <p style="font-size:0.7rem; font-weight:400; letter-spacing:0.2em; text-transform:uppercase; color:var(--blue); margin-bottom:0.75rem;">Mar &ndash; Jul 2025</p>
             <h1 style="margin-bottom:1.25rem;">Vail Mountain Map</h1>
-            <p>Snowboarding and skiing with my cousins has always been an important part of my winters. This project aimed to fulfill a commission request from their family for an enlarged version of the ski map, designed for sharing a ski day's journey with guests unfamiliar with the mountain, while also serving as a statement piece.</p>
+            <p>Snowboarding and skiing with my cousins have always been an important part of my winters. This project aimed to fulfill a commission request from my cousins' family for an enlarged version of the ski map, designed for sharing a ski day's journey with guests unfamiliar with the mountain, while also serving as a statement piece.</p>
             <p style="margin:0;">Given much creative freedom, I planned and executed this project independently, practicing my build, art, and client-communication skills. Staying under a $160 budget, I am proud of successfully combining functionality and art into this series of canvases.</p>
         </div>
 
@@ -446,6 +456,16 @@
     wrap.addEventListener('mouseenter', () => { lens.style.display = 'block'; });
     wrap.addEventListener('mouseleave', () => { lens.style.display = 'none'; });
     wrap.addEventListener('mousemove', moveLens);
+
+    const siteNav = document.querySelector('nav.site-nav');
+    const darkBand = document.getElementById('vail-horiz-scroll-outer');
+    function checkNavBg() {
+        const navBottom = siteNav.getBoundingClientRect().bottom;
+        const bandTop = darkBand.getBoundingClientRect().top;
+        const bandBottom = darkBand.getBoundingClientRect().bottom;
+        siteNav.classList.toggle('nav-light', bandTop <= navBottom && bandBottom >= navBottom);
+    }
+    window.addEventListener('scroll', checkNavBg, { passive: true });
 </script>
 </body>
 </html>
