@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://julia-abboud.github.io/Portfolio/sitemap.xml
+Sitemap: https://juliaabboud.com/sitemap.xml
