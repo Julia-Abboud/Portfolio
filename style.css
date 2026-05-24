@@ -135,6 +135,16 @@ img { width: 100%; height: auto; display: block; object-fit: cover; border: 1px 
 /* === Footer === */
 footer#page-footer { background: var(--text); border-top: 1px solid rgba(255,255,255,0.08); padding: 1.2rem 5rem; display: flex; justify-content: space-between; align-items: center; }
 
+/* === Scrollbar === */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #ec4899; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #be185d; }
+* { scrollbar-color: #ec4899 transparent; }
+
+/* === Animations === */
+@keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+
 /* === Keyframes === */
 @keyframes sigColor {
     0%   { filter: brightness(0) invert(1) sepia(1) saturate(8) hue-rotate(0deg) brightness(0.75); }
