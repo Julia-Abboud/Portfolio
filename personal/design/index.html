@@ -193,71 +193,22 @@
 const obs = new IntersectionObserver(entries => entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } }), { threshold: 0.1 });
     document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
 
-    function sizeRowSticker1() {
-        const row = document.getElementById('da-row-sticker1');
-        if (!row || window.innerWidth <= 640) return;
-        const [ahDiv, axDiv, textDiv] = Array.from(row.children);
-        const ahImg = ahDiv.querySelector('img'), axImg = axDiv.querySelector('img');
-        if (!ahImg.naturalWidth || !axImg.naturalWidth) return;
-        const gap = parseFloat(getComputedStyle(row).gap) || 16;
-        const totalW = row.offsetWidth - parseFloat(getComputedStyle(row).paddingLeft) - parseFloat(getComputedStyle(row).paddingRight);
-        const arAh = ahImg.naturalWidth / ahImg.naturalHeight;
-        const arAx = axImg.naturalWidth / axImg.naturalHeight;
-        const imgAreaW = (totalW * 3 / 4) - gap;
-        const H = imgAreaW / (arAh + arAx);
-        ahDiv.style.flex = 'none'; ahDiv.style.width = (H * arAh) + 'px';
-        axDiv.style.flex = 'none'; axDiv.style.width = (H * arAx) + 'px';
-        textDiv.style.flex = '1';
-    }
-
-    function sizeRowSticker2() {
-        const row = document.getElementById('da-row-sticker2');
-        if (!row || window.innerWidth <= 640) return;
-        const items = Array.from(row.children);
-        const imgs = items.map(d => d.querySelector('img'));
-        if (!imgs.every(img => img.naturalWidth)) return;
-        const gap = parseFloat(getComputedStyle(row).gap) || 16;
-        const totalW = row.offsetWidth - parseFloat(getComputedStyle(row).paddingLeft) - parseFloat(getComputedStyle(row).paddingRight);
-        const ars = imgs.map(img => img.naturalWidth / img.naturalHeight);
-        const H = (totalW - (imgs.length - 1) * gap) / ars.reduce((a, b) => a + b, 0);
-        items.forEach((div, i) => { div.style.flex = 'none'; div.style.width = (H * ars[i]) + 'px'; });
-    }
-
-    function loadStickerRows() {
-        const imgs1 = document.querySelectorAll('#da-row-sticker1 img');
-        let loaded1 = 0;
-        imgs1.forEach(img => {
-            if (img.complete && img.naturalWidth) { loaded1++; if (loaded1 === imgs1.length) sizeRowSticker1(); }
-            else img.addEventListener('load', () => { loaded1++; if (loaded1 === imgs1.length) sizeRowSticker1(); });
-        });
-        const imgs2 = document.querySelectorAll('#da-row-sticker2 img');
-        let loaded2 = 0;
-        imgs2.forEach(img => {
-            if (img.complete && img.naturalWidth) { loaded2++; if (loaded2 === imgs2.length) sizeRowSticker2(); }
-            else img.addEventListener('load', () => { loaded2++; if (loaded2 === imgs2.length) sizeRowSticker2(); });
-        });
-    }
-    loadStickerRows();
-    window.addEventListener('resize', () => { sizeRowSticker1(); sizeRowSticker2(); sizeRowSticker3(); sizeRowSticker4(); sizeRowSticker5(); sizeRowSticker6(); sizeRowSticker8(); });
-
-    function sizeRow3Imgs(id) {
+    // imgFraction: fraction of row width allocated to images (default 1.0; 0.75 for row with text sibling)
+    function sizeRow(id, imgFraction) {
+        imgFraction = imgFraction || 1.0;
         const row = document.getElementById(id);
         if (!row || window.innerWidth <= 640) return;
-        const items = Array.from(row.children);
-        const imgs = items.map(d => d.querySelector('img'));
+        const allItems = Array.from(row.children);
+        const imgItems = allItems.filter(d => d.querySelector('img'));
+        const imgs = imgItems.map(d => d.querySelector('img'));
         if (!imgs.every(img => img.naturalWidth)) return;
         const gap = parseFloat(getComputedStyle(row).gap) || 16;
         const totalW = row.offsetWidth - parseFloat(getComputedStyle(row).paddingLeft) - parseFloat(getComputedStyle(row).paddingRight);
         const ars = imgs.map(img => img.naturalWidth / img.naturalHeight);
-        const H = (totalW - (imgs.length - 1) * gap) / ars.reduce((a, b) => a + b, 0);
-        items.forEach((div, i) => { div.style.flex = 'none'; div.style.width = (H * ars[i]) + 'px'; });
+        const H = (totalW * imgFraction - (imgs.length - 1) * gap) / ars.reduce((a, b) => a + b, 0);
+        imgItems.forEach((div, i) => { div.style.flex = 'none'; div.style.width = (H * ars[i]) + 'px'; });
+        allItems.filter(d => !d.querySelector('img')).forEach(d => { d.style.flex = '1'; });
     }
-
-    function sizeRowSticker3() { sizeRow3Imgs('da-row-sticker3'); }
-    function sizeRowSticker4() { sizeRow3Imgs('da-row-sticker4'); }
-    function sizeRowSticker5() { sizeRow3Imgs('da-row-sticker5'); }
-    function sizeRowSticker6() { sizeRow3Imgs('da-row-sticker6'); }
-    function sizeRowSticker8() { sizeRow3Imgs('da-row-sticker8'); }
 
     function loadRow(id, sizeFn) {
         const imgs = document.querySelectorAll('#' + id + ' img');
@@ -267,11 +218,10 @@ const obs = new IntersectionObserver(entries => entries.forEach(e => { if (e.isI
             else img.addEventListener('load', () => { loaded++; if (loaded === imgs.length) sizeFn(); });
         });
     }
-    loadRow('da-row-sticker3', sizeRowSticker3);
-    loadRow('da-row-sticker4', sizeRowSticker4);
-    loadRow('da-row-sticker5', sizeRowSticker5);
-    loadRow('da-row-sticker6', sizeRowSticker6);
-    loadRow('da-row-sticker8', sizeRowSticker8);
+
+    const rows = ['da-row-sticker1', 'da-row-sticker2', 'da-row-sticker3', 'da-row-sticker4', 'da-row-sticker5', 'da-row-sticker6', 'da-row-sticker8'];
+    rows.forEach(id => loadRow(id, () => sizeRow(id, id === 'da-row-sticker1' ? 0.75 : 1.0)));
+    window.addEventListener('resize', () => rows.forEach(id => sizeRow(id, id === 'da-row-sticker1' ? 0.75 : 1.0)));
 </script>
 <script src="/main.js"></script>
 </body>
