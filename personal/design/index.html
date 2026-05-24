@@ -21,7 +21,6 @@
         .cover-frame::after { content: ''; position: absolute; bottom: -0.6rem; left: -0.6rem; width: 60px; height: 60px; background-color: transparent; background-image: radial-gradient(circle, #be185d 3px, transparent 3px); background-size: 12px 12px; z-index: 2; }
 
         /* ── Page layout ── */
-        .page-header { max-width: 1400px; margin: 0 auto; padding: 6rem 4rem 0; }
 
         /* ── Page-specific components ── */
         .da-label { position: absolute; top: 0.4rem; left: 0.4rem; background: rgba(0,0,0,0.65); color: white; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; font-size: 0.75rem; padding: 0.2rem 0.5rem; letter-spacing: 0.05em; z-index: 1; }
@@ -29,7 +28,6 @@
         .blue-callout p { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 1rem; letter-spacing: 0.1em; color: white; margin: 0; }
 
         @media (max-width: 900px) {
-            .page-header { padding: 5rem 1.5rem 0; }
         }
         @media (max-width: 640px) {
             #design-intro-left { flex: none !important; width: 100% !important; max-width: 100% !important; }
@@ -52,22 +50,11 @@
         gtag('js', new Date());
         gtag('config', 'G-SMYHDJSEEH');
     </script>
+    <script src="/components.js"></script>
 </head>
 <body>
 
-<nav class="site-nav">
-    <a href="/" class="logo">Julia Abboud</a>
-    <ul id="nav-ul">
-        <li><a href="/#about">About</a></li>
-        <li><a href="/#projects" class="nav-engineering">Engineering</a></li>
-        <li><a href="/#internship" class="nav-internship">Internship</a></li>
-        <li><a href="/#personal" class="nav-personal">Personal</a></li>
-        <li><a href="/#contact">Contact</a></li>
-    </ul>
-    <button class="hamburger" id="hamburger" aria-label="Menu">
-        <span></span><span></span><span></span>
-    </button>
-</nav>
+<script>renderNav();</script>
 
 <div class="page-header">
     <section id="section-header" style="margin-bottom:3.5rem;">
@@ -200,10 +187,7 @@
     </a>
 </div>
 
-<footer id="page-footer">
-    <span style="font-size:0.8rem; color:rgba(255,255,255,0.4);">&copy; 2026 Julia Abboud</span>
-    <span style="font-size:0.8rem; color:rgba(255,255,255,0.4); display:inline-flex; align-items:center; gap:0.5rem;">Designed and Developed Independently <canvas class="sig-canvas" data-sig="../../about/Signature.png" style="height:3rem;width:5rem;vertical-align:middle;flex-shrink:0;display:inline-block;"></canvas></span>
-</footer>
+<script>renderFooter();</script>
 
 <script>
 const obs = new IntersectionObserver(entries => entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } }), { threshold: 0.1 });
