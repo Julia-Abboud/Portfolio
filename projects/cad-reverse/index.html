@@ -7,130 +7,13 @@
     <title>CAD Reverse Engineering — Julia Abboud</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
     <style>
-        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-        :root {
-            --bg: #ffffff; --bg-2: #f8f9fc; --text: #0f172a; --muted: #64748b;
-            --subtle: #e2e8f0; --blue: #2563eb; --blue-lt: #eff6ff; --blue-dk: #1d4ed8;
-            --yellow: #fde047; --black: #0f172a;
-        }
-        html { scroll-behavior: smooth; }
-        body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-weight: 400; line-height: 1.7; overflow-x: hidden; }
-
-        /* ── Nav ── */
-        nav.site-nav { position: fixed; top: 0; width: 100%; z-index: 300; padding: 1.4rem 5rem; display: flex; justify-content: space-between; align-items: center; background: var(--blue); border-bottom: 2px solid var(--black); }
-        .logo { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 1rem; letter-spacing: 0.08em; text-transform: uppercase; color: white; text-decoration: none; }
-        nav.site-nav ul { list-style: none; display: flex; gap: 2.8rem; }
-        nav.site-nav ul a { font-family: 'DM Sans', sans-serif; font-weight: 500; font-size: 0.84rem; color: rgba(255,255,255,0.85); text-decoration: none; transition: color 0.2s; position: relative; }
-        nav.site-nav ul a::after { content: ''; position: absolute; bottom: -3px; left: 0; width: 100%; height: 2px; background: white; transform: scaleX(0); transform-origin: left; transition: transform 0.25s ease; }
-        nav.site-nav ul a:hover { color: white; }
-        nav.site-nav ul a:hover::after { transform: scaleX(1); }
-        nav.site-nav .nav-engineering::after { background: var(--yellow); }
-        nav.site-nav .nav-internship::after { background: #d8b4fe; }
-        nav.site-nav .nav-personal::after { background: #f9a8d4; }
-        .hamburger { display: none; flex-direction: column; justify-content: space-between; width: 24px; height: 18px; background: none; border: none; cursor: pointer; padding: 0; z-index: 400; outline: none; -webkit-tap-highlight-color: transparent; appearance: none; -webkit-appearance: none; box-shadow: none; overflow: hidden; clip-path: inset(0); -webkit-clip-path: inset(0); }
-        .hamburger span { display: block; width: 100%; height: 2px; background: white; transition: transform 0.3s ease, opacity 0.3s ease; border-radius: 0; border: none; box-shadow: none; backface-visibility: hidden; -webkit-backface-visibility: hidden; }
-        .hamburger.open span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
-        .hamburger.open span:nth-child(2) { opacity: 0; transform: scale(0); }
-        .hamburger.open span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
-
-        /* ── Page wrapper ── */
-        .page { max-width: 1400px; margin: 0 auto; padding: 6rem 4rem 0; }
-
-        /* ── Layout helpers ── */
-        .layout-full { width: 100%; }
-        .layout-2col { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
-        .layout-sidebar { display: grid; grid-template-columns: 1fr 2fr; gap: 2.5rem; }
-        .layout-3col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem; }
-        .layout-4col { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 1rem; }
-        .col { min-width: 0; }
-
-        /* ── Typography ── */
-        h1 { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: clamp(1.6rem, 3vw, 2.4rem); letter-spacing: -0.03em; line-height: 1; color: var(--text); margin-bottom: 1.5rem; }
-        h2 { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: clamp(1.5rem, 3vw, 2.2rem); letter-spacing: -0.025em; color: var(--text); text-shadow: 2px 2px 0 rgba(37,99,235,0.08); margin-bottom: 0.5rem; }
-        p { font-size: 0.97rem; color: var(--muted); line-height: 1.78; margin-bottom: 1rem; }
-        p strong { color: var(--text); font-weight: 700; }
-        p em { color: var(--text); font-style: normal; font-weight: 600; }
-        a { color: var(--blue); text-decoration: none; }
-        a:hover { text-decoration: underline; }
-
-        /* ── Section spacing ── */
-        section { margin-bottom: 3.5rem; }
-
-        /* ── Stats band ── */
-        .stats-band { background: var(--blue-dk); color: white; padding: 1.4rem 2.5rem; border: 2px solid var(--black); box-shadow: 4px 4px 0 var(--black); }
-        .stats-band p { color: white; margin: 0; font-size: 1rem; }
-        .stats-band strong { color: var(--yellow); }
-        .stats-band em { color: white; font-style: normal; font-weight: 500; }
-
-        /* ── Images ── */
-        img { width: 100%; height: auto; display: block; object-fit: cover; border: 1px solid var(--subtle); background: var(--bg-2); }
-        .col img + img { margin-top: 1rem; }
-        .caption { font-size: 0.82rem; color: var(--muted); line-height: 1.6; margin-top: 0.6rem; margin-bottom: 0; }
-
-        /* ── Video embed ── */
-        .video-wrap { position: relative; aspect-ratio: 16/9; background: var(--bg-2); border: 1px solid var(--subtle); overflow: hidden; }
-        .video-wrap iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: none; }
-
-        /* ── Bottom project nav ── */
-        .project-nav { border-top: 2px solid rgba(255,255,255,0.08); padding: 1.5rem 5rem; display: flex; justify-content: space-between; align-items: center; background: var(--text); }
-        .proj-nav-link { display: flex; flex-direction: column; gap: 0.3rem; text-decoration: none; color: inherit; transition: opacity 0.2s; }
-        .proj-nav-link:hover { opacity: 0.6; }
-        .proj-nav-label { font-size: 0.66rem; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.45); }
-        .proj-nav-title { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; font-size: 1.3rem; letter-spacing: -0.015em; color: white; }
-        .proj-nav-link.right { text-align: right; }
-
-        /* ── Footer ── */
-        footer#page-footer { background: var(--text); border-top: 1px solid rgba(255,255,255,0.08); padding: 1.2rem 5rem; display: flex; justify-content: space-between; align-items: center; }
-        @keyframes sigColor {
-            0%   { filter: brightness(0) invert(1) sepia(1) saturate(8) hue-rotate(0deg) brightness(0.75); }
-            100% { filter: brightness(0) invert(1) sepia(1) saturate(8) hue-rotate(360deg) brightness(0.75); }
-        }
-        @keyframes sigColorBg {
-            0%   { background-color: #ef4444; }
-            16%  { background-color: #f97316; }
-            33%  { background-color: #eab308; }
-            50%  { background-color: #22c55e; }
-            66%  { background-color: #3b82f6; }
-            83%  { background-color: #a855f7; }
-            100% { background-color: #ef4444; }
-        }
-            33%  { background-color: #eab308; }
-            50%  { background-color: #22c55e; }
-            66%  { background-color: #3b82f6; }
-            83%  { background-color: #a855f7; }
-            100% { background-color: #ef4444; }
-        }
-            100% { filter: brightness(0) invert(1) sepia(1) saturate(8) hue-rotate(360deg) brightness(0.75); }
-        }
-
         /* ── Cover image frame ── */
         .cover-frame { position: relative; border: 2px solid var(--black); }
         .cover-frame::before { content: ''; position: absolute; top: -14px; right: -16px; width: 70px; height: 38px; background: repeating-linear-gradient(45deg, #f9a8d4 0px, #f9a8d4 4px, #fff 4px, #fff 8px); border: 2px solid var(--black); transform: rotate(8deg); z-index: 2; }
         .cover-frame::after { content: ''; position: absolute; bottom: 0; left: 0; width: 90px; height: 90px; background-image: radial-gradient(circle, #6d28d9 3px, transparent 3px); background-size: 13px 13px; z-index: 1; }
-
-        /* ── Reveal ── */
-        .reveal { opacity: 0; transform: translateY(18px); transition: opacity 0.55s ease, transform 0.55s ease; }
-        .reveal.visible { opacity: 1; transform: translateY(0); }
-
-        /* ── Scrollbar ── */
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: #ec4899; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #be185d; }
-        * { scrollbar-color: #ec4899 transparent; }
-
-        /* ── Timeline number badge ── */
-        .img-wrap { position: relative; display: block; }
-        .img-wrap img { width: 100%; height: auto; object-fit: unset; }
-        .img-num { position: absolute; top: 0.5rem; right: 0.5rem; border: 2px solid var(--black); box-shadow: 2px 2px 0 var(--black); font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 1.44rem; width: 3.2rem; height: 3.2rem; display: flex; align-items: center; justify-content: center; z-index: 2; }
-
-        /* ── Photo grid ── */
-        .photo-grid { display: flex; width: 100%; gap: 1rem; align-items: flex-start; }
-        .photo-grid .pg-col { min-width: 0; }
-        .photo-grid .pg-col img { width: 100%; height: auto; display: block; border: none; }
-        .photo-grid .pg-col-stack { display: flex; flex-direction: column; gap: 1rem; }
 
         /* ── CAD grid uniform image height ── */
         #section-cad-grid img { height: 220px; object-fit: cover; }
@@ -139,29 +22,11 @@
         #section-parts-portrait > div { display: grid !important; grid-template-columns: repeat(6, 1fr) !important; align-items: start; }
         #section-parts-landscape > div { display: grid !important; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)) !important; align-items: start; }
 
-        /* ── Responsive ── */
-        @media (max-width: 600px) {
-            .photo-grid { flex-direction: column; }
-            .photo-grid .pg-col { flex: none !important; width: 100%; }
-        }
         @media (max-width: 768px) {
-            nav.site-nav { padding-left: 1.5rem; padding-right: 1.5rem; }
-            .hamburger { display: flex; }
-            nav.site-nav ul { display: none; flex-direction: column; position: absolute; top: 100%; left: 0; width: 100%; background: var(--blue); border-bottom: 2px solid var(--black); padding: 1.5rem 2rem; gap: 1.2rem; }
-            nav.site-nav ul.open { display: flex; }
-            nav.site-nav ul a { font-size: 1rem; }
             #section-stats > div { flex-direction: column; }
             #section-stats > div > div { flex-basis: auto !important; }
         }
         @media (max-width: 900px) {
-            nav.site-nav { padding-left: 1.5rem; padding-right: 1.5rem; }
-            .page { padding: 5rem 1.5rem 0; }
-            .layout-2col, .layout-sidebar, .layout-3col { grid-template-columns: 1fr 1fr; }
-            .layout-4col { grid-template-columns: 1fr 1fr; }
-            .project-nav { padding-left: 1.5rem; padding-right: 1.5rem; flex-direction: column; gap: 2rem; align-items: center; }
-            .proj-nav-link, .proj-nav-link.right { text-align: center; }
-            footer#page-footer { padding-left: 1.5rem; padding-right: 1.5rem; flex-direction: column; gap: 1rem; align-items: center; text-align: center; }
-            /* PDF sections stack */
             #section-pdfs > div { flex-direction: column; }
             #section-pdfs > div > div { width: 100% !important; flex: none !important; }
             #section-pdfs > div > div > div[style*="height:295px"] { height: 420px !important; }
@@ -181,12 +46,10 @@
             #section-parts-bottom > div > div { flex: none !important; width: 100%; }
         }
         @media (max-width: 540px) {
-            .layout-2col, .layout-sidebar, .layout-3col, .layout-4col { grid-template-columns: 1fr; }
             #section-pdfs > div > div > div[style*="height:295px"] { height: 280px !important; }
             #section-pdfs > div > div > div[style*="height:450px"] { height: 350px !important; }
             #section-lego9441 > div > div > div[style*="height:550px"] { height: 350px !important; }
         }
-
     </style>
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-SMYHDJSEEH"></script>

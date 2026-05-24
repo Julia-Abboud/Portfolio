@@ -7,188 +7,13 @@
     <title>Drill-Powered Bike — Julia Abboud</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
     <style>
-        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-        :root {
-            --bg: #ffffff; --bg-2: #f8f9fc; --text: #0f172a; --muted: #64748b;
-            --subtle: #e2e8f0; --blue: #2563eb; --blue-lt: #eff6ff; --blue-dk: #1d4ed8;
-            --yellow: #fde047; --black: #0f172a;
-        }
-        html { scroll-behavior: smooth; }
-        body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-weight: 400; line-height: 1.7; overflow-x: hidden; }
-
-        /* ── Nav ── */
-        nav.site-nav { position: fixed; top: 0; width: 100%; z-index: 300; padding: 1.4rem 5rem; display: flex; justify-content: space-between; align-items: center; background: var(--blue); border-bottom: 2px solid var(--black); transition: background 0.3s, border-color 0.3s; }
-        nav.site-nav.nav-light { background: #ffffff; }
-        nav.site-nav.nav-light .logo { color: var(--text); }
-        nav.site-nav.nav-light ul a { color: var(--muted); }
-        nav.site-nav.nav-light ul a::after { background: var(--blue); }
-        nav.site-nav.nav-light .nav-engineering::after { background: var(--yellow); }
-        nav.site-nav.nav-light .nav-internship::after { background: #d8b4fe; }
-        nav.site-nav.nav-light .nav-personal::after { background: #f9a8d4; }
-        nav.site-nav.nav-light ul a:hover { color: var(--text); }
-        nav.site-nav.nav-light .hamburger span { background: var(--black); }
-        @media (max-width: 768px) { nav.site-nav.nav-light ul { background: #ffffff; } }
-        .logo { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 1rem; letter-spacing: 0.08em; text-transform: uppercase; color: white; text-decoration: none; }
-        nav.site-nav ul { list-style: none; display: flex; gap: 2.8rem; }
-        nav.site-nav ul a { font-family: 'DM Sans', sans-serif; font-weight: 500; font-size: 0.84rem; color: rgba(255,255,255,0.85); text-decoration: none; transition: color 0.2s; position: relative; }
-        nav.site-nav ul a::after { content: ''; position: absolute; bottom: -3px; left: 0; width: 100%; height: 2px; background: white; transform: scaleX(0); transform-origin: left; transition: transform 0.25s ease; }
-        nav.site-nav ul a:hover { color: white; }
-        nav.site-nav ul a:hover::after { transform: scaleX(1); }
-        nav.site-nav .nav-engineering::after { background: var(--yellow); }
-        nav.site-nav .nav-internship::after { background: #d8b4fe; }
-        nav.site-nav .nav-personal::after { background: #f9a8d4; }
-        .hamburger { display: none; flex-direction: column; justify-content: space-between; width: 24px; height: 18px; background: none; border: none; cursor: pointer; padding: 0; z-index: 400; outline: none; -webkit-tap-highlight-color: transparent; appearance: none; -webkit-appearance: none; box-shadow: none; overflow: hidden; clip-path: inset(0); -webkit-clip-path: inset(0); }
-        .hamburger span { display: block; width: 100%; height: 2px; background: white; transition: transform 0.3s ease, opacity 0.3s ease; border-radius: 0; border: none; box-shadow: none; backface-visibility: hidden; -webkit-backface-visibility: hidden; }
-        .hamburger.open span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
-        .hamburger.open span:nth-child(2) { opacity: 0; transform: scale(0); }
-        .hamburger.open span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
-        .back-link { display: inline-flex; align-items: center; gap: 0.5rem; font-weight: 500; font-size: 0.84rem; color: rgba(255,255,255,0.85); text-decoration: none; transition: color 0.2s, gap 0.2s; }
-        .back-link:hover { color: white; gap: 0.75rem; }
-        @media (max-width: 768px) {
-            nav.site-nav { padding-left: 1.5rem; padding-right: 1.5rem; }
-            .hamburger { display: flex; }
-            nav.site-nav ul { display: none; flex-direction: column; position: absolute; top: 100%; left: 0; width: 100%; background: var(--blue); border-bottom: 2px solid var(--black); padding: 1.5rem 2rem; gap: 1.2rem; }
-            nav.site-nav ul.open { display: flex; }
-            nav.site-nav ul a { font-size: 1rem; }
-        }
-
-        /* ── Page wrapper ── */
-        .page { max-width: 1400px; margin: 0 auto; padding: 6rem 4rem 0; }
-
-        /* ── Layout helpers (matching reference structure) ── */
-        .layout-full { width: 100%; }
-        .layout-2col { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
-        .layout-sidebar { display: grid; grid-template-columns: 1fr 2fr; gap: 2.5rem; }
-        .layout-3col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem; }
-        .layout-4col { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 1rem; }
-        .col { min-width: 0; }
-
-        /* ── Typography ── */
-        h1 { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: clamp(1.6rem, 3vw, 2.4rem); letter-spacing: -0.03em; line-height: 1; color: var(--text); margin-bottom: 1.5rem; }
-        h2 { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: clamp(1.5rem, 3vw, 2.2rem); letter-spacing: -0.025em; color: var(--text); text-shadow: 2px 2px 0 rgba(37,99,235,0.08); margin-bottom: 0.5rem; }
-        p { font-size: 0.97rem; color: var(--muted); line-height: 1.78; margin-bottom: 1rem; }
-        p strong { color: var(--text); font-weight: 700; }
-        p em { color: var(--text); font-style: normal; font-weight: 600; }
-        a { color: var(--blue); text-decoration: none; }
-        a:hover { text-decoration: underline; }
-
-        /* ── Section spacing ── */
-        section { margin-bottom: 3.5rem; }
-
-        /* ── Stats band ── */
-        .stats-band { background: var(--blue-dk); color: white; padding: 1.4rem 2.5rem; border: 2px solid var(--black); box-shadow: 4px 4px 0 var(--black); }
-        .stats-band p { color: white; margin: 0; font-size: 1rem; }
-        .stats-band strong { color: var(--yellow); }
-        .stats-band em { color: white; font-style: normal; font-weight: 500; }
-
-        /* ── Images ── */
-        img { width: 100%; height: auto; display: block; object-fit: cover; border: 1px solid var(--subtle); background: var(--bg-2); }
-        .col img + img { margin-top: 1rem; }
-        .caption { font-size: 0.82rem; color: var(--muted); line-height: 1.6; margin-top: 0.6rem; margin-bottom: 0; }
-
-        /* ── Video embed ── */
-        .video-wrap { position: relative; aspect-ratio: 16/9; background: var(--bg-2); border: 1px solid var(--subtle); overflow: hidden; }
-        .video-wrap iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: none; }
-
-        /* ── Document / PDF placeholder ── */
-        .document-placeholder { background: var(--bg-2); border: 1px solid var(--subtle); aspect-ratio: 8.5/11; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.75rem; padding: 1.5rem; }
-        .document-placeholder .doc-icon { font-size: 2rem; opacity: 0.3; }
-        .document-placeholder .doc-label { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); text-align: center; }
-
-        /* ── Carousel (shown as inline grid) ── */
-        .carousel-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.5rem; margin-top: 1rem; }
-
-        /* ── Bottom project nav ── */
-        .project-nav { border-top: 2px solid rgba(255,255,255,0.08); padding: 1.5rem 5rem; display: flex; justify-content: space-between; align-items: center; background: var(--text); }
-        .proj-nav-link { display: flex; flex-direction: column; gap: 0.3rem; text-decoration: none; color: inherit; transition: opacity 0.2s; }
-        .proj-nav-link:hover { opacity: 0.6; }
-        .proj-nav-label { font-size: 0.66rem; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.45); }
-        .proj-nav-title { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; font-size: 1.3rem; letter-spacing: -0.015em; color: white; }
-        .proj-nav-link.right { text-align: right; }
-        /* ── Footer ── */
-        footer#page-footer { background: var(--text); border-top: 1px solid rgba(255,255,255,0.08); padding: 1.2rem 5rem; display: flex; justify-content: space-between; align-items: center; }
-        @keyframes sigColor {
-            0%   { filter: brightness(0) invert(1) sepia(1) saturate(8) hue-rotate(0deg) brightness(0.75); }
-            100% { filter: brightness(0) invert(1) sepia(1) saturate(8) hue-rotate(360deg) brightness(0.75); }
-        }
-        @keyframes sigColorBg {
-            0%   { background-color: #ef4444; }
-            16%  { background-color: #f97316; }
-            33%  { background-color: #eab308; }
-            50%  { background-color: #22c55e; }
-            66%  { background-color: #3b82f6; }
-            83%  { background-color: #a855f7; }
-            100% { background-color: #ef4444; }
-        }
-            33%  { background-color: #eab308; }
-            50%  { background-color: #22c55e; }
-            66%  { background-color: #3b82f6; }
-            83%  { background-color: #a855f7; }
-            100% { background-color: #ef4444; }
-        }
-            100% { filter: brightness(0) invert(1) sepia(1) saturate(8) hue-rotate(360deg) brightness(0.75); }
-        }
-
         /* ── Cover image frame ── */
         .cover-frame { position: relative; border: 2px solid var(--black); }
         .cover-frame::before { content: ''; position: absolute; top: -14px; left: -16px; width: 70px; height: 38px; background: repeating-linear-gradient(45deg, var(--yellow) 0px, var(--yellow) 4px, #fff 4px, #fff 8px); border: 2px solid var(--black); transform: rotate(-8deg); z-index: 2; }
         .cover-frame::after { content: ''; position: absolute; top: 0; left: 0; width: 90px; height: 90px; background-image: radial-gradient(circle, #be185d 3px, transparent 3px); background-size: 13px 13px; z-index: 1; }
-
-        /* ── Reveal ── */
-        .reveal { opacity: 0; transform: translateY(18px); transition: opacity 0.55s ease, transform 0.55s ease; }
-        .reveal.visible { opacity: 1; transform: translateY(0); }
-
-        /* ── Scrollbar ── */
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: #ec4899; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #be185d; }
-        * { scrollbar-color: #ec4899 transparent; }
-
-        /* ── Timeline number badge ── */
-        .img-wrap { position: relative; display: block; }
-        .img-wrap img { width: 100%; height: auto; object-fit: unset; }
-        .img-num { position: absolute; top: 0.5rem; right: 0.5rem; border: 2px solid var(--black); box-shadow: 2px 2px 0 var(--black); font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 1.44rem; width: 3.2rem; height: 3.2rem; display: flex; align-items: center; justify-content: center; z-index: 2; }
-
-        /* ── Header option labels ── */
-        .option-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.75rem; }
-
-        /* ── Option A: split, stacks on mobile ── */
-        .header-a { display: grid; grid-template-columns: 1fr 1fr; border: 2px solid var(--black); overflow: hidden; }
-        .header-a .img-panel { position: relative; min-height: 340px; }
-        .header-a .img-panel img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; border: none; }
-        .header-a .text-panel { display: flex; flex-direction: column; justify-content: center; padding: 3rem; background: var(--bg); border-left: 2px solid var(--black); }
-        @media (max-width: 768px) {
-            .header-a { grid-template-columns: 1fr; }
-            .header-a .img-panel { min-height: 240px; }
-            .header-a .text-panel { border-left: none; border-top: 2px solid var(--black); }
-        }
-
-        /* ── Option B: full-bleed with overlay ── */
-        .header-b { position: relative; height: 52vh; min-height: 320px; overflow: hidden; border: 2px solid var(--black); }
-        .header-b img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; border: none; }
-        .header-b .overlay { position: absolute; inset: 0; background: linear-gradient(to right, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0.28) 60%, rgba(0,0,0,0.0) 100%); }
-        .header-b .text-panel { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; padding: 3.5rem; max-width: 60%; }
-        .header-b .text-panel h1 { color: white; margin-bottom: 1rem; }
-        .header-b .text-panel p { color: rgba(255,255,255,0.82); font-size: 0.88rem; margin-bottom: 0.6rem; }
-        .header-b .eyebrow { font-size: 0.7rem; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--yellow); margin-bottom: 0.75rem; }
-        @media (max-width: 768px) {
-            .header-b .text-panel { max-width: 100%; padding: 2rem; }
-            .header-b .overlay { background: linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.75) 100%); }
-            .header-b .text-panel { justify-content: flex-end; }
-        }
-
-        /* ── Option C: wide text, accent image right ── */
-        .header-c { display: grid; grid-template-columns: 3fr 2fr; border: 2px solid var(--black); overflow: hidden; }
-        .header-c .text-panel { display: flex; flex-direction: column; justify-content: center; padding: 3rem; background: var(--bg); }
-        .header-c .img-panel { position: relative; }
-        .header-c .img-panel img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; border: none; }
-        @media (max-width: 768px) {
-            .header-c .img-panel { display: none; }
-            .header-c { grid-template-columns: 1fr; }
-        }
 
         /* ── Horizontal process scroll ── */
         #horiz-scroll-outer { position: relative; width: 100%; background: #0f172a; padding: 2rem 0; }
@@ -201,14 +26,7 @@
         .hcard > div:first-child { flex: 1; min-height: 0; position: relative; overflow: hidden; }
         .hcard img { height: 100%; width: auto; display: block; border: none; }
 
-        /* ── Responsive ── */
-        .photo-grid { display: flex; width: 100%; gap: 1rem; align-items: flex-start; }
-        .photo-grid .pg-col { min-width: 0; }
-        .photo-grid .pg-col img { width: 100%; height: auto; display: block; border: none; }
-        .photo-grid .pg-col-stack { display: flex; flex-direction: column; gap: 1rem; }
         @media (max-width: 640px) {
-            .photo-grid { flex-direction: column; }
-            .photo-grid .pg-col { flex: none !important; width: 100%; }
             .photo-grid .pg-col:nth-child(3),
             .photo-grid .pg-col:nth-child(4) { flex-direction: row; }
             .photo-grid .pg-col:nth-child(3) img,
@@ -223,18 +41,8 @@
             #section-stats > div > div { flex-basis: auto !important; }
         }
         @media (max-width: 900px) {
-            nav.site-nav { padding-left: 1.5rem; padding-right: 1.5rem; }
-            .page { padding: 5rem 1.5rem 0; }
-            .layout-2col, .layout-sidebar, .layout-3col { grid-template-columns: 1fr 1fr; }
-            .layout-4col { grid-template-columns: 1fr 1fr; }
-            .project-nav { padding-left: 1.5rem; padding-right: 1.5rem; flex-direction: column; gap: 2rem; align-items: center; }
-            .proj-nav-link, .proj-nav-link.right { text-align: center; }
-            footer#page-footer { padding-left: 1.5rem; padding-right: 1.5rem; flex-direction: column; gap: 1rem; align-items: center; text-align: center; }
             #section-runoff > div { grid-template-columns: 1fr 1fr !important; }
             #section-runoff > div > :first-child { grid-column: 1 / -1; }
-        }
-        @media (max-width: 540px) {
-            .layout-2col, .layout-sidebar, .layout-3col, .layout-4col, .carousel-grid { grid-template-columns: 1fr; }
         }
     </style>
     <!-- Google tag (gtag.js) -->
