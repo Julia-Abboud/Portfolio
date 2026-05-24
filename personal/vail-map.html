@@ -155,7 +155,7 @@
             <p style="font-size:0.7rem; font-weight:400; letter-spacing:0.2em; text-transform:uppercase; color:var(--blue); margin-bottom:0.75rem;">Mar &ndash; Jul 2025</p>
             <h1 style="margin-bottom:1.25rem;">Vail Mountain Map</h1>
             <p>Snowboarding and skiing with my cousins has always been an important part of my winters. This project aimed to fulfill a commission request from their family for an enlarged version of the ski map, designed for sharing a ski day's journey with guests unfamiliar with the mountain, while also serving as a statement piece.</p>
-            <p style="margin:0;">Given much creative freedom, I planned and executed this project independently, practicing my build, art, and client-communication skills. Staying under a $160 budget, I am proud of combining functionality and art into this series of canvases.</p>
+            <p style="margin:0;">Given much creative freedom, I planned and executed this project independently, practicing my build, art, and client-communication skills. Staying under a $160 budget, I am proud of successfully combining functionality and art into this series of canvases.</p>
         </div>
 
     </section>
@@ -294,7 +294,7 @@
             <!-- Card 15 -->
             <div class="hcard" style="border:2px dashed #6d28d9;">
                 <div style="position:relative;"><img src="Vail Mountain Map/vail_mountain_map_22.jpg" alt="Varnish comparison"><span class="img-num" style="background:#f9a8d4; color:var(--black);">9</span></div>
-                <p class="caption" style="flex-shrink:0; margin:0; padding:0.75rem 1rem;">Finally, the maps were finished with two coats of glossy varnish for UV protection and touch resistance. The left side of the image above is with gloss, the right is without.</p>
+                <p class="caption" style="flex-shrink:0; margin:0; padding:0.75rem 1rem;">Finally, the maps were finished with two coats of glossy varnish for UV protection and touch resistance. The next image in this timeline has gloss applied on the left, the right without.</p>
             </div>
 
             <!-- Card 16 -->
@@ -309,6 +309,16 @@
 
         </div>
 </div><!-- end vail horiz scroll -->
+
+<div class="vail-section" style="max-width:1400px; margin:0 auto; padding:3.5rem 4rem 0;">
+    <section class="reveal">
+        <div style="text-align:center; margin-bottom:1rem;"><span style="display:inline-block; background:#f9a8d4; color:var(--black); border:2px solid var(--black); box-shadow:4px 4px 0 var(--black); padding:0.5rem 1.5rem; font-family:'Plus Jakarta Sans',sans-serif; font-weight:800; font-size:1rem; letter-spacing:0.08em;">Hover over the Map to Zoom In</span></div>
+        <div id="vail-magnifier-wrap" style="position:relative; width:100%; border:2px solid var(--black); box-shadow:6px 6px 0 #d8b4fe; overflow:hidden; cursor:none;">
+            <img id="vail-magnifier-img" src="Vail Mountain Map/vail_mountain_map zoom.JPG" alt="Vail Mountain Map" style="width:100%; height:auto; display:block; user-select:none; -webkit-user-drag:none;">
+            <div id="vail-lens" style="position:absolute; width:180px; height:180px; border:2px solid var(--black); box-shadow:0 0 0 1px rgba(255,255,255,0.4), inset 0 0 0 1px rgba(255,255,255,0.2); pointer-events:none; display:none; overflow:hidden; background-repeat:no-repeat;"></div>
+        </div>
+    </section>
+</div>
 
 <div class="vail-section" style="max-width:1400px; margin:0 auto; padding:3.5rem 4rem 0;">
     <section class="reveal">
@@ -407,6 +417,35 @@
         sizeVailImageGrid();
     });
     window.addEventListener('resize', () => { sizeVailImageGrid(); });
+
+    // Magnifier
+    const wrap = document.getElementById('vail-magnifier-wrap');
+    const img  = document.getElementById('vail-magnifier-img');
+    const lens = document.getElementById('vail-lens');
+    const ZOOM = 2.5;
+    const LENS_SIZE = 180;
+
+    function moveLens(e) {
+        const rect = wrap.getBoundingClientRect();
+        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+        const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+        let x = clientX - rect.left;
+        let y = clientY - rect.top;
+
+        x = Math.max(LENS_SIZE / 2, Math.min(x, rect.width  - LENS_SIZE / 2));
+        y = Math.max(LENS_SIZE / 2, Math.min(y, rect.height - LENS_SIZE / 2));
+
+        lens.style.left = (x - LENS_SIZE / 2) + 'px';
+        lens.style.top  = (y - LENS_SIZE / 2) + 'px';
+
+        lens.style.backgroundImage    = "url('Vail Mountain Map/vail_mountain_map zoom.JPG')";
+        lens.style.backgroundSize     = `${rect.width * ZOOM}px ${rect.height * ZOOM}px`;
+        lens.style.backgroundPosition = `${-(x * ZOOM - LENS_SIZE / 2)}px ${-(y * ZOOM - LENS_SIZE / 2)}px`;
+    }
+
+    wrap.addEventListener('mouseenter', () => { lens.style.display = 'block'; });
+    wrap.addEventListener('mouseleave', () => { lens.style.display = 'none'; });
+    wrap.addEventListener('mousemove', moveLens);
 </script>
 </body>
 </html>
