@@ -22,7 +22,7 @@ window.renderNav = function () {
 window.renderFooter = function () {
     document.currentScript.insertAdjacentHTML('beforebegin',
         '<footer id="page-footer">' +
-        '<span style="font-size:0.8rem;color:rgba(255,255,255,0.4);">© 2026 Julia Abboud</span>' +
+        '<span style="font-size:0.8rem;color:rgba(255,255,255,0.4);">© ' + new Date().getFullYear() + ' Julia Abboud</span>' +
         '<span style="font-size:0.8rem;color:rgba(255,255,255,0.4);display:inline-flex;align-items:center;gap:0.5rem;">' +
         'Designed and Developed Independently ' +
         '<canvas class="sig-canvas" data-sig="/about/Signature.png" style="height:3rem;width:5rem;vertical-align:middle;flex-shrink:0;display:inline-block;"></canvas>' +
