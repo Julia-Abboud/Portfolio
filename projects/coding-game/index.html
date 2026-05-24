@@ -4,6 +4,12 @@
     <meta charset="UTF-8">
     <link rel="icon" type="image/png" href="../../favicon.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A 2-player C++ board game loosely based on Homer's Odyssey, built as a final project for Intro to Computer Science — featuring combat, shops, potions, and 3000+ lines of code across 16 files.">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Coding Game">
+    <meta property="og:description" content="A 2-player C++ board game loosely based on Homer's Odyssey, built as a final project for Intro to Computer Science — featuring combat, shops, potions, and 3000+ lines of code across 16 files.">
+    <meta property="og:image" content="https://julia-abboud.github.io/Portfolio/projects/coding-game/coding game cover.jpg">
+    <meta property="og:url" content="https://julia-abboud.github.io/Portfolio/projects/coding-game/">
     <title>Coding Game — Julia Abboud</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -88,7 +94,7 @@
         <!-- Image -->
         <div style="flex:1 1 400px; align-self:flex-start; padding-top:1.25rem; padding-left:1.25rem;">
             <div class="cover-frame">
-                <img src="../Coding Game/coding game cover.jpg" alt="Coding Game" style="width:100%; height:auto; display:block; border:none;">
+                <img src="coding game cover.jpg" alt="Coding Game" style="width:100%; height:auto; display:block; border:none;">
                 <span style="position:absolute; bottom:0; left:0; width:66px; height:66px; background:repeating-linear-gradient(45deg, #f9a8d4 0px, #f9a8d4 4px, transparent 4px, transparent 8px); z-index:2; display:block;"></span>
                 <span style="position:absolute; bottom:-16px; left:-16px; width:52px; height:52px; background:#fde047; border:2px solid var(--black); border-radius:50%; z-index:3; display:flex; align-items:center; justify-content:center; font-family:'Plus Jakarta Sans',sans-serif; font-weight:800; font-size:1.3rem; line-height:1; color:var(--black);">:)</span>
             </div>
@@ -118,11 +124,11 @@
     <section id="section-intro" class="reveal">
         <div style="display:flex; gap:1.5rem; align-items:flex-start;">
             <div style="flex:2; min-width:0;">
-                <video id="vid-intro" src="../Coding Game/Coding Game Intro.mp4" controls style="width:100%; height:auto; display:block; border:none;"></video>
+                <video id="vid-intro" src="Coding Game Intro.mp4" controls style="width:100%; height:auto; display:block; border:none;"></video>
             </div>
             <div style="flex:1; min-width:0; display:flex; flex-direction:column; gap:1rem;">
                 <p style="margin:0;">The game begins by welcoming players and allowing them to select their characters, each coming with different stats and equipment. Choices besides the listed character names are invalid and request the user to try again (except for "Julia," a secret overpowered character in the game). Player 2 also cannot choose the same character as Player 1.</p>
-                <img src="../Coding Game/coding_game_2.jpg" alt="" style="width:100%; height:auto; display:block; align-self:stretch; margin:0 -1rem -1rem -1rem; width:calc(100% + 2rem);">
+                <img src="coding_game_2.jpg" alt="" style="width:100%; height:auto; display:block; align-self:stretch; margin:0 -1rem -1rem -1rem; width:calc(100% + 2rem);">
             </div>
         </div>
     </section>
@@ -130,7 +136,7 @@
     <section id="section-map" class="reveal">
         <div style="padding:1rem 0 0 0;">
             <p style="margin-bottom:0.75rem;">There is a map feature representing the players racing across the sea. On their turns, players can choose to move forward and this is reflected on the map.</p>
-            <img src="../Coding Game/coding_game_3.jpg" alt="Game map" style="width:100%; height:auto; display:block;">
+            <img src="coding_game_3.jpg" alt="Game map" style="width:100%; height:auto; display:block;">
         </div>
     </section>
 
@@ -141,21 +147,21 @@
                     <p style="font-family:'Plus Jakarta Sans',sans-serif; font-weight:800; font-size:1rem; color:var(--black); margin:0; letter-spacing:0.05em;">Ocean</p>
                 </div>
                 <p class="caption" style="margin-bottom:0.75rem;">A blue tile randomly results in being poisoned, diseased, or pushed back. Ailments deduct from the player's health each turn.</p>
-                <img src="../Coding Game/coding_game_4.jpg" alt="Ocean tile" style="width:100%; height:auto; display:block; margin-top:auto;">
+                <img src="coding_game_4.jpg" alt="Ocean tile" style="width:100%; height:auto; display:block; margin-top:auto;">
             </div>
             <div style="flex:1; min-width:0; border:2px dashed #ef4444; padding:0.75rem; display:flex; flex-direction:column;">
                 <div style="background:#ef4444; border:2px solid var(--black); box-shadow:4px 4px 0 var(--black); padding:0.6rem 1rem; text-align:center; margin-bottom:0.75rem;">
                     <p style="font-family:'Plus Jakarta Sans',sans-serif; font-weight:800; font-size:1rem; color:var(--black); margin:0; letter-spacing:0.05em;">Special</p>
                 </div>
                 <p class="caption" style="margin-bottom:0.75rem;">Landing on a red tile prompts the player to answer a riddle which they receive gold for answering correctly.</p>
-                <img src="../Coding Game/coding_game_5.jpg" alt="Special tile" style="width:100%; height:auto; display:block; margin-top:auto;">
+                <img src="coding_game_5.jpg" alt="Special tile" style="width:100%; height:auto; display:block; margin-top:auto;">
             </div>
             <div style="flex:1; min-width:0; border:2px dashed #22c55e; padding:0.75rem; display:flex; flex-direction:column;">
                 <div style="background:#22c55e; border:2px solid var(--black); box-shadow:4px 4px 0 var(--black); padding:0.6rem 1rem; text-align:center; margin-bottom:0.75rem;">
                     <p style="font-family:'Plus Jakarta Sans',sans-serif; font-weight:800; font-size:1rem; color:var(--black); margin:0; letter-spacing:0.05em;">Island</p>
                 </div>
                 <p class="caption" style="margin-bottom:0.75rem;">A green tile initiates a combat sequence with an enemy. The reward for winning is gold, a shop visit, and moving past the tile.</p>
-                <img src="../Coding Game/coding_game_6.jpg" alt="Island tile" style="width:100%; height:auto; display:block; margin-top:auto;">
+                <img src="coding_game_6.jpg" alt="Island tile" style="width:100%; height:auto; display:block; margin-top:auto;">
             </div>
         </div>
     </section>
@@ -166,7 +172,7 @@
                 <p style="margin:0;">Combat with an enemy gives players the option to attack, use a potion, switch weapons, or attempt to run away. Attacks between players and enemies are randomized with success rates and damage. Additionally, there are 4 different elements that players/enemies can have strengths or weaknesses in, which affect damage. Elements are associated with each character and weapon. Attempting to run from battle is randomized to be successful, and if so, pushes the player a tile back from the Island on the map (they have to go through it eventually). Unsuccessful running keeps the player in battle. The battle ends once an opponent's health drops to 0hp. Defeating the enemy grants gold and access to an item shop. Being defeated ends the game and declares the other player the winner.</p>
             </div>
             <div style="flex:2; min-width:0;">
-                <video id="vid-combat" src="../Coding Game/Coding Game Combat.mp4" controls style="width:100%; height:auto; display:block; border:none;"></video>
+                <video id="vid-combat" src="Coding Game Combat.mp4" controls style="width:100%; height:auto; display:block; border:none;"></video>
             </div>
         </div>
     </section>
@@ -177,16 +183,16 @@
         <div style="display:flex; gap:1.5rem; align-items:flex-start;">
             <div style="flex:1; min-width:0; display:flex; flex-direction:column; padding:1rem 0;">
                 <p style="margin:0;">A player's gold is displayed at the shop, and they can purchase up to 1 weapon and 1 potion, if they can afford it. Inputting anything other than the items listed prompts for a reentry. Trying to buy more than 1 weapon or potion is denied and prompts the player to leave the shop.</p>
-                <img src="../Coding Game/coding_game_7.jpg" alt="Shop" style="width:100%; height:auto; display:block;">
+                <img src="coding_game_7.jpg" alt="Shop" style="width:100%; height:auto; display:block;">
             </div>
             <div style="flex:1; min-width:0; display:flex; flex-direction:column; padding:1rem 0;">
-                <img src="../Coding Game/coding_game_8.jpg" alt="Inventory" style="width:100%; height:auto; display:block;">
+                <img src="coding_game_8.jpg" alt="Inventory" style="width:100%; height:auto; display:block;">
                 <p style="margin:0;">During their turn, players can choose to use potions bought (and they will disappear from inventory) or swap weapons/equipment (they can have 2 items at a time). Potions, like weapons, each have different effects, including healing poison or disease status picked up from Ocean tiles. The Mystery Potion ranges from healing you fully to killing you instantly.</p>
             </div>
             <div style="flex:1; min-width:0; display:flex; flex-direction:column; padding:1rem 0;">
                 <p style="margin:0;">If both players land on green tiles at the same location and time, it triggers an Epic combat sequence featuring 1 of 3 boss enemies. Players alternate turns, making the same choices as in regular combat, and both lose health on attacks. If one player dies, they both lose the game.</p>
-                <img src="../Coding Game/coding_game_9.jpg" alt="Boss battle" style="width:100%; height:auto; display:block;">
-                <img src="../Coding Game/coding_game_10.jpg" alt="Boss battle" style="width:100%; height:auto; display:block;">
+                <img src="coding_game_9.jpg" alt="Boss battle" style="width:100%; height:auto; display:block;">
+                <img src="coding_game_10.jpg" alt="Boss battle" style="width:100%; height:auto; display:block;">
             </div>
         </div>
     </section>
@@ -201,10 +207,10 @@
         </div>
         <div style="display:flex; gap:1rem; margin-top:1.5rem;">
             <div style="flex:3; min-width:0;">
-                <img src="../Coding Game/coding_game_11.jpg" alt="Game ending" style="width:100%; height:auto; display:block;">
+                <img src="coding_game_11.jpg" alt="Game ending" style="width:100%; height:auto; display:block;">
             </div>
             <div style="flex:2; min-width:0;">
-                <img src="../Coding Game/coding_game_12.jpg" alt="Stats export" style="width:100%; height:auto; display:block;">
+                <img src="coding_game_12.jpg" alt="Stats export" style="width:100%; height:auto; display:block;">
             </div>
         </div>
     </section>
