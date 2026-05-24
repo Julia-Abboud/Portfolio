@@ -491,7 +491,7 @@
 
 <footer id="page-footer">
     <span style="font-size:0.8rem; color:rgba(255,255,255,0.4);">&copy; 2026 Julia Abboud</span>
-    <span style="font-size:0.8rem; color:rgba(255,255,255,0.4); display:inline-flex; align-items:center; gap:0.5rem;">Designed and Developed Independently <span style="display:inline-block;height:3rem;width:5rem;-webkit-mask-image:url('../about/Signature.png');mask-image:url('../about/Signature.png');-webkit-mask-size:contain;mask-size:contain;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;-webkit-mask-position:center;mask-position:center;animation:sigColorBg 4.5s linear infinite;flex-shrink:0;"></span></span>
+    <span style="font-size:0.8rem; color:rgba(255,255,255,0.4); display:inline-flex; align-items:center; gap:0.5rem;">Designed and Developed Independently <canvas class="sig-canvas" data-sig="../about/Signature.png" style="height:3rem;width:5rem;vertical-align:middle;flex-shrink:0;display:inline-block;"></canvas></span>
 </footer>
 
 <script>
@@ -511,6 +511,28 @@
         else { e.target.classList.remove('visible'); }
     }), { threshold: 0.1 });
     document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+    // Signature rainbow canvas
+    document.querySelectorAll('.sig-canvas').forEach(canvas => {
+        const W = 150, H = 48;
+        canvas.width = W; canvas.height = H;
+        const ctx = canvas.getContext('2d');
+        const img = new Image();
+        img.src = canvas.dataset.sig;
+        let hue = 0;
+        img.onload = () => {
+            (function frame() {
+                ctx.clearRect(0, 0, W, H);
+                ctx.globalCompositeOperation = 'source-over';
+                ctx.fillStyle = `hsl(${hue}, 100%, 50%)`;
+                ctx.fillRect(0, 0, W, H);
+                ctx.globalCompositeOperation = 'destination-in';
+                ctx.drawImage(img, 0, 0, W, H);
+                hue = (hue + 0.7) % 360;
+                requestAnimationFrame(frame);
+            })();
+        };
+    });
 </script>
 </body>
 </html>
