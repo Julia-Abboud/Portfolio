@@ -178,6 +178,7 @@
     function appRightManualMove(dir) { clearInterval(appRightAuto); appRightAuto = null; appRightMove(dir); }
     new IntersectionObserver(es => { if (es[0].isIntersecting && !appRightAuto) appRightAuto = setInterval(() => appRightMove(1), 4000); }, { threshold: 0.3 }).observe(document.getElementById('section-apple-carousels'));
 
+    const obs = new IntersectionObserver(entries => entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } }), { threshold: 0.1 });
     document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
 </script>
 <script src="/main.js"></script>
