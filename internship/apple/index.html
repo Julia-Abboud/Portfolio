@@ -20,6 +20,16 @@
         .cover-frame::before { content: ''; position: absolute; top: -14px; right: -16px; width: 70px; height: 38px; background: repeating-linear-gradient(45deg, var(--yellow) 0px, var(--yellow) 4px, #fff 4px, #fff 8px); border: 2px solid var(--black); transform: rotate(8deg); z-index: 2; }
         .cover-frame::after { content: ''; position: absolute; bottom: 0; left: 0; width: 80px; height: 80px; background-image: radial-gradient(circle, #6d28d9 2.5px, transparent 2.5px); background-size: 9px 9px; z-index: 1; pointer-events: none; }
 
+        @media (max-width: 900px) {
+            #section-apple-carousels > div > div > div:first-child { height: 400px !important; }
+        }
+        @media (max-width: 768px) {
+            #section-apple-carousels > div { flex-direction: column; }
+            #section-apple-carousels > div > div > div:first-child { height: 560px !important; }
+        }
+        @media (max-width: 480px) {
+            #section-apple-carousels > div > div > div:first-child { height: 260px !important; }
+        }
     </style>
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-SMYHDJSEEH"></script>
@@ -87,6 +97,50 @@
         <img src="21.jpg" alt="" style="width:100%; height:auto; display:block; border:none;">
     </section>
 
+    <!-- Additional experiences callout -->
+    <section id="section-callout-extra" class="reveal" style="margin-bottom:2rem; display:flex; justify-content:center;">
+        <div style="background:var(--yellow); border:2px solid var(--black); box-shadow:4px 4px 0 var(--black); padding:0.9rem 2rem; text-align:center;">
+            <p style="margin:0; color:var(--black); font-weight:600;">A Look into my Additional Experiences!</p>
+        </div>
+    </section>
+
+    <!-- Additional experiences carousels -->
+    <section id="section-apple-carousels" class="reveal" style="margin-bottom:3.5rem;">
+        <div style="display:flex; gap:2rem; align-items:start;">
+
+            <!-- Left 3/5 -->
+            <div style="flex:3; min-width:0;">
+                <div style="position:relative; overflow:hidden; border:2px solid var(--black); height:520px;">
+                    <div id="apple-left-track" style="display:flex; height:100%; transition:transform 0.5s ease; will-change:transform;">
+                        <div style="flex:0 0 100%; height:100%; overflow:hidden; display:flex; align-items:center; justify-content:center; background:#f1f5f9;"><span style="font-size:4rem; font-weight:800; color:#cbd5e1; font-family:'Plus Jakarta Sans',sans-serif;">a</span></div>
+                        <div style="flex:0 0 100%; height:100%; overflow:hidden; display:flex; align-items:center; justify-content:center; background:#f1f5f9;"><span style="font-size:4rem; font-weight:800; color:#cbd5e1; font-family:'Plus Jakarta Sans',sans-serif;">b</span></div>
+                        <div style="flex:0 0 100%; height:100%; overflow:hidden; display:flex; align-items:center; justify-content:center; background:#f1f5f9;"><span style="font-size:4rem; font-weight:800; color:#cbd5e1; font-family:'Plus Jakarta Sans',sans-serif;">c</span></div>
+                        <div style="flex:0 0 100%; height:100%; overflow:hidden; display:flex; align-items:center; justify-content:center; background:#f1f5f9;"><span style="font-size:4rem; font-weight:800; color:#cbd5e1; font-family:'Plus Jakarta Sans',sans-serif;">d</span></div>
+                        <div style="flex:0 0 100%; height:100%; overflow:hidden; display:flex; align-items:center; justify-content:center; background:#f1f5f9;"><span style="font-size:4rem; font-weight:800; color:#cbd5e1; font-family:'Plus Jakarta Sans',sans-serif;">e</span></div>
+                    </div>
+                    <button onclick="appLeftManualMove(-1)" style="position:absolute; top:50%; left:1rem; transform:translateY(-50%); background:#d8b4fe; border:2px solid var(--black); color:var(--black); width:2.5rem; height:2.5rem; font-size:1.4rem; line-height:1; cursor:pointer; display:flex; align-items:center; justify-content:center; z-index:10; font-family:'DM Sans',sans-serif;">‹</button>
+                    <button onclick="appLeftManualMove(1)" style="position:absolute; top:50%; right:1rem; transform:translateY(-50%); background:#d8b4fe; border:2px solid var(--black); color:var(--black); width:2.5rem; height:2.5rem; font-size:1.4rem; line-height:1; cursor:pointer; display:flex; align-items:center; justify-content:center; z-index:10; font-family:'DM Sans',sans-serif;">›</button>
+                </div>
+            </div>
+
+            <!-- Right 2/5 -->
+            <div style="flex:2; min-width:0;">
+                <div style="position:relative; overflow:hidden; border:2px solid var(--black); height:520px;">
+                    <div id="apple-right-track" style="display:flex; height:100%; transition:transform 0.5s ease; will-change:transform;">
+                        <div style="flex:0 0 100%; height:100%; overflow:hidden; display:flex; align-items:center; justify-content:center; background:#f1f5f9;"><span style="font-size:4rem; font-weight:800; color:#cbd5e1; font-family:'Plus Jakarta Sans',sans-serif;">f</span></div>
+                        <div style="flex:0 0 100%; height:100%; overflow:hidden; display:flex; align-items:center; justify-content:center; background:#f1f5f9;"><span style="font-size:4rem; font-weight:800; color:#cbd5e1; font-family:'Plus Jakarta Sans',sans-serif;">g</span></div>
+                        <div style="flex:0 0 100%; height:100%; overflow:hidden; display:flex; align-items:center; justify-content:center; background:#f1f5f9;"><span style="font-size:4rem; font-weight:800; color:#cbd5e1; font-family:'Plus Jakarta Sans',sans-serif;">h</span></div>
+                        <div style="flex:0 0 100%; height:100%; overflow:hidden; display:flex; align-items:center; justify-content:center; background:#f1f5f9;"><span style="font-size:4rem; font-weight:800; color:#cbd5e1; font-family:'Plus Jakarta Sans',sans-serif;">i</span></div>
+                        <div style="flex:0 0 100%; height:100%; overflow:hidden; display:flex; align-items:center; justify-content:center; background:#f1f5f9;"><span style="font-size:4rem; font-weight:800; color:#cbd5e1; font-family:'Plus Jakarta Sans',sans-serif;">j</span></div>
+                    </div>
+                    <button onclick="appRightManualMove(-1)" style="position:absolute; top:50%; left:1rem; transform:translateY(-50%); background:#f9a8d4; border:2px solid var(--black); color:var(--black); width:2.5rem; height:2.5rem; font-size:1.4rem; line-height:1; cursor:pointer; display:flex; align-items:center; justify-content:center; z-index:10; font-family:'DM Sans',sans-serif;">‹</button>
+                    <button onclick="appRightManualMove(1)" style="position:absolute; top:50%; right:1rem; transform:translateY(-50%); background:#f9a8d4; border:2px solid var(--black); color:var(--black); width:2.5rem; height:2.5rem; font-size:1.4rem; line-height:1; cursor:pointer; display:flex; align-items:center; justify-content:center; z-index:10; font-family:'DM Sans',sans-serif;">›</button>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
 </div>
 
 <div class="project-nav">
@@ -103,7 +157,26 @@
 <script>renderFooter();</script>
 
 <script>
-const obs = new IntersectionObserver(entries => entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } }), { threshold: 0.1 });
+    const appLeftTrack = document.getElementById('apple-left-track');
+    let appLeftIdx = 0;
+    function appLeftMove(dir) {
+        appLeftIdx = (appLeftIdx + dir + 5) % 5;
+        appLeftTrack.style.transform = `translateX(${-appLeftIdx * 100}%)`;
+    }
+    let appLeftAuto = setInterval(() => appLeftMove(1), 4000);
+    function appLeftManualMove(dir) { clearInterval(appLeftAuto); appLeftAuto = null; appLeftMove(dir); }
+    new IntersectionObserver(es => { if (es[0].isIntersecting && !appLeftAuto) appLeftAuto = setInterval(() => appLeftMove(1), 4000); }, { threshold: 0.3 }).observe(document.getElementById('section-apple-carousels'));
+
+    const appRightTrack = document.getElementById('apple-right-track');
+    let appRightIdx = 0;
+    function appRightMove(dir) {
+        appRightIdx = (appRightIdx + dir + 5) % 5;
+        appRightTrack.style.transform = `translateX(${-appRightIdx * 100}%)`;
+    }
+    let appRightAuto = setInterval(() => appRightMove(1), 4000);
+    function appRightManualMove(dir) { clearInterval(appRightAuto); appRightAuto = null; appRightMove(dir); }
+    new IntersectionObserver(es => { if (es[0].isIntersecting && !appRightAuto) appRightAuto = setInterval(() => appRightMove(1), 4000); }, { threshold: 0.3 }).observe(document.getElementById('section-apple-carousels'));
+
     document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
 </script>
 <script src="/main.js"></script>
